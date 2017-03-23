@@ -1,4 +1,4 @@
-[![Stories in Ready](https://badge.waffle.io/KasperOnFire/ProjektFog.png?label=ready&title=Ready)](https://waffle.io/KasperOnFire/ProjektFog)
+[![Stories in Ready](https://badge.waffle.io/KasperOnFire/FogEksamensProjekt.png?label=ready&title=Ready)](https://waffle.io/KasperOnFire/FogEksamensProjekt)
 # ProjektFog
 Vores eksamensprojekt til JohannesFog
 
