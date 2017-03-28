@@ -37,9 +37,7 @@ public class GarageCalcTest {
     public void tearDown() {
     }
 
-    /**
-     * Test of priceCalculatorToString method, of class GarageCalc.
-     */
+    //Positive test case of String output.
     @Test
     public void testPriceCalculatorToString() {
         System.out.println("priceCalculatorToString");
@@ -51,9 +49,9 @@ public class GarageCalcTest {
         assertEquals(expResult, result);
     }
 
-    /**
-     * Test of priceCalculator method, of class GarageCalc.
-     */
+    //Positive test case of price calculator
+    //The other methods in the class are private and are also tested 
+    //in this class, thus no tests are needed at this stage.
     @Test
     public void testPriceCalculator() {
         System.out.println("priceCalculator");
@@ -65,9 +63,7 @@ public class GarageCalcTest {
         assertEquals(expResult, result, 0.01);
     }
     
-    /**
-     * Test of priceCalculator method, of class GarageCalc.
-     */
+    //Error testing of price calculator
     @Test (expected = IllegalArgumentException.class)
     public void testPriceCalculatorErrorTest() {
         System.out.println("priceCalculator");
