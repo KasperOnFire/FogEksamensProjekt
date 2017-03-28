@@ -28,7 +28,6 @@ public class info extends HttpServlet {
             lengthDouble = Double.valueOf(lengthString).doubleValue();
             heightDouble = Double.valueOf(heightString).doubleValue();
             
-            
             //TEST PURPOSES
             System.out.println("String Length: " + lengthString);
             System.out.println("Double Length: " + lengthDouble);
