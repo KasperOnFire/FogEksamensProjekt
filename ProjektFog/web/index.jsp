@@ -7,6 +7,15 @@
     </head>
     <body>
         <h1>Hello World!</h1>
-        <h1>JSP page</h1>
+        <p>Alle mål i cm</p>
+        <form action="info">
+            <input type="number" name="height" placeholder="Højde" step="0.5" min="100">
+            <br>
+            <br>
+            <input type="number" name="length" placeholder="længde" step="0.5" min="100">
+            <br>
+            <br>
+            <input type="submit">
+        </form>
     </body>
 </html>
