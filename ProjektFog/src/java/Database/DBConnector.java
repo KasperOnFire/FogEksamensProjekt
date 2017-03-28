@@ -1,4 +1,4 @@
-package Data;
+package Database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,11 +7,11 @@ import java.sql.SQLException;
     public class DBConnector {
         private Connection connection = null;
 
-        private static final String IP	     = "localhost";
+        private static final String IP	     = "46.101.97.181";
         private static final int    PORT     = 3306;
-        public static final String DATABASE  = "collection";
-        private static final String USERNAME = "root";
-        private static final String PASSWORD = "root";	     	
+        public static final String DATABASE  = "FogDatabase";
+        private static final String USERNAME = "servletuser";
+        private static final String PASSWORD = "ServletSucks";	     	
 
         public DBConnector() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
                 Class.forName("com.mysql.jdbc.Driver").newInstance();
