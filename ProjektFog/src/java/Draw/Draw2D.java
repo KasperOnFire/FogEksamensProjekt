@@ -18,9 +18,8 @@ public class Draw2D {
     public void drawSide() {
 
     }
-    
-    
-    private void drawTest() {
+     
+    public BufferedImage drawTest() {
         int width = 200;
         int height = 200;
         BufferedImage bimage = new BufferedImage(width, height,
@@ -36,10 +35,11 @@ public class Draw2D {
         g2d.fill(new Ellipse2D.Float(0, 0, 200, 100));
         g2d.dispose();
 
-        savePNG(bimage);
+        //savePNG(bimage);
+        return bimage;
     }
     
-    private void savePNG(final BufferedImage bi) {
+    public void savePNG(final BufferedImage bi) {
         try {
             RenderedImage rendImage = bi;
             File output = new File("C:/test.bmp");
@@ -48,6 +48,15 @@ public class Draw2D {
             e.printStackTrace();
         }
     }
+    
+    /*public void sendPNG(final BufferedImage bi){
+        try {
+            RenderedImage rendImage = bi;
+            ImageIO.write(rendImage, "bmp", output);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }*/
     
     
 }
