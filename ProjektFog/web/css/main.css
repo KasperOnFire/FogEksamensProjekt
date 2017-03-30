@@ -6,5 +6,8 @@
 .main-header {
     position: fixed;
     top: 0;
+}
+
+.fog-icon {
     float: left;
 }
