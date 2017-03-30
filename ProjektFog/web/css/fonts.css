@@ -1,0 +1,14 @@
+@font-face {
+    font-family: antonio;
+    src: url(../fonts/Antonio-Regular.ttf);
+}
+
+@font-face {
+    font-family: antonio-bold;
+    src: url(../fonts/Antonio-Bold.ttf);
+}
+
+@font-face {
+    font-family: antonio-light;
+    src: url(../fonts/Antonio-Light.ttf)
+}
