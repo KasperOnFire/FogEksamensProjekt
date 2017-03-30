@@ -41,7 +41,7 @@ public class ImageServlet extends HttpServlet {
         Draw2D d2d = new Draw2D();
         
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write(d2d.drawSide(150, 500), "png", baos );
+        ImageIO.write(d2d.drawDick(200, 500), "png", baos );
         baos.flush();
         byte[] imageInByteArray = baos.toByteArray();
         baos.close();

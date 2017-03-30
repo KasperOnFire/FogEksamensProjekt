@@ -89,9 +89,53 @@ public class Draw2D {
         g2d.dispose();
 
         return bImage;
-
     }
 
+        public BufferedImage drawFront(int height, int width) {
+
+        int widthCanvas = width + 50;
+        int heightCanvas = height + 50;
+
+        BufferedImage bImage = new BufferedImage(widthCanvas, heightCanvas, BufferedImage.TYPE_BYTE_INDEXED);
+        Graphics2D g2d = bImage.createGraphics();
+        FontMetrics metrics = g2d.getFontMetrics();
+
+        //Background
+        g2d.setColor(Color.WHITE);
+        g2d.fillRect(0, 0, widthCanvas, heightCanvas);
+        
+        //Side view rendering
+        g2d.setColor(Color.LIGHT_GRAY);
+        g2d.drawRect(45, 45, width - (widthCanvas - 65), height - 20); //Pillar 1
+        g2d.drawRect(width, 45, width - (widthCanvas - 65), height - 20); //Pillar 2
+        g2d.drawRect(30, 30, width, 15); //RoofHeight
+        
+        //Length lines
+        g2d.setColor(Color.BLACK);
+        g2d.drawLine(20, 30, 20, heightCanvas - 25); //Height Line
+        g2d.drawLine(17, 30, 23, 30); //End top
+        g2d.drawLine(17, heightCanvas - 25, 23, heightCanvas - 25); //End top
+        
+        g2d.drawLine(30, 20, widthCanvas - 20, 20); //Width Line
+        g2d.drawLine(30, 17, 30, 23); //End top
+        g2d.drawLine(widthCanvas - 20, 17, widthCanvas - 20, 23); //End bot
+        
+        String widthStr = "Bredde: " + width + " cm";
+        String heightStr = "Længde: " + height + " cm";
+        
+        //Text på lortet
+        g2d.drawString(widthStr, (widthCanvas - metrics.stringWidth(widthStr)) / 2, 15);
+        AffineTransform at = new AffineTransform();
+        at.rotate(-Math.PI / 2);
+        g2d.setTransform(at);
+        g2d.drawString(heightStr, -(heightCanvas - metrics.stringWidth(heightStr) / 2), 15);
+
+        //Make the drawing "final"
+        g2d.dispose();
+
+        return bImage;
+    }
+    
     public BufferedImage drawDick(int height, int width) {
 
         int widthCanvas = width + 50;
@@ -104,10 +148,14 @@ public class Draw2D {
         //Background
         g2d.setColor(Color.WHITE);
         g2d.fillRect(0, 0, widthCanvas, heightCanvas);
-
-        g2d.fillRect(90, 90, 5, 5);
-        g2d.fillRect(100, 90, 5, 5);
-        g2d.fillRect(95, 50, 5, 40);
+        
+        //Dick Drawing
+        g2d.setColor(Color.BLACK);
+        g2d.fillRect(80, 80, 15, 15);
+        g2d.fillRect(100, 80, 15, 15);
+        g2d.fillRect(90, 50, 15, 40);
+        g2d.setColor(Color.PINK);
+        g2d.fillRect(97, 50, 2, 5);
     
         //Make the drawing "final"
         g2d.dispose();
