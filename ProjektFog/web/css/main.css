@@ -1,0 +1,13 @@
+.main-div {
+    width: 80%;
+    margin: auto;
+}
+
+.main-header {
+    position: fixed;
+    top: 0;
+}
+
+.fog-icon {
+    float: left;
+}
