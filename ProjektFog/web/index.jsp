@@ -25,7 +25,6 @@
                 <br>
                 <input type="submit">
             </form>
-
             <form action="imageservlet">
                 <input type="submit">
             </form>
