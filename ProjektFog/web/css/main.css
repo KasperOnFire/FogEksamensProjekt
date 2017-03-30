@@ -21,12 +21,14 @@
 .main-div {
     width: 80%;
     margin: auto;
-    font-family: antonio-bold;
+    font-family: antonio;
 }
 
 .main-header {
-    position: fixed;
+    position: static;
     top: 0;
+    font-family: antonio-bold;
+    display: block;
 }
 
 .fog-icon {
