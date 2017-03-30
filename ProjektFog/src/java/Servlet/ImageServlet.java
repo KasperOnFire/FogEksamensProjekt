@@ -6,7 +6,6 @@
 package Servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,8 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import Draw.Draw2D;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.net.URLDecoder;
 
 @WebServlet(name = "ImageServlet", urlPatterns = {"/ImageServlet"})
 public class ImageServlet extends HttpServlet {
@@ -44,7 +41,7 @@ public class ImageServlet extends HttpServlet {
         Draw2D d2d = new Draw2D();
         
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write(d2d.drawRoof(150, 200), "png", baos );
+        ImageIO.write(d2d.drawSide(150, 500), "png", baos );
         baos.flush();
         byte[] imageInByteArray = baos.toByteArray();
         baos.close();

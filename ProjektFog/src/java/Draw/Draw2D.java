@@ -1,7 +1,6 @@
 package Draw;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
@@ -13,6 +12,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Draw2D {
+    
+    Color c = new Color(255, 255, 255, 255 );
 
     public BufferedImage drawRoof(int height, int width) {
 
@@ -24,7 +25,7 @@ public class Draw2D {
         FontMetrics metrics = g2d.getFontMetrics();
 
         //Background
-        g2d.setColor(Color.WHITE);
+        g2d.setColor(c);
         g2d.fillRect(0, 0, widthCanvas, heightCanvas);
 
         //DrawingRoof
@@ -59,15 +60,30 @@ public class Draw2D {
         g2d.fillRect(0, 0, widthCanvas, heightCanvas);
         
         //Side view rendering
+        g2d.setColor(Color.LIGHT_GRAY);
+        g2d.drawRect(45, 45, width - (widthCanvas - 65), height - 20); //Pillar 1
+        g2d.drawRect(width, 45, width - (widthCanvas - 65), height - 20); //Pillar 2
+        g2d.drawRect(30, 30, width, 15); //RoofHeight
         
+        //Length lines
+        g2d.setColor(Color.BLACK);
+        g2d.drawLine(20, 30, 20, heightCanvas - 25); //Height Line
+        g2d.drawLine(17, 30, 23, 30); //End top
+        g2d.drawLine(17, heightCanvas - 25, 23, heightCanvas - 25); //End top
+        
+        g2d.drawLine(30, 20, widthCanvas - 20, 20); //Width Line
+        g2d.drawLine(30, 17, 30, 23); //End top
+        g2d.drawLine(widthCanvas - 20, 17, widthCanvas - 20, 23); //End bot
+        
+        String widthStr = "Bredde: " + width + " cm";
+        String heightStr = "Længde: " + height + " cm";
         
         //Text på lortet
-        g2d.setColor(Color.BLACK);
-        g2d.drawString("Bredde: " + width, (widthCanvas - metrics.stringWidth("Bredde: " + width)) / 2, 20);
+        g2d.drawString(widthStr, (widthCanvas - metrics.stringWidth(widthStr)) / 2, 15);
         AffineTransform at = new AffineTransform();
         at.rotate(-Math.PI / 2);
         g2d.setTransform(at);
-        g2d.drawString("Længde: " + height, -(heightCanvas - metrics.stringWidth("Længde: " + height)), 20);
+        g2d.drawString(heightStr, -(heightCanvas - metrics.stringWidth(heightStr) / 2), 15);
 
         //Make the drawing "final"
         g2d.dispose();
