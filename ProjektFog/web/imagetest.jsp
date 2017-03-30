@@ -7,6 +7,6 @@
     </head>
     <body>
         <h1>Hello World!</h1>
-        <!--<img src="imageservlet/image.jpg">-->
-    </body>
+        <img src="data:image/png;base64, ${b64}" alt="Image not found" />
+        </body>
 </html>

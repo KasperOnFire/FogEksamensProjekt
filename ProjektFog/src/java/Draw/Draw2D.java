@@ -1,7 +1,10 @@
 package Draw;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
@@ -11,25 +14,102 @@ import javax.imageio.ImageIO;
 
 public class Draw2D {
 
-    public void drawRoof() {
+    public BufferedImage drawRoof(int height, int width) {
+
+        int widthCanvas = width + 50;
+        int heightCanvas = height + 50;
+
+        BufferedImage bImage = new BufferedImage(widthCanvas, heightCanvas, BufferedImage.TYPE_BYTE_INDEXED);
+        Graphics2D g2d = bImage.createGraphics();
+        FontMetrics metrics = g2d.getFontMetrics();
+
+        //Background
+        g2d.setColor(Color.WHITE);
+        g2d.fillRect(0, 0, widthCanvas, heightCanvas);
+
+        //DrawingRoof
+        g2d.setColor(Color.LIGHT_GRAY);
+        g2d.fillRect(25, 25, width, height);
+
+        //Text på lortet
+        g2d.setColor(Color.BLACK);
+        g2d.drawString("Bredde: " + width, (widthCanvas - metrics.stringWidth("Bredde: " + width)) / 2, 20);
+        AffineTransform at = new AffineTransform();
+        at.rotate(-Math.PI / 2);
+        g2d.setTransform(at);
+        g2d.drawString("Længde: " + height, -(heightCanvas - metrics.stringWidth("Længde: " + height)), 20);
+
+        //Make the drawing "final"
+        g2d.dispose();
+
+        return bImage;
+    }
+
+    public BufferedImage drawSide(int height, int width) {
+
+        int widthCanvas = width + 50;
+        int heightCanvas = height + 50;
+
+        BufferedImage bImage = new BufferedImage(widthCanvas, heightCanvas, BufferedImage.TYPE_BYTE_INDEXED);
+        Graphics2D g2d = bImage.createGraphics();
+        FontMetrics metrics = g2d.getFontMetrics();
+
+        //Background
+        g2d.setColor(Color.WHITE);
+        g2d.fillRect(0, 0, widthCanvas, heightCanvas);
+        
+        //Side view rendering
+        
+        
+        //Text på lortet
+        g2d.setColor(Color.BLACK);
+        g2d.drawString("Bredde: " + width, (widthCanvas - metrics.stringWidth("Bredde: " + width)) / 2, 20);
+        AffineTransform at = new AffineTransform();
+        at.rotate(-Math.PI / 2);
+        g2d.setTransform(at);
+        g2d.drawString("Længde: " + height, -(heightCanvas - metrics.stringWidth("Længde: " + height)), 20);
+
+        //Make the drawing "final"
+        g2d.dispose();
+
+        return bImage;
 
     }
 
-    public void drawSide() {
+    public BufferedImage drawDick(int height, int width) {
+
+        int widthCanvas = width + 50;
+        int heightCanvas = height + 50;
+
+        BufferedImage bImage = new BufferedImage(widthCanvas, heightCanvas, BufferedImage.TYPE_BYTE_INDEXED);
+        Graphics2D g2d = bImage.createGraphics();
+        FontMetrics metrics = g2d.getFontMetrics();
+
+        //Background
+        g2d.setColor(Color.WHITE);
+        g2d.fillRect(0, 0, widthCanvas, heightCanvas);
+
+        g2d.fillRect(90, 90, 5, 5);
+        g2d.fillRect(100, 90, 5, 5);
+        g2d.fillRect(95, 50, 5, 40);
+    
+        //Make the drawing "final"
+        g2d.dispose();
+
+        return bImage;
 
     }
-     
+
     public BufferedImage drawTest() {
         int width = 200;
         int height = 200;
-        BufferedImage bimage = new BufferedImage(width, height,
-                BufferedImage.TYPE_BYTE_INDEXED);
+        BufferedImage bimage = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_INDEXED);
 
         //background color
         Graphics2D g2d = bimage.createGraphics();
         g2d.setColor(Color.WHITE);
         g2d.fillRect(0, 0, width, height);
-        
+
         //other
         g2d.setColor(Color.red);
         g2d.fill(new Ellipse2D.Float(0, 0, 200, 100));
@@ -38,7 +118,7 @@ public class Draw2D {
         //savePNG(bimage);
         return bimage;
     }
-    
+
     public void savePNG(final BufferedImage bi) {
         try {
             RenderedImage rendImage = bi;
@@ -48,7 +128,7 @@ public class Draw2D {
             e.printStackTrace();
         }
     }
-    
+
     /*public void sendPNG(final BufferedImage bi){
         try {
             RenderedImage rendImage = bi;
@@ -57,6 +137,4 @@ public class Draw2D {
             e.printStackTrace();
         }
     }*/
-    
-    
 }

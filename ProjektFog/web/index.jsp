@@ -18,7 +18,7 @@
             <input type="submit">
         </form>
         
-        <form action="imageservlet">
+        <form action="ImageServlet">
             <input type="submit">
         </form>
     </body>
