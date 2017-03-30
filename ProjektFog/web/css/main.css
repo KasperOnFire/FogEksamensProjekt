@@ -1,36 +1,53 @@
 /* Fonts */
 
 @font-face {
-    font-family: antonio;
-    src: url(../fonts/Antonio-Regular.ttf);
+	font-family: antonio;
+	src: url(../fonts/Antonio-Regular.ttf);
 }
 
 @font-face {
-    font-family: antonio-bold;
-    src: url(../fonts/Antonio-Bold.ttf);
+	font-family: antonio-bold;
+	src: url(../fonts/Antonio-Bold.ttf);
 }
 
 @font-face {
-    font-family: antonio-light;
-    src: url(../fonts/Antonio-Light.ttf)
+	font-family: antonio-light;
+	src: url(../fonts/Antonio-Light.ttf)
 }
 
 
 /* end fonts */
 
 .main-div {
-    width: 80%;
-    margin: auto;
-    font-family: antonio;
+	width: 60%;
+	height: fit-content;
+	margin: auto;
+	font-family: antonio;
+	background-color: red;
+	align-content: center;
 }
 
 .main-header {
-    position: static;
-    top: 0;
-    font-family: antonio-bold;
-    display: block;
+	position: static;
+	height: 126px;
+	top: 0;
+	font-family: antonio-bold;
+	display: block;
 }
 
-.fog-icon {
-    float: left;
+.main-header h1 {
+	margin: auto;
+	width: fit-content;
+}
+
+.main-header img {
+	float: left;
+}
+
+.main-content {
+	align-content: center;
+	
+}
+form {
+	margin: 10px;
 }
