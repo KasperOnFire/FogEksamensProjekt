@@ -1,0 +1,36 @@
+/* Fonts */
+
+@font-face {
+    font-family: antonio;
+    src: url(../fonts/Antonio-Regular.ttf);
+}
+
+@font-face {
+    font-family: antonio-bold;
+    src: url(../fonts/Antonio-Bold.ttf);
+}
+
+@font-face {
+    font-family: antonio-light;
+    src: url(../fonts/Antonio-Light.ttf)
+}
+
+
+/* end fonts */
+
+.main-div {
+    width: 80%;
+    margin: auto;
+    font-family: antonio;
+}
+
+.main-header {
+    position: static;
+    top: 0;
+    font-family: antonio-bold;
+    display: block;
+}
+
+.fog-icon {
+    float: left;
+}

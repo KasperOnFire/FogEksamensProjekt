@@ -1,6 +1,3 @@
-[![Stories in Ready](https://badge.waffle.io/KasperOnFire/FogEksamensProjekt.png?label=current%20sprint&title=Current%20Sprint)](https://waffle.io/KasperOnFire/FogEksamensProjekt)
-[![Stories needs review](https://badge.waffle.io/KasperOnFire/FogEksamensProjekt.svg?label=needs%20review&title=needs%20review)](http://waffle.io/KasperOnFire/FogEksamensProjekt)
-
 # ProjektFog
 Vores eksamensprojekt til JohannesFog
 
