@@ -10,18 +10,17 @@
 			crossorigin="anonymous">
 	</head>
 
-	<body>
-		<div class="main-div">
-			<div class="main-header">
-				<img class="fog-icon" src="img/fog.png">
-				<h2>Design en Carport</h2>
-			</div>
-			<h1>Header</h1>
-			<p>Alle mål i cm</p>
-			<h1>Hello World!</h1>
-			<!--<img src="imageservlet/image.jpg">-->
-			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-				crossorigin="anonymous"></script>
-	</body>
-
+    <body>
+        <h1>Hello World!</h1>
+        <p>Taget:</p>
+        <img src="data:image/png;base64, ${b64_Roof}" alt="Image not found" />
+        <br>
+        <p>Siden:</p>
+        <img src="data:image/png;base64, ${b64_Side}" alt="Image not found" />
+        <br>
+        <p>Fronten:</p>
+        <img src="data:image/png;base64, ${b64_Front}" alt="Image not found" />
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    </body>
 	</html>
