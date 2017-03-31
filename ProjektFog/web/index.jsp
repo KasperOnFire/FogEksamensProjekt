@@ -19,16 +19,13 @@
 			<div class="main-contet">
 				<h1>Header</h1>
 				<p>Alle mål i cm</p>
-				<form action="info">
+				<form action="ImageServlet">
 					<input type="number" name="height" placeholder="Højde" step="1" min="100" required="">
 					<br>
-					<input type="number" name="length" placeholder="Længde" step="1" min="100" required="">
+					<input type="number" name="depth" placeholder="Længde" step="1" min="100" required="">
 					<br>
 					<input type="number" name="width" placeholder="Bredde" step="1" min="100" required="">
 					<br>
-					<input type="submit">
-				</form>
-				<form action="imageservlet">
 					<input type="submit">
 				</form>
 			</div>

@@ -14,7 +14,7 @@ import javax.imageio.ImageIO;
 public class Draw2D {
 
     Color c = new Color(255, 255, 255, 255);
-    private boolean debug = true; 
+    private boolean debug = false; 
 
     public BufferedImage drawRoof(int width, int depth) {
 

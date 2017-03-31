@@ -11,7 +11,6 @@
 	</head>
 
     <body>
-        <h1>Hello World!</h1>
         <p>Taget:</p>
         <img src="data:image/png;base64, ${b64_Roof}" alt="Image not found" />
         <br>
