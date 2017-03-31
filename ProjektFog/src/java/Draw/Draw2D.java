@@ -51,6 +51,7 @@ public class Draw2D {
         at.rotate(-Math.PI / 2);
         g2d.setTransform(at);
         g2d.drawString(heightStr, -(widthCanvas - metrics.stringWidth(heightStr) / 2), 15);
+        
         //Make the drawing "final"
         g2d.dispose();
 
@@ -61,7 +62,7 @@ public class Draw2D {
 
         int depthCanvas = depth + 50;
         int heightCanvas = height + 50;
-        int pillarDepth = depth - (depthCanvas - 65); // (15)
+        int pillarDepth = 15; // (depth - (depthCanvas - 65))
 
         BufferedImage bImage = new BufferedImage(depthCanvas, heightCanvas, BufferedImage.TYPE_BYTE_INDEXED);
         Graphics2D g2d = bImage.createGraphics();
@@ -76,7 +77,7 @@ public class Draw2D {
         g2d.drawRect(45, 45, pillarDepth, height - 20); //Pillar 1
         g2d.drawRect(depth, 45, pillarDepth, height - 20); //Pillar 2
         if (depth > 400) {
-            g2d.drawRect((depthCanvas / 2 - 7), 45, pillarDepth, height - 20); //Middle pillar
+            g2d.drawRect((depthCanvas / 2 - (pillarDepth / 2)), 45, pillarDepth, height - 20); //Middle pillar
         }
         g2d.drawRect(30, 30, depth, 15); //RoofHeight
 
