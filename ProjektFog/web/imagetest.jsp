@@ -6,7 +6,13 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
-        <img src="data:image/png;base64, ${b64}" alt="Image not found" />
+        <p>Taget:</p>
+        <img src="data:image/png;base64, ${b64_Roof}" alt="Image not found" />
+        <br>
+        <p>Siden:</p>
+        <img src="data:image/png;base64, ${b64_Side}" alt="Image not found" />
+        <br>
+        <p>Fronten:</p>
+        <img src="data:image/png;base64, ${b64_Front}" alt="Image not found" />
         </body>
 </html>

@@ -8,17 +8,16 @@
     <body>
         <h1>Hello World!</h1>
         <p>Alle mål i cm</p>
-        <form action="info">
+        <form action="ImageServlet">
             <input type="number" name="height" placeholder="Højde" step="1" min="100" required="">
             <br>
             <br>
-            <input type="number" name="length" placeholder="længde" step="1" min="100" required="">
+            <input type="number" name="width" placeholder="Brede" step="1" min="100" required="">
             <br>
             <br>
-            <input type="submit">
-        </form>
-        
-        <form action="ImageServlet">
+            <input type="number" name="depth" placeholder="Dybde" step="1" min="100" required="">
+            <br>
+            <br>
             <input type="submit">
         </form>
     </body>

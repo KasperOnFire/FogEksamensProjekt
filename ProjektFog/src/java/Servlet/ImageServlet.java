@@ -37,16 +37,49 @@ public class ImageServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
-        
+
+        int widthInt;
+        int heightInt;
+        int depthInt;
+
+        String heightString;
+        String widthString;
+        String depthString;
+
+        widthString = request.getParameter("width");
+        heightString = request.getParameter("height");
+        depthString = request.getParameter("depth");
+
+        widthInt = Integer.valueOf(widthString);
+        heightInt = Integer.valueOf(heightString);
+        depthInt = Integer.valueOf(depthString);
+
         Draw2D d2d = new Draw2D();
-        
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write(d2d.drawDick(200, 500), "png", baos );
-        baos.flush();
-        byte[] imageInByteArray = baos.toByteArray();
-        baos.close();
-        String b64 = javax.xml.bind.DatatypeConverter.printBase64Binary(imageInByteArray);
-        request.getSession().setAttribute("b64", b64);
+
+        ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+        ImageIO.write(d2d.drawSide(heightInt, depthInt), "png", baos1);
+        baos1.flush();
+        byte[] imageInByteArray1 = baos1.toByteArray();
+        baos1.close();
+        String b64_Side = javax.xml.bind.DatatypeConverter.printBase64Binary(imageInByteArray1);
+        request.getSession().setAttribute("b64_Side", b64_Side);
+
+        ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
+        ImageIO.write(d2d.drawFront(heightInt, widthInt), "png", baos2);
+        baos2.flush();
+        byte[] imageInByteArray2 = baos2.toByteArray();
+        baos2.close();
+        String b64_Front = javax.xml.bind.DatatypeConverter.printBase64Binary(imageInByteArray2);
+        request.getSession().setAttribute("b64_Front", b64_Front);
+
+        ByteArrayOutputStream baos3 = new ByteArrayOutputStream();
+        ImageIO.write(d2d.drawRoof(widthInt, depthInt), "png", baos3);
+        baos3.flush();
+        byte[] imageInByteArray3 = baos3.toByteArray();
+        baos3.close();
+        String b64_Roof = javax.xml.bind.DatatypeConverter.printBase64Binary(imageInByteArray3);
+        request.getSession().setAttribute("b64_Roof", b64_Roof);
+
         request.getRequestDispatcher("/imagetest.jsp").forward(request, response);
     }
 
