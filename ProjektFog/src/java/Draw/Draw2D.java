@@ -74,10 +74,10 @@ public class Draw2D {
 
         //Side view rendering
         g2d.setColor(Color.LIGHT_GRAY);
-        g2d.drawRect(45, 45, pillarDepth, height - 20); //Pillar 1
-        g2d.drawRect(depth, 45, pillarDepth, height - 20); //Pillar 2
+        g2d.drawRect(45, 45, pillarDepth, height); //Pillar 1
+        g2d.drawRect(depth, 45, pillarDepth, height); //Pillar 2
         if (depth > 400) {
-            g2d.drawRect((depthCanvas / 2 - (pillarDepth / 2)), 45, pillarDepth, height - 20); //Middle pillar
+            g2d.drawRect((depthCanvas / 2 - (pillarDepth / 2)), 45, pillarDepth, height); //Middle pillar
         }
         g2d.drawRect(30, 30, depth, 15); //RoofHeight
 
@@ -96,16 +96,16 @@ public class Draw2D {
         }
         //Length lines
         g2d.setColor(Color.BLACK);
-        g2d.drawLine(20, 30, 20, heightCanvas - 25); //Height Line
+        g2d.drawLine(20, 30, 20, heightCanvas - 5); //Height Line
         g2d.drawLine(17, 30, 23, 30); //End top
-        g2d.drawLine(17, heightCanvas - 25, 23, heightCanvas - 25); //End top
+        g2d.drawLine(17, heightCanvas - 5, 23, heightCanvas - 5); //End top
 
         g2d.drawLine(30, 20, depthCanvas - 20, 20); //Width Line
         g2d.drawLine(depthCanvas - 20, 17, depthCanvas - 20, 23); //End bot
         g2d.drawLine(30, 17, 30, 23); //End top
 
         String widthStr = "Dybde: " + depth + " cm";
-        String heightStr = "Højde: " + height + " cm";
+        String heightStr = "Højde: " + (height + 15) + " cm";
 
         //Text på lortet
         g2d.drawString(widthStr, (depthCanvas - metrics.stringWidth(widthStr)) / 2, 15);
@@ -135,22 +135,22 @@ public class Draw2D {
 
         //Side view rendering
         g2d.setColor(Color.LIGHT_GRAY);
-        g2d.drawRect(45, 45, width - (widthCanvas - 65), height - 20); //Pillar 1
-        g2d.drawRect(width, 45, width - (widthCanvas - 65), height - 20); //Pillar 2
+        g2d.drawRect(45, 45, width - (widthCanvas - 65), height); //Pillar 1
+        g2d.drawRect(width, 45, width - (widthCanvas - 65), height); //Pillar 2
         g2d.drawRect(30, 30, width, 15); //RoofHeight
 
         //Length lines
         g2d.setColor(Color.BLACK);
-        g2d.drawLine(20, 30, 20, heightCanvas - 25); //Height Line
+        g2d.drawLine(20, 30, 20, heightCanvas - 5); //Height Line
         g2d.drawLine(17, 30, 23, 30); //End top
-        g2d.drawLine(17, heightCanvas - 25, 23, heightCanvas - 25); //End top
+        g2d.drawLine(17, heightCanvas - 5, 23, heightCanvas - 5); //End top
 
         g2d.drawLine(30, 20, widthCanvas - 20, 20); //Width Line
         g2d.drawLine(30, 17, 30, 23); //End top
         g2d.drawLine(widthCanvas - 20, 17, widthCanvas - 20, 23); //End bot
 
         String widthStr = "Bredde: " + width + " cm";
-        String heightStr = "Højde: " + height + " cm";
+        String heightStr = "Højde: " + (height + 15) + " cm";
 
         //Text på lortet
         g2d.drawString(widthStr, (widthCanvas - metrics.stringWidth(widthStr)) / 2, 15);
