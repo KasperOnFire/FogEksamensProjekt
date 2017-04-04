@@ -14,7 +14,8 @@ import javax.imageio.ImageIO;
 public class Draw2D {
 
     Color c = new Color(255, 255, 255, 255);
-    private boolean debug = false; 
+    private boolean debug = false;
+    private boolean fog = true;
 
     public BufferedImage drawRoof(int width, int depth) {
 
@@ -51,7 +52,7 @@ public class Draw2D {
         at.rotate(-Math.PI / 2);
         g2d.setTransform(at);
         g2d.drawString(heightStr, -(widthCanvas - metrics.stringWidth(heightStr) / 2), 15);
-        
+
         //Make the drawing "final"
         g2d.dispose();
 
@@ -60,7 +61,7 @@ public class Draw2D {
 
     public BufferedImage drawSide(int height, int depth) {
 
-        int depthCanvas = depth + 50;
+        int depthCanvas = depth + 100;
         int heightCanvas = height + 50;
         int pillarDepth = 15; // (depth - (depthCanvas - 65))
 
@@ -77,15 +78,15 @@ public class Draw2D {
         g2d.drawRect(45, 45, pillarDepth, height); //Pillar 1
         g2d.drawRect(depth, 45, pillarDepth, height); //Pillar 2
         if (depth > 400) {
-            g2d.drawRect((depthCanvas / 2 - (pillarDepth / 2)), 45, pillarDepth, height); //Middle pillar
+            g2d.drawRect(((depthCanvas - 50) / 2 - (pillarDepth / 2)), 45, pillarDepth, height); //Middle pillar
         }
         g2d.drawRect(30, 30, depth, 15); //RoofHeight
 
         //Testing tools
         if (debug) {
             g2d.setColor(Color.BLACK);
-            g2d.drawLine(60, heightCanvas - 20, depthCanvas - 50, heightCanvas - 20); //Width Line
-            for (int i = 0; i < (depthCanvas - 100)/10; i++) {
+            g2d.drawLine(60, heightCanvas - 20, depthCanvas - 100, heightCanvas - 20); //Width Line
+            for (int i = 0; i < (depthCanvas - 150) / 10; i++) {
                 g2d.drawLine(60 + (i * 10), heightCanvas - 17, 60 + (i * 10), heightCanvas - 23); //End top
                 if (i % 2 == 0) {
                     g2d.drawString("" + (i + 1), 55 + (i * 10), heightCanvas - 25);
@@ -100,19 +101,45 @@ public class Draw2D {
         g2d.drawLine(17, 30, 23, 30); //End top
         g2d.drawLine(17, heightCanvas - 5, 23, heightCanvas - 5); //End top
 
-        g2d.drawLine(30, 20, depthCanvas - 20, 20); //Width Line
-        g2d.drawLine(depthCanvas - 20, 17, depthCanvas - 20, 23); //End bot
+        g2d.drawLine(30, 20, depth + 30, 20); //Width Line
+        g2d.drawLine(depth + 30, 17, depth + 30, 23); //End bot
         g2d.drawLine(30, 17, 30, 23); //End top
 
-        String widthStr = "Dybde: " + depth + " cm";
-        String heightStr = "Højde: " + (height + 15) + " cm";
+        if (fog) {
+            g2d.drawLine(65, 46, 65, heightCanvas - 5);
+            g2d.drawLine(62, 46, 68, 46);
+            g2d.drawLine(62, heightCanvas - 5, 68, heightCanvas - 5);
+            g2d.drawLine(depth + 35, 30, depth + 41, 30);
+            g2d.drawLine(depth + 35, 45, depth + 41, 45);
+            g2d.drawLine(depth + 38, 30, depth + 38, 45);
+            if (depth > 400) {
+                g2d.drawLine(((depthCanvas - 32) / 2), 55, depth - 1, 55);
+                g2d.drawLine(depth - 1, 52, depth - 1, 58);
+                g2d.drawLine(((depthCanvas - 32) / 2), 52, ((depthCanvas - 32) / 2), 58);
+            }
+            //g2d.drawLine(, depth, depth, depth);
+        }
 
+        String widthStr = "Dybde: " + depth + " cm";
+        String heightStrRoof = "Højde: " + (height + 15) + " cm";
+        String heightStr = "Højde: " + (height) + " cm";
+        String heightRoof = "Højde: 15 cm";
+        String depthInside = "Dybde: " + ((depth - 75) / 2) + " cm";
+        
         //Text på lortet
         g2d.drawString(widthStr, (depthCanvas - metrics.stringWidth(widthStr)) / 2, 15);
+        if (fog) {
+            g2d.drawString(depthInside, depthCanvas - (depth / 2), 75);
+        }
+        
         AffineTransform at = new AffineTransform();
         at.rotate(-Math.PI / 2);
         g2d.setTransform(at);
-        g2d.drawString(heightStr, -(heightCanvas - metrics.stringWidth(heightStr) / 2), 15);
+        g2d.drawString(heightStrRoof, -(heightCanvas - metrics.stringWidth(heightStrRoof) / 2), 15);
+        if (fog) {
+            g2d.drawString(heightStr, -(heightCanvas - metrics.stringWidth(heightStr) / 2), 80);
+            g2d.drawString(heightRoof, -(80), depth + 55);
+        }
 
         //Make the drawing "final"
         g2d.dispose();
@@ -172,7 +199,6 @@ public class Draw2D {
 //        yPoints[2] = 200;
 //        
 //        g2d.fillPolygon(xPoints, yPoints, 3);
-
         //Make the drawing "final"
         g2d.dispose();
 
