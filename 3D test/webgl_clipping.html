@@ -45,21 +45,24 @@
             spotLight.position.set(400, 800, 300);
             spotLight.castShadow = true;
             spotLight.shadow.camera.near = 3;
-            spotLight.shadow.camera.far = 10;
+            spotLight.shadow.camera.far = 1000;
+
+            var mapSize = 1024;
+
             spotLight.shadow.mapSize.width = 1024;
             spotLight.shadow.mapSize.height = 1024;
             scene.add(spotLight);
 
             var dirLight = new THREE.DirectionalLight(0x55505a, 1);
-            dirLight.position.set(0, 3, 0);
+            dirLight.position.set(0, 1000, 0);
             dirLight.castShadow = true;
             dirLight.shadow.camera.near = 1;
-            dirLight.shadow.camera.far = 10;
+            dirLight.shadow.camera.far = 2000;
 
-            dirLight.shadow.camera.right = 1;
-            dirLight.shadow.camera.left = -1;
-            dirLight.shadow.camera.top = 1;
-            dirLight.shadow.camera.bottom = -1;
+            dirLight.shadow.camera.right = 1000;
+            dirLight.shadow.camera.left = -1000;
+            dirLight.shadow.camera.top = 1000;
+            dirLight.shadow.camera.bottom = -1000;
 
             dirLight.shadow.mapSize.width = 1024;
             dirLight.shadow.mapSize.height = 1024;
@@ -72,10 +75,11 @@
 
             // Geometry
             var material = new THREE.MeshPhongMaterial({
-                color: 0x80ee10,
-                shininess: 100
-            })
-            /*
+                    color: 0x8c4d27,
+                    shininess: 100,
+                    side: THREE.DoubleSide
+                })
+                /*
 			var geometry = new THREE.TorusKnotGeometry(0.4, 0.1, 300, 120);
 
             object = new THREE.Mesh(geometry, material);
@@ -83,58 +87,93 @@
             scene.add(object);
 			*/ //bredte,højde,dybte
 
-            var leg = [15, 360, 15, 5];
-            var roof = [515, 15, 515];
-            var wall = [515, 375, 15];
 
+            var numberOfLegs = 8;
+            var height = 360;
+
+            var depth = 500;
+            var width = 500;
+
+            var legsThickness = 15;
+            var roofThickness = 30;
+            var wallThickness = 15;
+
+            //legs
+            var objects = [];
+
+
+            var zBack = -(depth - legsThickness) / 2;
+            var tempX = (width - legsThickness) / 2;
+            var tempZ = zBack;
+            var zJump = (depth - legsThickness) / (numberOfLegs / 2);
+
+            //first left then right legs
+            for (i = 1; i <= 2; i++) {
+                if (i == 2) tempX = -tempX;
+                for (j = 0; j < numberOfLegs / 2; j++) { //make the leg obejcts for one side
+                    geometry = new THREE.BoxGeometry(legsThickness, height, legsThickness);
+                    object = new THREE.Mesh(geometry, material);
+                    object.position.set(tempX, (height / 2), tempZ);
+                    object.castShadow = true;
+                    objects.push(object);
+                    tempZ += zJump; //move one step forward
+                }
+                tempZ = zBack;
+            }
+
+            for (i = 0; i < objects.length; i++) {
+                scene.add(objects[i]);
+            }
+            /*
             //Legs
-            geometry = new THREE.BoxGeometry(leg[0], leg[1], leg[2], leg[3]);
+            geometry = new THREE.BoxGeometry(legsThickness, height, legsThickness);
             object = new THREE.Mesh(geometry, material);
-            object.position.x = -250;
-            object.position.y = leg[1] / 2; //move out of floor
-            object.position.z = -250;
+            object.position.x = -250 + legsThickness / 2;
+            object.position.y = height / 2; //move out of floor
+            object.position.z = -250 + legsThickness / 2;
             object.castShadow = true;
             scene.add(object);
 
-            geometry = new THREE.BoxGeometry(leg[0], leg[1], leg[2], leg[3]);
+            geometry = new THREE.BoxGeometry(legsThickness, height, legsThickness);
             object = new THREE.Mesh(geometry, material);
-            object.position.x = 250;
-            object.position.y = leg[1] / 2; //move out of floor
-            object.position.z = -250;
+            object.position.x = -250 + legsThickness / 2;
+            object.position.y = height / 2; //move out of floor
+            object.position.z = 250 - legsThickness / 2;
             object.castShadow = true;
             scene.add(object);
 
-            geometry = new THREE.BoxGeometry(leg[0], leg[1], leg[2], leg[3]);
+            geometry = new THREE.BoxGeometry(legsThickness, height, legsThickness);
             object = new THREE.Mesh(geometry, material);
-            object.position.x = -250;
-            object.position.y = leg[1] / 2; //move out of floor
-            object.position.z = 250;
+            object.position.x = 250 - legsThickness / 2;
+            object.position.y = height / 2; //move out of floor
+            object.position.z = 250 - legsThickness / 2;
             object.castShadow = true;
             scene.add(object);
 
-            geometry = new THREE.BoxGeometry(leg[0], leg[1], leg[2], leg[3]);
+            geometry = new THREE.BoxGeometry(legsThickness, height, legsThickness);
             object = new THREE.Mesh(geometry, material);
-            object.position.x = 250;
-            object.position.y = leg[1] / 2; //move out of floor
-            object.position.z = 250;
+            object.position.x = 250 - legsThickness / 2;
+            object.position.y = height / 2; //move out of floor
+            object.position.z = -250 + legsThickness / 2;
             object.castShadow = true;
             scene.add(object);
-
+            */
             //Roof
-            geometry = new THREE.BoxGeometry(roof[0], roof[1], roof[2], roof[3]);
+            geometry = new THREE.BoxGeometry(width, roofThickness, depth);
             object = new THREE.Mesh(geometry, material);
             object.position.x = 0;
-            object.position.y = leg[1] + roof[1] / 2; //move out of floor
-            object.position.z = 00;
+            object.position.y = height + roofThickness / 2; //move to top of legs
+            object.position.z = 0;
             object.castShadow = true;
             scene.add(object);
-            
+
+
             //Walls
-            geometry = new THREE.BoxGeometry(wall[0], wall[1], wall[2]);
+            geometry = new THREE.BoxGeometry(width, (height + roofThickness), wallThickness);
             object = new THREE.Mesh(geometry, material);
             object.position.x = 0;
-            object.position.y = wall[1] / 2;
-            object.position.z = -265;
+            object.position.y = (height + roofThickness) / 2;
+            object.position.z = -((depth + wallThickness) / 2);
             object.castShadow = true;
             scene.add(object);
 
