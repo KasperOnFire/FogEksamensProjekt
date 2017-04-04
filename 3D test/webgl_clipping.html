@@ -37,7 +37,7 @@
 
             // Lights
 
-            scene.add(new THREE.AmbientLight(0x050505));
+            scene.add(new THREE.AmbientLight(0x726f6f));
 
             var spotLight = new THREE.SpotLight(0xffffff);
             spotLight.angle = Math.PI / 5;
@@ -72,10 +72,10 @@
 
             // Geometry
             var material = new THREE.MeshPhongMaterial({
-                    color: 0x80ee10,
-                    shininess: 100
-                })
-                /*
+                color: 0x80ee10,
+                shininess: 100
+            })
+            /*
 			var geometry = new THREE.TorusKnotGeometry(0.4, 0.1, 300, 120);
 
             object = new THREE.Mesh(geometry, material);
@@ -83,54 +83,62 @@
             scene.add(object);
 			*/ //bredte,højde,dybte
 
-            var legs = [];
-            var legMez = [15, 360, 15, 5];
-            var roofMez = [515, 15, 515];
-            var
+            var leg = [15, 360, 15, 5];
+            var roof = [515, 15, 515];
+            var wall = [515, 375, 15];
 
-                geometry = new THREE.BoxGeometry(legMez[0], legMez[1], legMez[2], legMez[3]);
+            //Legs
+            geometry = new THREE.BoxGeometry(leg[0], leg[1], leg[2], leg[3]);
             object = new THREE.Mesh(geometry, material);
             object.position.x = -250;
-            object.position.y = legMez[1] / 2; //move out of floor
+            object.position.y = leg[1] / 2; //move out of floor
             object.position.z = -250;
             object.castShadow = true;
             scene.add(object);
 
-            geometry = new THREE.BoxGeometry(legMez[0], legMez[1], legMez[2], legMez[3]);
+            geometry = new THREE.BoxGeometry(leg[0], leg[1], leg[2], leg[3]);
             object = new THREE.Mesh(geometry, material);
             object.position.x = 250;
-            object.position.y = legMez[1] / 2; //move out of floor
+            object.position.y = leg[1] / 2; //move out of floor
             object.position.z = -250;
             object.castShadow = true;
             scene.add(object);
 
-            geometry = new THREE.BoxGeometry(legMez[0], legMez[1], legMez[2], legMez[3]);
+            geometry = new THREE.BoxGeometry(leg[0], leg[1], leg[2], leg[3]);
             object = new THREE.Mesh(geometry, material);
             object.position.x = -250;
-            object.position.y = legMez[1] / 2; //move out of floor
+            object.position.y = leg[1] / 2; //move out of floor
             object.position.z = 250;
             object.castShadow = true;
             scene.add(object);
 
-            geometry = new THREE.BoxGeometry(legMez[0], legMez[1], legMez[2], legMez[3]);
+            geometry = new THREE.BoxGeometry(leg[0], leg[1], leg[2], leg[3]);
             object = new THREE.Mesh(geometry, material);
             object.position.x = 250;
-            object.position.y = legMez[1] / 2; //move out of floor
+            object.position.y = leg[1] / 2; //move out of floor
             object.position.z = 250;
             object.castShadow = true;
             scene.add(object);
 
-            geometry = new THREE.BoxGeometry(roofMez[0], roofMez[1], roofMez[2], roofMez[3]);
+            //Roof
+            geometry = new THREE.BoxGeometry(roof[0], roof[1], roof[2], roof[3]);
             object = new THREE.Mesh(geometry, material);
             object.position.x = 0;
-            object.position.y = legMez[1] + roofMez[1] / 2; //move out of floor
+            object.position.y = leg[1] + roof[1] / 2; //move out of floor
             object.position.z = 00;
             object.castShadow = true;
             scene.add(object);
+            
+            //Walls
+            geometry = new THREE.BoxGeometry(wall[0], wall[1], wall[2]);
+            object = new THREE.Mesh(geometry, material);
+            object.position.x = 0;
+            object.position.y = wall[1] / 2;
+            object.position.z = -265;
+            object.castShadow = true;
+            scene.add(object);
 
-
-
-            // ground
+            //ground
             var ground = new THREE.Mesh(
                 new THREE.PlaneBufferGeometry(3000, 3000, 1, 1),
                 new THREE.MeshPhongMaterial({
