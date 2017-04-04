@@ -3,7 +3,7 @@ package Backend;
 public class MaterialList
 {
     private int roofScrews;
-    private double roofing;
+    private int roof;
     private int boards;
     private int roofBoards;
     private int posts;
@@ -12,45 +12,60 @@ public class MaterialList
     private double m2;
     private int roofBoardScrews;
     private int roofBoardBrackets;
+    private int postBolts;
+    private int mountingBandScrews;
+    private int mountingBands = 2;
+    
     
     public void calcCarport(int length, int width)
     {
-        calcRoofScrews(length,width);
-        calcRoofBoards(length);
-        calcPosts(length);
+        
     }
     
-    private void calcRoofScrews(int length,int width)
+    private void roof(int length,int width)
     {
         m2 = (double)(length*width)/100;
+        roof = (int)Math.ceil(m2)+1;
+    }
+    
+    private void roofScrews(double m2)
+    {
         roofScrews = (int)m2*12;
     }
     
-    private void calcRoofBoards(int length)
+    private void roofBoards(int length)
     {
         roofBoards = (length/60)+1;
+    }
+    
+    private void roofBoardScrews(int roofBoards)
+    {
         roofBoardScrews = roofBoards*18;
+    }
+    
+    private void roofBoardBrackets(int roofBoards)
+    {
         roofBoardBrackets = roofBoards*2;
     }
     
-    private void calcPosts(int length)
+    private void mountingBandScrews(int roofBoards, int mountingBands)
     {
-        posts = 2*(length <= 400 ? 2 : (int) Math.ceil((double) length / 200));
-        postScrews = posts*4;
-        postBandBoards = 2;
+        mountingBandScrews = roofBoards*mountingBands;
     }
     
-    @Override
-    public String toString()
+    private void posts(int length)
     {
-        String ret = "";
-        ret =    "Roofing area(m2): " + m2 + "\n"
-                +"Roof screws: " + roofScrews + "\n"
-                +"Roof boards: " + roofBoards + "\n"
-                +"Posts: " + posts + "\n"
-                +"Post screws: " + postScrews + "\n"
-                +"Post bands: " + postBandBoards;
-        return ret;
+        posts = 2*(length <= 400 ? 2 : (int) Math.ceil((double) length / 200));
+    }
+    
+    private void postScrews(int posts)
+    {
+        postScrews = posts*4;
+    }
+    
+    private void postBolts(int posts)
+    {
+        postBolts = posts*2;
     }
     
 }

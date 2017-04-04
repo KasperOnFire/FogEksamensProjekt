@@ -32,39 +32,39 @@ public class DataAccessObjectImpl implements DataAccessObject {
             Logger.getLogger(DataAccessObjectImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return null;
+        return -1;
     }
     
-    public double getDouble(int id) {
+    public double getDouble(String var, String table, String term, String termName) {
         String sql = "select * from team where team_id=?";
         try {
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, id);
+            stmt.setString(1, var);
+            stmt.setString(2, table);
+            stmt.setString(3, term);
+            stmt.setString(4, termName);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                int tid = rs.getInt("team_id");
-                String name = rs.getString("teamname");
-                Team returner = new Team(tid, name, getTeamMembers(id));
-                return returner;
+                return rs.getDouble(var);
             }
         } catch (SQLException ex) {
             Logger.getLogger(DataAccessObjectImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return 0;
+        return -1;
     }
     
-    public String getString(int id) {
+    public String getString(String var, String table, String term, String termName) {
         String sql = "select * from team where team_id=?";
         try {
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, id);
+            stmt.setString(1, var);
+            stmt.setString(2, table);
+            stmt.setString(3, term);
+            stmt.setString(4, termName);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                int tid = rs.getInt("team_id");
-                String name = rs.getString("teamname");
-                Team returner = new Team(tid, name, getTeamMembers(id));
-                return returner;
+                return rs.getString(var);
             }
         } catch (SQLException ex) {
             Logger.getLogger(DataAccessObjectImpl.class.getName()).log(Level.SEVERE, null, ex);
