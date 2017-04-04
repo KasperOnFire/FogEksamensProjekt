@@ -159,6 +159,20 @@ public class Draw2D {
         g2d.setTransform(at);
         g2d.drawString(heightStr, -(heightCanvas - metrics.stringWidth(heightStr) / 2), 15);
 
+        //Hætte på
+//        System.out.println("PIK");
+//        g2d.setColor(Color.BLACK);
+//        int[] xPoints = new int[3];
+//        xPoints[0] = 200;
+//        xPoints[1] = 250;
+//        xPoints[2] = 300;
+//        int[] yPoints = new int[3];
+//        yPoints[0] = 200;
+//        yPoints[1] = 250;
+//        yPoints[2] = 200;
+//        
+//        g2d.fillPolygon(xPoints, yPoints, 3);
+
         //Make the drawing "final"
         g2d.dispose();
 
