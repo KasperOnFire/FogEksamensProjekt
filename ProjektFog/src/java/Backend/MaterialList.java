@@ -1,71 +1,109 @@
 package Backend;
 
+import Database.DataAccessObject;
+import java.util.HashMap;
+import java.util.Map;
+
 public class MaterialList
 {
-    private int roofScrews;
-    private int roof;
-    private int boards;
-    private int roofBoards;
-    private int posts;
-    private int postScrews;
-    private int postBandBoards;
-    private double m2;
-    private int roofBoardScrews;
-    private int roofBoardBrackets;
-    private int postBolts;
-    private int mountingBandScrews;
+    private static double m2;
     private int mountingBands = 2;
-    
-    
-    public void calcCarport(int length, int width)
+    private static Map<String,Part> matList = new HashMap<>();
+    private DataAccessObject dao;
+    private Part p;
+    public static void main(String[] args)
     {
-        
+        MaterialList materialList = new MaterialList();
+        materialList.calcMaterialList(500, 500);
+        double totalPrice = 0;
+        for (Map.Entry<String, Part> part : matList.entrySet()) {
+            totalPrice += part.getValue().getAmount() * part.getValue().getPrice();
+        }
+        double totalAdjustedPrice = Math.ceil(totalPrice/1000)*1000;
+        for (Map.Entry<String, Part> part : matList.entrySet()) {
+            System.out.println("Name: " + part.getKey() + " Amount: " + part.getValue().getAmount() + " Price: " + part.getValue().getPrice());
+        }
+        System.out.println("Total price: " + totalAdjustedPrice);
     }
     
-    private void roof(int length,int width)
+    public void calcMaterialList(int length, int width)
     {
-        m2 = (double)(length*width)/100;
-        roof = (int)Math.ceil(m2)+1;
+        //p = new Part(roof(length,width),dao.getDouble("price", "roofing", "roofname", "Plastmo Trapez"));
+        p = new Part(roof(length,width),1.0);
+        matList.put("Tag", p);
+        //p = new Part(roofScrews(m2),dao.getDouble("price", "screws", "partname", "Plastmo tagskrue"));
+        p = new Part(roofScrews(m2),1.0);
+        matList.put("Tagskruer", p);
+        //p = new Part(roofBoards(length),dao.getDouble("price", "wood", "woodname", "Spærtræ"));
+        p = new Part(roofBoards(length),1.0);
+        matList.put("Tagspær",p);
+        //p = new Part(roofBoardScrews(roofBoards(length)),dao.getDouble("price", "screws", "partname", "Spærskrue"));
+        p = new Part(roofBoardScrews(roofBoards(length)),1.0);
+        matList.put("Tagspærsskruer",p);
+        //p = new Part(roofBoardBrackets(roofBoards(length)),dao.getDouble("price", "screws", "partname", "Beslag"));
+        p = new Part(roofBoardBrackets(roofBoards(length)),1.0);
+        matList.put("Tagspærsbeslag",p);
+        //p = new Part(mountingBandScrews(roofBoards(length),mountingBands),dao.getDouble("price", "screws", "partname", "Spærskruer"));
+        p = new Part(mountingBandScrews(roofBoards(length),mountingBands),1.0);
+        matList.put("Hulbåndsskruer",p);
+        p = new Part(1,1.0);
+        matList.put("Tagrem", p);
+        p = new Part(4,1.0);
+        matList.put("Understernbrædder", p);
+        p = new Part(4,1.0);
+        matList.put("Oversternbrædder", p);
+        //p = new Part(posts(length),dao.getDouble("price", "wood", "woodname", "Stolpe"));
+        p = new Part(posts(length),1.0);
+        matList.put("Stolper",p);
+        //p = new Part(postBolts(posts(length)),dao.getDouble("price", "screws", "partname", "Bolt"));
+        p = new Part(postBolts(posts(length)),1.0);
+        matList.put("Stolpebolte",p);
     }
     
-    private void roofScrews(double m2)
+    private int roof(int length,int width)
     {
-        roofScrews = (int)m2*12;
+        m2 = (double)(length/100)*(double)(width/100);
+        return (int)Math.ceil(m2)+1;
     }
     
-    private void roofBoards(int length)
+    private int roofScrews(double m2)
     {
-        roofBoards = (length/60)+1;
+        return (int)m2*12;
     }
     
-    private void roofBoardScrews(int roofBoards)
+    private int roofBoards(int length)
     {
-        roofBoardScrews = roofBoards*18;
+        return (length/60)+1;
     }
     
-    private void roofBoardBrackets(int roofBoards)
+    private int roofBoardScrews(int roofBoards)
     {
-        roofBoardBrackets = roofBoards*2;
+        return roofBoards*18;
     }
     
-    private void mountingBandScrews(int roofBoards, int mountingBands)
+    private int roofBoardBrackets(int roofBoards)
     {
-        mountingBandScrews = roofBoards*mountingBands;
+        return roofBoards*2;
     }
     
-    private void posts(int length)
+    private int mountingBandScrews(int roofBoards, int mountingBands)
     {
-        posts = 2*(length <= 400 ? 2 : (int) Math.ceil((double) length / 200));
+        return roofBoards*mountingBands;
     }
     
-    private void postScrews(int posts)
+    private int posts(int length)
     {
-        postScrews = posts*4;
+        return 2*(length <= 400 ? 2 : (int) Math.ceil((double) length / 200));
     }
     
-    private void postBolts(int posts)
+    private int postScrews(int posts)
     {
-        postBolts = posts*2;
+        return posts*4;
     }
     
-}
+    private int postBolts(int posts)
+    {
+        return posts*2;
+    }
+    
+    }

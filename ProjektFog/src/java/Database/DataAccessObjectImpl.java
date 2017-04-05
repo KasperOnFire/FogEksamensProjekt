@@ -36,7 +36,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
     }
     
     public double getDouble(String var, String table, String term, String termName) {
-        String sql = "select * from team where team_id=?";
+        String sql = "select ? from ? where ?=?";
         try {
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, var);
@@ -55,7 +55,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
     }
     
     public String getString(String var, String table, String term, String termName) {
-        String sql = "select * from team where team_id=?";
+        String sql = "select ? from ? where ?=?";
         try {
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, var);
