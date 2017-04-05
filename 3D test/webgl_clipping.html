@@ -29,83 +29,71 @@
         function init() {
 
             camera = new THREE.PerspectiveCamera(
-                70, window.innerWidth / window.innerHeight, 0.25, 3000);
+                70, window.innerWidth / window.innerHeight, 0.25, 300);
 
-            camera.position.set(0, 400, 700);
+            camera.position.set(5, 5, 8);
 
             scene = new THREE.Scene();
 
             // Lights
-
             scene.add(new THREE.AmbientLight(0x726f6f));
 
-            var spotLight = new THREE.SpotLight(0xffffff);
-            spotLight.angle = Math.PI / 5;
-            spotLight.penumbra = 0.2;
-            spotLight.position.set(400, 800, 300);
-            spotLight.castShadow = true;
-            spotLight.shadow.camera.near = 3;
-            spotLight.shadow.camera.far = 1000;
+            var spotLight = new THREE.SpotLight(0xffffff, 0.8);
+            spotLight.position.set(6, 8, 6);
+            spotLight.angle = Math.PI / 4;
+            spotLight.penumbra = 0.4;
 
-            var mapSize = 1024;
+            spotLight.castShadow = true;
 
             spotLight.shadow.mapSize.width = 1024;
             spotLight.shadow.mapSize.height = 1024;
+
+            spotLight.shadow.camera.near = 3;
+            spotLight.shadow.camera.far = 10;
+            spotLight.shadow.camera.fov = 30;
             scene.add(spotLight);
 
             var dirLight = new THREE.DirectionalLight(0x55505a, 1);
-            dirLight.position.set(0, 1000, 0);
+            dirLight.position.set(0, 10, 0);
             dirLight.castShadow = true;
             dirLight.shadow.camera.near = 1;
-            dirLight.shadow.camera.far = 2000;
+            dirLight.shadow.camera.far = 20;
 
-            dirLight.shadow.camera.right = 1000;
-            dirLight.shadow.camera.left = -1000;
-            dirLight.shadow.camera.top = 1000;
-            dirLight.shadow.camera.bottom = -1000;
+            dirLight.shadow.camera.right = 10;
+            dirLight.shadow.camera.left = -10;
+            dirLight.shadow.camera.top = 10;
+            dirLight.shadow.camera.bottom = -10;
 
             dirLight.shadow.mapSize.width = 1024;
             dirLight.shadow.mapSize.height = 1024;
             scene.add(dirLight);
 
-            // ***** Clipping planes: *****
-            /*var localPlane = new THREE.Plane(new THREE.Vector3(0, -1, 0), 0.8),
-                globalPlane = new THREE.Plane(new THREE.Vector3(-1, 0, 0), 0.1);
-			*/
 
             // Geometry
             var material = new THREE.MeshPhongMaterial({
-                    color: 0x8c4d27,
-                    shininess: 100,
-                    side: THREE.DoubleSide
-                })
-                /*
-			var geometry = new THREE.TorusKnotGeometry(0.4, 0.1, 300, 120);
+                color: 0xff69b4,
+                shininess: 100,
+                side: THREE.DoubleSide
+            })
 
-            object = new THREE.Mesh(geometry, material);
-            object.castShadow = true;
-            scene.add(object);
-			*/ //bredte,højde,dybte
+            var numberOfLegs = 10;
 
+            //measurements in meters
+            var height = 3.6;
+            var depth = 6;
+            var width = 5;
 
-            var numberOfLegs = 8;
-            var height = 360;
-
-            var depth = 500;
-            var width = 500;
-
-            var legsThickness = 15;
-            var roofThickness = 30;
-            var wallThickness = 15;
+            var legsThickness = 0.15;
+            var roofThickness = 0.30;
+            var wallThickness = 0.15;
 
             //legs
             var objects = [];
 
-
             var zBack = -(depth - legsThickness) / 2;
             var tempX = (width - legsThickness) / 2;
             var tempZ = zBack;
-            var zJump = (depth - legsThickness) / (numberOfLegs / 2);
+            var zJump = ((depth - legsThickness) - 0.3) / (numberOfLegs / 2 - 1);
 
             //first left then right legs
             for (i = 1; i <= 2; i++) {
@@ -124,46 +112,11 @@
             for (i = 0; i < objects.length; i++) {
                 scene.add(objects[i]);
             }
-            /*
-            //Legs
-            geometry = new THREE.BoxGeometry(legsThickness, height, legsThickness);
-            object = new THREE.Mesh(geometry, material);
-            object.position.x = -250 + legsThickness / 2;
-            object.position.y = height / 2; //move out of floor
-            object.position.z = -250 + legsThickness / 2;
-            object.castShadow = true;
-            scene.add(object);
 
-            geometry = new THREE.BoxGeometry(legsThickness, height, legsThickness);
-            object = new THREE.Mesh(geometry, material);
-            object.position.x = -250 + legsThickness / 2;
-            object.position.y = height / 2; //move out of floor
-            object.position.z = 250 - legsThickness / 2;
-            object.castShadow = true;
-            scene.add(object);
-
-            geometry = new THREE.BoxGeometry(legsThickness, height, legsThickness);
-            object = new THREE.Mesh(geometry, material);
-            object.position.x = 250 - legsThickness / 2;
-            object.position.y = height / 2; //move out of floor
-            object.position.z = 250 - legsThickness / 2;
-            object.castShadow = true;
-            scene.add(object);
-
-            geometry = new THREE.BoxGeometry(legsThickness, height, legsThickness);
-            object = new THREE.Mesh(geometry, material);
-            object.position.x = 250 - legsThickness / 2;
-            object.position.y = height / 2; //move out of floor
-            object.position.z = -250 + legsThickness / 2;
-            object.castShadow = true;
-            scene.add(object);
-            */
             //Roof
             geometry = new THREE.BoxGeometry(width, roofThickness, depth);
             object = new THREE.Mesh(geometry, material);
-            object.position.x = 0;
-            object.position.y = height + roofThickness / 2; //move to top of legs
-            object.position.z = 0;
+            object.position.set(0, (height + roofThickness / 2), 0);
             object.castShadow = true;
             scene.add(object);
 
@@ -171,15 +124,13 @@
             //Walls
             geometry = new THREE.BoxGeometry(width, (height + roofThickness), wallThickness);
             object = new THREE.Mesh(geometry, material);
-            object.position.x = 0;
-            object.position.y = (height + roofThickness) / 2;
-            object.position.z = -((depth + wallThickness) / 2);
+            object.position.set(0, ((height + roofThickness) / 2), (-(depth + wallThickness) / 2));
             object.castShadow = true;
             scene.add(object);
 
             //ground
             var ground = new THREE.Mesh(
-                new THREE.PlaneBufferGeometry(3000, 3000, 1, 1),
+                new THREE.PlaneBufferGeometry(400, 400, 1, 1),
                 new THREE.MeshPhongMaterial({
                     color: 0xa0adaf,
                     shininess: 150
