@@ -10,6 +10,8 @@
 			crossorigin="anonymous">
 	</head>
 
+        <p>Estimated price: ${roundedPrice} DKK</p>
+        
     <body>
         <p>Taget:</p>
         <img src="data:image/png;base64, ${b64_Roof}" alt="Image not found" />
