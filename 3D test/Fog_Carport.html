@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Fog Carport - webgl</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <style>
+        body {
+            margin: 0px;
+            background-color: #000000;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+
+    <script src="build/three.js"></script>
+    <script src="js/controls/OrbitControls.js"></script>
+    <script src="js/libs/dat.gui.min.js"></script>
+
+    <script>
+        var camera, scene, renderer, object;
+
+        var obj = {
+                gableRoof: false,
+                shed: false,
+                width: 500,
+                depth: 500,
+                height: 360
+            };
+
+        function init() {
+            scene = new THREE.Scene();
+
+            camera = new THREE.PerspectiveCamera(
+                70, window.innerWidth / window.innerHeight, 0.25, 300);
+
+            camera.position.set(6, 5, 9);
+
+            // Lights
+            scene.add(new THREE.AmbientLight(0x726f6f));
+
+            var spotLight = new THREE.SpotLight(0xffffff);
+            spotLight.angle = Math.PI / 5;
+            spotLight.penumbra = 0.2;
+            spotLight.position.set(9, 15, 9);
+            spotLight.castShadow = true;
+            spotLight.shadow.camera.near = 3;
+            spotLight.shadow.camera.far = 10;
+
+            spotLight.shadow.mapSize.width = 1024;
+            spotLight.shadow.mapSize.height = 1024;
+            scene.add(spotLight);
+
+            var dirLight = new THREE.DirectionalLight(0x55505a, 1);
+            dirLight.position.set(0, 10, 0);
+            dirLight.castShadow = true;
+            dirLight.shadow.camera.near = 1;
+            dirLight.shadow.camera.far = 20;
+
+            dirLight.shadow.camera.right = 10;
+            dirLight.shadow.camera.left = -10;
+            dirLight.shadow.camera.top = 10;
+            dirLight.shadow.camera.bottom = -10;
+
+            dirLight.shadow.mapSize.width = 1024;
+            dirLight.shadow.mapSize.height = 1024;
+            scene.add(dirLight);
+
+            // Geometry
+            loadCarport();
+
+            //ground
+            var ground = new THREE.Mesh(
+                new THREE.PlaneBufferGeometry(500, 500, 1, 1),
+                new THREE.MeshPhongMaterial({
+                    color: 0xa0adaf,
+                    shininess: 150
+                }));
+            ground.rotation.x = -Math.PI / 2; // rotates X/Y to X/Z
+            ground.receiveShadow = true;
+            scene.add(ground);
+
+            // Renderer
+            renderer = new THREE.WebGLRenderer();
+            renderer.shadowMap.enabled = true;
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            window.addEventListener('resize', onWindowResize, false);
+            document.body.appendChild(renderer.domElement);
+
+            // Controls
+            var controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.target.set(0, 1, 0);
+            controls.update();
+
+            // GUI
+            var gui = new dat.gui.GUI();
+            gui.add(obj, 'gableRoof').name('Tag');
+            gui.add(obj, 'shed').name('Skur');
+            gui.add(obj, 'width').min(200).max(600).step(5).name('Bredde');
+            gui.add(obj, 'depth').min(200).max(800).step(5).name('Dybde');
+            gui.add(obj, 'height').min(200).max(360).step(5).name('Højde');
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function loadCarport() {
+            var material = new THREE.MeshPhongMaterial({
+                    color: 0x8c4d27,
+                    shininess: 100,
+                    side: THREE.DoubleSide
+                })
+
+            var numberOfLegs = 8;
+            var height = obj.height/100;
+            var depth = obj.depth/100;
+            var width = obj.width/100;
+            var legsThickness = 0.15;
+            var roofThickness = 0.30;
+            var wallThickness = 0.15;
+
+            function legs() {
+                var spaceBack = 0.0;
+                var spaceFront = 0.0;
+                var spaceSides = 0.0;
+
+                var zBack = spaceBack-(depth - legsThickness) / 2;
+                var tempX = (width - legsThickness) / 2 -spaceSides;
+                var tempZ = zBack;
+                var zJump = (depth - legsThickness - spaceFront) / (numberOfLegs / 2 - 1);
+                //first left then right legs
+                for (i = 1; i <= 2; i++) {
+                    if (i == 2) tempX = -tempX;
+                    for (j = 0; j < numberOfLegs / 2; j++) { //make the leg obejcts for one side
+                        geometry = new THREE.BoxGeometry(legsThickness, height, legsThickness);
+                        object = new THREE.Mesh(geometry, material);
+                        object.position.set(tempX, (height / 2), tempZ);
+                        object.castShadow = true;
+                        object.name('leg')
+                        scene.add(object);
+                        tempZ += zJump; //move one step forward
+                    }
+                    tempZ = zBack;
+                }
+            }
+            function flatRoof() {
+                geometry = new THREE.BoxGeometry(width, roofThickness, depth);
+                object = new THREE.Mesh(geometry, material);
+                object.position.set(0, (height + roofThickness / 2), 0);
+                object.castShadow = true;
+                object.name('roof');
+                scene.add(object);
+            }
+
+            function backwall() {
+                geometry = new THREE.BoxGeometry(width, (height + roofThickness), wallThickness);
+                object = new THREE.Mesh(geometry, material);
+                object.position.set(0, ((height + roofThickness) / 2), -((depth + wallThickness) / 2));
+                object.castShadow = true;
+                object.name('wall');
+                scene.add(object);
+            }
+            legs();
+            flatRoof();
+            backwall();
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            /*
+            object.position.y = 0.8;
+            object.rotation.x = time * 0.5;
+            object.rotation.y = time * 0.2;
+            object.scale.setScalar(Math.cos(time) * 0.125 + 0.875);
+			*/
+            renderer.render(scene, camera);
+        }
+
+        function render() {
+            requestAnimationFrame(animate);
+
+            renderer.render(scene, camera);
+        }
+
+        init();
+        animate();
+    </script>
+
+</body>
+
+</html>
