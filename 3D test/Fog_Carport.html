@@ -144,7 +144,7 @@
                         object = new THREE.Mesh(geometry, material);
                         object.position.set(tempX, (height / 2), tempZ);
                         object.castShadow = true;
-                        object.name('leg')
+                        object.name = "leg";
                         scene.add(object);
                         tempZ += zJump; //move one step forward
                     }
@@ -156,7 +156,7 @@
                 object = new THREE.Mesh(geometry, material);
                 object.position.set(0, (height + roofThickness / 2), 0);
                 object.castShadow = true;
-                object.name('roof');
+                object.name = "roof";
                 scene.add(object);
             }
 
@@ -165,7 +165,7 @@
                 object = new THREE.Mesh(geometry, material);
                 object.position.set(0, ((height + roofThickness) / 2), -((depth + wallThickness) / 2));
                 object.castShadow = true;
-                object.name('wall');
+                object.name = "wall";
                 scene.add(object);
             }
             legs();
