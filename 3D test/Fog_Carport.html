@@ -42,10 +42,10 @@
             // Lights
             scene.add(new THREE.AmbientLight(0x726f6f));
 
-            var spotLight = new THREE.SpotLight(0xffffff);
-            spotLight.angle = Math.PI / 5;
-            spotLight.penumbra = 0.2;
-            spotLight.position.set(9, 15, 9);
+            var spotLight = new THREE.SpotLight(0xffffff); 
+            spotLight.angle = Math.PI / 5;  //how wide the angle of the light is, too wide and the shadows gets blurry 
+            spotLight.penumbra = 0.2;   //how sharp edges on the light is
+            spotLight.position.set(9, 15, 9);   //position of the light
             spotLight.castShadow = true;
             spotLight.shadow.camera.near = 3;
             spotLight.shadow.camera.far = 10;
@@ -119,44 +119,50 @@
                     side: THREE.DoubleSide
                 })
 
-            var numberOfLegs = 8;
+            var numberOfLegs = 8; //needs a function to calc this!!!!
+
+            //gets the dimentions from the GUI
             var height = obj.height/100;
             var depth = obj.depth/100;
             var width = obj.width/100;
+
+            //preset dimentions of sizes
             var legsThickness = 0.15;
             var roofThickness = 0.30;
             var wallThickness = 0.15;
 
             function legs() {
+                //to offset legs in the 3 places
                 var spaceBack = 0.0;
                 var spaceFront = 0.0;
                 var spaceSides = 0.0;
 
-                var zBack = spaceBack-(depth - legsThickness) / 2;
-                var tempX = (width - legsThickness) / 2 -spaceSides;
-                var tempZ = zBack;
-                var zJump = (depth - legsThickness - spaceFront) / (numberOfLegs / 2 - 1);
-                //first left then right legs
-                for (i = 1; i <= 2; i++) {
-                    if (i == 2) tempX = -tempX;
+                var zBack = spaceBack-(depth - legsThickness) / 2;                              //Finds the z akse 
+                var tempX = (width - legsThickness) / 2 -spaceSides;                            //sets the temp x for the current 
+                var tempZ = zBack;                                                              //sets the temp z
+                var zJump = (depth - legsThickness - spaceFront) / (numberOfLegs / 2 - 1);      //calculates spaces between each leg
+                
+                for (i = 1; i <= 2; i++) {  //loop to place the 2 rows of legs
                     for (j = 0; j < numberOfLegs / 2; j++) { //make the leg obejcts for one side
                         geometry = new THREE.BoxGeometry(legsThickness, height, legsThickness);
                         object = new THREE.Mesh(geometry, material);
                         object.position.set(tempX, (height / 2), tempZ);
                         object.castShadow = true;
-                        object.name = "leg";
+                        object.name = "leg";    //naming to find and remove again later
                         scene.add(object);
                         tempZ += zJump; //move one step forward
                     }
-                    tempZ = zBack;
+                    tempZ = zBack;  //resets z akse to the back again
+                    tempX = -tempX; //moves to the oppisite side to place legs
                 }
             }
+
             function flatRoof() {
                 geometry = new THREE.BoxGeometry(width, roofThickness, depth);
                 object = new THREE.Mesh(geometry, material);
                 object.position.set(0, (height + roofThickness / 2), 0);
                 object.castShadow = true;
-                object.name = "roof";
+                object.name = "roof";    //naming to find and remove again later
                 scene.add(object);
             }
 
@@ -165,7 +171,7 @@
                 object = new THREE.Mesh(geometry, material);
                 object.position.set(0, ((height + roofThickness) / 2), -((depth + wallThickness) / 2));
                 object.castShadow = true;
-                object.name = "wall";
+                object.name = "wall";    //naming to find and remove again later
                 scene.add(object);
             }
             legs();
