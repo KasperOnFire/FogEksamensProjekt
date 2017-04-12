@@ -1,3 +1,11 @@
+/* General styling for all pages. Individual changes
+for pages should be in a seperate css.
+Please follow no id rules, as id is reserved for
+javascript.
+-KRB
+*/
+
+
 /* Fonts */
 
 @font-face {
@@ -18,12 +26,15 @@
 
 /* end fonts */
 
+
+/* Main boxes, general layout */
+
 .main-div {
     width: 60%;
     height: fit-content;
     margin: auto;
     font-family: antonio;
-    background-color: rgba(0,0,0,0.2);
+    background-color: rgba(0, 0, 0, 0.2);
     text-align: center;
     align-content: center;
     padding: 2% 1% 5% 1%;
@@ -51,8 +62,11 @@
 
 .main-content {
     align-content: center;
-
 }
+
 form {
     margin: 10px;
 }
+
+
+/* end main boxes */
