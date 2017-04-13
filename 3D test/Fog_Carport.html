@@ -30,8 +30,6 @@
                 depth: 500,
                 height: 360
             };
-        var tempGuiItem = clone(guiItem);
-
 
         function init() {
             scene = new THREE.Scene();
@@ -100,11 +98,11 @@
 
             // GUI
             var gui = new dat.gui.GUI();
-            gui.add(guiItem, 'gableRoof').name('Tag');
-            gui.add(guiItem, 'shed').name('Skur');
-            gui.add(guiItem, 'width').min(200).max(750).step(5).name('Bredde');
-            gui.add(guiItem, 'depth').min(200).max(800).step(5).name('Dybde');
-            gui.add(guiItem, 'height').min(200).max(360).step(5).name('Højde');
+            gui.add(guiItem, 'gableRoof').name('Tag').onChange(function (){rerender()});
+            gui.add(guiItem, 'shed').name('Skur').onChange(function (){rerender()});
+            gui.add(guiItem, 'width').min(200).max(750).step(5).name('Bredde').onChange(function (){rerender()});
+            gui.add(guiItem, 'depth').min(200).max(800).step(5).name('Dybde').onChange(function (){rerender()});
+            gui.add(guiItem, 'height').min(200).max(360).step(5).name('Højde').onChange(function (){rerender()});
         }
 
         function onWindowResize() {
@@ -141,13 +139,11 @@
                 }
             }
 
-            
-
             function legs() {
                 //to offset legs in the 3 places
-                var spaceBack = 0.0;
-                var spaceFront = 0.0;
-                var spaceSides = 0.0;
+                var spaceBack = 0.15;
+                var spaceFront = 0.15;
+                var spaceSides = 0.15;
 
                 var zBack = spaceBack-(depth - legsThickness) / 2;                                      //Finds the z akse 
                 var tempX = (width - legsThickness) / 2 -spaceSides;                                    //sets the temp x for the current 
@@ -200,56 +196,21 @@
            while(scene.getObjectByName("leg") != null){
                scene.remove(scene.getObjectByName("leg"));
            }
-
         }
 
-        // temp function to deep copy test
-        function clone(obj) { 
-            var clone = {};
-            clone.prototype = obj.prototype;
-            for (property in obj) {
-                clone[property] = obj[property];
-            } 
-            return clone;
-        }
-
-        //test if to rerender
         function rerender(){
-            /*
-            for (property in guiItem){
-                if(tempGuiItem.property != null){
-                    continue;
-                } else {
-                    return false;
-                }
-            }*/
-            if(JSON.stringify(tempGuiItem) === JSON.stringify(guiItem)){
-                return false;
-            }
-            return true;
-        }
-
-
-        function animate() {
-            requestAnimationFrame(animate);
-
-            if(rerender()){
-                removeCarport();
-                loadCarport();
-                tempGuiItem = clone(guiItem);
-            }
-
-            renderer.render(scene, camera);
+            removeCarport();
+            loadCarport();
         }
 
         function render() {
-            requestAnimationFrame(animate);
+            requestAnimationFrame(render);
 
             renderer.render(scene, camera);
         }
 
         init();
-        animate();
+        render();
     </script>
 
 </body>
