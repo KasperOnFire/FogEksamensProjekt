@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import User.*;
 
 public class DataAccessObjectImpl implements DataAccessObject {
 
@@ -16,6 +17,15 @@ public class DataAccessObjectImpl implements DataAccessObject {
         this.dbcon = new DBConnector();
     }
 
+    public User getUserByUsername(String username){
+        
+        return null;
+    }
+    
+    public boolean createUser(String username, String password){
+        return false;
+    }
+    
     public int getInt(String var, String table, String term, String termName) {
         String sql = "select ? from ? where ?=?";
         try {
