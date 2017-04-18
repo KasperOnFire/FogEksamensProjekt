@@ -1,5 +1,18 @@
 /* Custom styling for the manage.jsp page */
 
 table{
-    placeholder;
+    margin: auto;
+    width: 100%;
+}
+
+thead{
+    font-size: 30px;
+}
+tbody{
+    font-size: 26px;
+
+}
+th{
+    padding: 5px 10px 5px 10px;
+    align: center;
 }
