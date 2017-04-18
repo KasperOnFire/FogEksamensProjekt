@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import Draw.Draw2D;
+import Backend.MaterialList;
 import java.io.ByteArrayOutputStream;
 
 @WebServlet(name = "ImageServlet", urlPatterns = {"/ImageServlet"})
@@ -55,7 +56,13 @@ public class ImageServlet extends HttpServlet {
         depthInt = Integer.valueOf(depthString);
 
         Draw2D d2d = new Draw2D();
-
+        MaterialList ml = new MaterialList();
+        
+        ml.calcMaterialList(depthInt, widthInt);
+        int roundedPrice = ml.totalPriceRounded();
+        
+        request.getSession().setAttribute("roundedPrice", roundedPrice);
+        
         ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
         ImageIO.write(d2d.drawSide(heightInt, depthInt), "png", baos1);
         baos1.flush();
