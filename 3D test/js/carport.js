@@ -75,19 +75,19 @@ function init() {
 
     // GUI
     var gui = new dat.gui.GUI();
-    gui.add(guiItem, 'gableRoof').name('Tag').onChange(function () {
+    gui.add(guiItem, 'gableRoof').name('Tag').onChange(function() {
         rerender()
     });
-    gui.add(guiItem, 'shed').name('Skur').onChange(function () {
+    gui.add(guiItem, 'shed').name('Skur').onChange(function() {
         rerender()
     });
-    gui.add(guiItem, 'width').min(200).max(750).step(5).name('Bredde').onChange(function () {
+    gui.add(guiItem, 'width').min(200).max(750).step(5).name('Bredde').onChange(function() {
         rerender()
     });
-    gui.add(guiItem, 'depth').min(200).max(800).step(5).name('Dybde').onChange(function () {
+    gui.add(guiItem, 'depth').min(200).max(800).step(5).name('Dybde').onChange(function() {
         rerender()
     });
-    gui.add(guiItem, 'height').min(200).max(360).step(5).name('Højde').onChange(function () {
+    gui.add(guiItem, 'height').min(200).max(360).step(5).name('Højde').onChange(function() {
         rerender()
     });
 }
@@ -110,6 +110,11 @@ function loadCarport() {
     var height = guiItem.height / 100;
     var depth = guiItem.depth / 100;
     var width = guiItem.width / 100;
+
+    var roofDepth = Math.sqrt(Math.pow(0.10, 2) + Math.pow(depth, 2));
+    var slope = -Math.tan(0.1 / depth) * 100;
+    console.log(slope);
+
 
     //preset dimentions of sizes
     var legsThickness = 0.15;
@@ -138,6 +143,7 @@ function loadCarport() {
         var zJump = (depth - legsThickness - spaceBack - spaceFront) / (numberOfLegs / 2 - 1); //calculates spaces between each leg
 
         for (i = 1; i <= 2; i++) { //loop to place the 2 rows of legs
+            legSupport(tempX);
             for (j = 0; j < numberOfLegs / 2; j++) { //make the leg obejcts for one side
                 geometry = new THREE.BoxGeometry(legsThickness, height, legsThickness);
                 object = new THREE.Mesh(geometry, material);
@@ -152,12 +158,26 @@ function loadCarport() {
         }
     }
 
+    function legSupport(x) {
+        geometry = new THREE.BoxGeometry(legsThickness + 0.05, 0.3, Math.sqrt(Math.pow(0.10, 2) + Math.pow(depth, 2)) - 0.20);
+        object = new THREE.Mesh(geometry, material);
+        object.position.set(x, height - 0.15, 0);
+        object.castShadow = true;
+        object.name = "roof"; //naming to find and remove again later
+        object.rotateX(this.de2ra(slope));
+        scene.add(object);
+    }
+
+    this.de2ra = function(degree) { return degree * (Math.PI / 180); }
+
+
     function flatRoof() {
-        geometry = new THREE.BoxGeometry(width, roofThickness, depth);
+        geometry = new THREE.BoxGeometry(width, roofThickness, Math.sqrt(Math.pow(0.10, 2) + Math.pow(depth, 2)));
         object = new THREE.Mesh(geometry, material);
         object.position.set(0, (height + roofThickness / 2), 0);
         object.castShadow = true;
         object.name = "roof"; //naming to find and remove again later
+        object.rotateX(this.de2ra(slope));
         scene.add(object);
     }
 
@@ -172,13 +192,17 @@ function loadCarport() {
     calcLegs();
     legs();
     flatRoof();
-    backwall();
+    //backwall();
 }
 
 function removeCarport() {
-    scene.remove(scene.getObjectByName("roof"));
+    while (scene.getObjectByName("roof") != null) {
+        scene.remove(scene.getObjectByName("roof"));
+    }
 
-    scene.remove(scene.getObjectByName("wall"));
+    while (scene.getObjectByName("wall") != null) {
+        scene.remove(scene.getObjectByName("wall"));
+    }
 
     while (scene.getObjectByName("leg") != null) {
         scene.remove(scene.getObjectByName("leg"));
