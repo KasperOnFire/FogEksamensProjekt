@@ -7,25 +7,69 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import User.*;
+import java.io.UnsupportedEncodingException;
 
 public class DataAccessObjectImpl implements DataAccessObject {
 
     private final DBConnector dbcon;
     private final Connection conn = null;
+    Password pass = new Password();
 
     public DataAccessObjectImpl() throws Exception {
         this.dbcon = new DBConnector();
     }
 
-    public User getUserByUsername(String username){
-        
-        return null;
+    public User getUserByUsername(String username) throws SQLException {
+        User user = null;
+        PreparedStatement stmt = null;
+        try {
+            stmt = dbcon.getConnection().prepareStatement("SELECT * FROM user WHERE username = (?);");
+            stmt.setString(1, username);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                int UID = rs.getInt("UID");
+                String usernameRetrieved = rs.getString("username");
+                String passwordRetrieved = rs.getString("password");
+                String saltRetrieved = rs.getString("salt");
+                String emailRetrieved = rs.getString("email");
+                String userString = rs.getString("userstring");
+
+                user = new User(UID, usernameRetrieved, passwordRetrieved, saltRetrieved, emailRetrieved, userString);
+            }
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (Exception e) {
+            }
+        }
+        return user;
     }
-    
-    public boolean createUser(String username, String password){
+
+    public boolean createUser(String username, String password, String email) throws SQLException, UnsupportedEncodingException {
+        PreparedStatement stmt = null;
+        try {
+            String passSalt = pass.getSaltString();
+            stmt = dbcon.getConnection().prepareStatement("INSERT INTO user (username, email, password, salt, userstring) VALUES (?, ?, ?, ?, ?)");
+            stmt.setString(1, username);
+            stmt.setString(2, email);
+            stmt.setString(3, pass.get_SHA_512_SecurePassword(password, passSalt));
+            stmt.setString(4, passSalt);
+            stmt.setString(5, pass.getSaltString());
+            stmt.executeUpdate();
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                    return true;
+                }
+            } catch (Exception e) {
+            }
+        }
         return false;
     }
-    
+
     public int getInt(String var, String table, String term, String termName) {
         String sql = "select ? from ? where ?=?";
         try {
@@ -44,7 +88,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
 
         return -1;
     }
-    
+
     public double getDouble(String var, String table, String term, String termName) {
         String sql = "select ? from ? where ?=?";
         try {
@@ -63,7 +107,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
 
         return -1;
     }
-    
+
     public String getString(String var, String table, String term, String termName) {
         String sql = "select ? from ? where ?=?";
         try {

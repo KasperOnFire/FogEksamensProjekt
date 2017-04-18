@@ -6,14 +6,16 @@ public class User {
     String uname;
     String hashedPW;
     String salt;
-    Float balance;
+    String email;
+    String userString;
 
-    public User(int uno, String uname, String hashedPW, String salt, Float balance) {
+    public User(int uno, String uname, String hashedPW, String salt, String email, String uString) {
         this.uno = uno;
         this.uname = uname;
         this.hashedPW = hashedPW;
         this.salt = salt;
-        this.balance = balance;
+        this.email = email;
+        this.userString = uString;
     }
 
     public int getUno() {
@@ -32,7 +34,11 @@ public class User {
         return salt;
     }
 
-    public Float getBalance() {
-        return balance;
+    public String getEmail() {
+        return email;
+    }
+
+    public String getUserString() {
+        return userString;
     }
 }

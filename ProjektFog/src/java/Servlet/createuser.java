@@ -23,16 +23,21 @@ public class createuser extends HttpServlet {
         
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        String email = request.getParameter("email");
+        
+        System.out.println("username " + username);
+        System.out.println("password " + password);
+        System.out.println("email " + email);
 
         DBConnector conn = new DBConnector();
         DataAccessObjectImpl DAO = new DataAccessObjectImpl();
 
-        if (DAO.createUser(username, password)) {
+        if (DAO.createUser(username, password, email)) {
             session.setAttribute("loggedIn", true);
             session.setAttribute("user", DAO.getUserByUsername(username));
-            request.getRequestDispatcher("/shop.jsp").forward(request, response);
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
         }else{
-            request.getRequestDispatcher("/createuser.jsp").forward(request, response);
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
         }
     }
 
