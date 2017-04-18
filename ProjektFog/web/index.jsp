@@ -6,8 +6,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Johannes Fog</title>
         <link rel="stylesheet" href="css/main.css">
-        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-              crossorigin="anonymous">
+        <link rel="stylesheet" href="css/index.css">
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     </head>
 
     <body>
@@ -19,7 +19,7 @@
             <div class="main-contet">
                 <h1>Header</h1>
                 <p>Alle mål i cm</p>
-                <form action="ImageServlet">
+                <form action="ImageServlet" class="form-group">
                     <input type="number" name="height" placeholder="Højde" step="1" min="100" required="">
                     <br>
                     <input type="number" name="depth" placeholder="Længde" step="1" min="100" required="">
