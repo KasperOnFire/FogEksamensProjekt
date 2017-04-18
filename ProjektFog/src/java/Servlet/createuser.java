@@ -1,14 +1,12 @@
 package Servlet;
 
-import Database.DBConnector;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import Database.DataAccessObjectImpl;
-import User.User;
+import User.Logic.CreateUser;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
@@ -20,24 +18,27 @@ public class createuser extends HttpServlet {
             throws ServletException, IOException, Exception {
 
         HttpSession session = request.getSession();
+        CreateUser CU = new CreateUser();
+        
         
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String email = request.getParameter("email");
-        
-        System.out.println("username " + username);
-        System.out.println("password " + password);
-        System.out.println("email " + email);
 
-        DBConnector conn = new DBConnector();
-        DataAccessObjectImpl DAO = new DataAccessObjectImpl();
-
-        if (DAO.createUser(username, password, email)) {
-            session.setAttribute("loggedIn", true);
-            session.setAttribute("user", DAO.getUserByUsername(username));
-            request.getRequestDispatcher("/index.jsp").forward(request, response);
-        }else{
-            request.getRequestDispatcher("/index.jsp").forward(request, response);
+        if (CU.checkIfAvaible(username)) {
+            if (CU.insertUser(username, password, email)) {
+                session.setAttribute("loggedIn", true);
+                session.setAttribute("user", CU.returnUser(username));
+                request.getRequestDispatcher("/index.jsp").forward(request, response);
+            } else {
+                String eMessage = "Something went wrong!";
+                request.setAttribute("errorCode", eMessage);
+                request.getRequestDispatcher("/signup.jsp").forward(request, response);
+            }
+        } else {
+            String eMessage = "Username already in use!";
+            request.setAttribute("errorCode", eMessage);
+            request.getRequestDispatcher("/signup.jsp").forward(request, response);
         }
     }
 

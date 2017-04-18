@@ -1,11 +1,6 @@
 package Servlet;
 
-import Database.DBConnector;
-import Database.DataAccessObjectImpl;
-import User.Password;
-import User.User;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -14,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import User.Logic.Login;
 
 @WebServlet(urlPatterns = {"/login"})
 public class login extends HttpServlet {
@@ -22,24 +18,19 @@ public class login extends HttpServlet {
             throws ServletException, IOException, Exception {
 
         HttpSession session = request.getSession();
-
+        Login login = new Login();
+        
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        Password pass = new Password();
-
-        DBConnector conn = new DBConnector();
-        DataAccessObjectImpl DAO = new DataAccessObjectImpl();
-
-        User user = DAO.getUserByUsername(username);
         if (session.getAttribute("loggedIn") == null) {
             session.setAttribute("loggedIn", false);
         }
 
         if (!(Boolean) session.getAttribute("loggedIn")) {
-            if (user.getHashedPW().equals(pass.get_SHA_512_SecurePassword(password, user.getSalt()))) {
+            if (login.passwordCheck(username, password)) {
                 session.setAttribute("loggedIn", true);
-                session.setAttribute("user", user);
+                session.setAttribute("user", login.returnUser(username));
                 getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);         
             }else{
                 String eMessage = "Wrong username / password";

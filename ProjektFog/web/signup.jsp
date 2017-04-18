@@ -12,6 +12,7 @@
         <title>JSP Page</title>
     </head>
     <body>
+        <p>${errorCode}</p>
         <form action="createuser">
             <p>username:</p>
             <input type="text" name="username" placeholder="Username">
