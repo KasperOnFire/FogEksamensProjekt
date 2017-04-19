@@ -1,53 +1,72 @@
+/* General styling for all pages. Individual changes
+for pages should be in a seperate css.
+Please follow no id rules, as id is reserved for
+javascript.
+-KRB
+*/
+
+
 /* Fonts */
 
 @font-face {
-	font-family: antonio;
-	src: url(../fonts/Antonio-Regular.ttf);
+    font-family: antonio;
+    src: url(../fonts/Antonio-Regular.ttf);
 }
 
 @font-face {
-	font-family: antonio-bold;
-	src: url(../fonts/Antonio-Bold.ttf);
+    font-family: antonio-bold;
+    src: url(../fonts/Antonio-Bold.ttf);
 }
 
 @font-face {
-	font-family: antonio-light;
-	src: url(../fonts/Antonio-Light.ttf)
+    font-family: antonio-light;
+    src: url(../fonts/Antonio-Light.ttf)
 }
 
 
 /* end fonts */
 
+
+/* Main boxes, general layout */
+
 .main-div {
-	width: 60%;
-	height: fit-content;
-	margin: auto;
-	font-family: antonio;
-	background-color: red;
-	align-content: center;
+    width: 60%;
+    height: fit-content;
+    margin: auto;
+    font-family: antonio;
+    background-color: rgba(0, 0, 0, 0.2);
+    text-align: center;
+    align-content: center;
+    padding: 2% 1% 5% 1%;
+    margin: 1% auto 5% auto;
+    box-shadow: inset 0px 0px 15px 5px;
 }
 
 .main-header {
-	position: static;
-	height: 126px;
-	top: 0;
-	font-family: antonio-bold;
-	display: block;
+    position: static;
+    height: 126px;
+    top: 0;
+    font-family: antonio-bold;
+    display: block;
 }
 
 .main-header h1 {
-	margin: auto;
-	width: fit-content;
+    margin: auto;
+    width: fit-content;
 }
 
 .main-header img {
-	float: left;
+    float: left;
+    box-shadow: 0px 0px 3px 0px;
 }
 
 .main-content {
-	align-content: center;
-	
+    align-content: center;
 }
+
 form {
-	margin: 10px;
+    margin: 10px;
 }
+
+
+/* end main boxes */
