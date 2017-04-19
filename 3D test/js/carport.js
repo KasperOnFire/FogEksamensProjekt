@@ -1,11 +1,27 @@
-var camera, scene, renderer, object;
+var camera, scene, renderer; //three.js 
 
+//var for the carport
+var height, depth, width, numberOfLegs;
+var roofDepth, slope;
+
+//to offset for the legs in the 3 places
+var spaceBack = 0.15;
+var spaceFront = 0.15;
+var spaceSides = 0.15;
+
+//preset dimentions of sizes
+var legsThickness = 0.15;
+var roofThickness = 0.30;
+var wallThickness = 0.15;
+
+
+//gui data object
 var guiItem = {
     gableRoof: false,
     shed: false,
     width: 500,
     depth: 500,
-    height: 360
+    height: 230
 };
 
 function init() {
@@ -75,21 +91,11 @@ function init() {
 
     // GUI
     var gui = new dat.gui.GUI();
-    gui.add(guiItem, 'gableRoof').name('Tag').onChange(function() {
-        rerender()
-    });
-    gui.add(guiItem, 'shed').name('Skur').onChange(function() {
-        rerender()
-    });
-    gui.add(guiItem, 'width').min(200).max(750).step(5).name('Bredde').onChange(function() {
-        rerender()
-    });
-    gui.add(guiItem, 'depth').min(200).max(800).step(5).name('Dybde').onChange(function() {
-        rerender()
-    });
-    gui.add(guiItem, 'height').min(200).max(360).step(5).name('Højde').onChange(function() {
-        rerender()
-    });
+    gui.add(guiItem, 'gableRoof').name('Tag').onChange(function() { rerender() });
+    gui.add(guiItem, 'shed').name('Skur').onChange(function() { rerender() });
+    gui.add(guiItem, 'width').min(200).max(750).step(5).name('Bredde').onChange(function() { rerender() });
+    gui.add(guiItem, 'depth').min(200).max(800).step(5).name('Dybde').onChange(function() { rerender() });
+    gui.add(guiItem, 'height').min(200).max(360).step(5).name('Højde').onChange(function() { rerender() });
 }
 
 function onWindowResize() {
@@ -107,21 +113,14 @@ function loadCarport() {
     })
 
     //gets the dimentions from the GUI
-    var height = guiItem.height / 100;
-    var depth = guiItem.depth / 100;
-    var width = guiItem.width / 100;
+    height = guiItem.height / 100;
+    depth = guiItem.depth / 100;
+    width = guiItem.width / 100;
 
-    var roofDepth = Math.sqrt(Math.pow(0.10, 2) + Math.pow(depth, 2));
-    var slope = -Math.tan(0.1 / depth) * 100;
-    console.log(slope);
+    roofDepth = Math.sqrt(Math.pow(0.10, 2) + Math.pow(depth, 2));
+    slope = -Math.tan(0.1 / (depth - spaceBack - spaceFront)) * 100; //slope of a flat roof
 
-
-    //preset dimentions of sizes
-    var legsThickness = 0.15;
-    var roofThickness = 0.30;
-    var wallThickness = 0.15;
-
-    var numberOfLegs;
+    console.log(slope); //sout slope for debugging
 
     function calcLegs() {
         var m2 = (width) * (depth) / 2;
@@ -132,22 +131,22 @@ function loadCarport() {
     }
 
     function legs() {
-        //to offset legs in the 3 places
-        var spaceBack = 0.15;
-        var spaceFront = 0.15;
-        var spaceSides = 0.15;
-
+        calcLegs();
         var zBack = spaceBack - (depth - legsThickness) / 2; //Finds the z axis 
         var tempX = (width - legsThickness) / 2 - spaceSides; //sets the temp x for the current 
         var tempZ = zBack; //sets the temp z
         var zJump = (depth - legsThickness - spaceBack - spaceFront) / (numberOfLegs / 2 - 1); //calculates spaces between each leg
+        var heightBumb = 0;
+        if (guiItem.gableRoof == false) {
+            heightBumb = 0.1 / (numberOfLegs / 2);
+        }
 
         for (i = 1; i <= 2; i++) { //loop to place the 2 rows of legs
             legSupport(tempX);
             for (j = 0; j < numberOfLegs / 2; j++) { //make the leg obejcts for one side
-                geometry = new THREE.BoxGeometry(legsThickness, height, legsThickness);
+                geometry = new THREE.BoxGeometry(legsThickness, height + heightBumb, legsThickness);
                 object = new THREE.Mesh(geometry, material);
-                object.position.set(tempX, (height / 2), tempZ);
+                object.position.set(tempX, ((height + heightBumb) / 2), tempZ);
                 object.castShadow = true;
                 object.name = "leg"; //naming to find and remove again later
                 scene.add(object);
@@ -159,40 +158,44 @@ function loadCarport() {
     }
 
     function legSupport(x) {
-        geometry = new THREE.BoxGeometry(legsThickness + 0.05, 0.3, Math.sqrt(Math.pow(0.10, 2) + Math.pow(depth, 2)) - 0.20);
+        geometry = new THREE.BoxGeometry(legsThickness + 0.05, 0.2, roofDepth - 0.20);
         object = new THREE.Mesh(geometry, material);
-        object.position.set(x, height - 0.15, 0);
+        object.position.set(x, height - 0.0, 0);
         object.castShadow = true;
         object.name = "roof"; //naming to find and remove again later
-        object.rotateX(this.de2ra(slope));
+        if (guiItem.gableRoof == false) { //roof = gable lay support flat
+            object.rotateX(de2ra(slope));
+        }
         scene.add(object);
     }
 
-    this.de2ra = function(degree) { return degree * (Math.PI / 180); }
-
+    function de2ra(degree) {
+        return degree * (Math.PI / 180);
+    }
 
     function flatRoof() {
-        geometry = new THREE.BoxGeometry(width, roofThickness, Math.sqrt(Math.pow(0.10, 2) + Math.pow(depth, 2)));
+        geometry = new THREE.BoxGeometry(width, roofThickness, roofDepth);
         object = new THREE.Mesh(geometry, material);
-        object.position.set(0, (height + roofThickness / 2), 0);
+        object.position.set(0, (height + roofThickness / 2) + 0.1, 0);
         object.castShadow = true;
         object.name = "roof"; //naming to find and remove again later
-        object.rotateX(this.de2ra(slope));
+        object.rotateX(de2ra(slope));
         scene.add(object);
     }
 
     function backwall() {
-        geometry = new THREE.BoxGeometry(width, (height + roofThickness), wallThickness);
+        geometry = new THREE.BoxGeometry(width, (height + roofThickness), wallThickness + 2);
         object = new THREE.Mesh(geometry, material);
-        object.position.set(0, ((height + roofThickness) / 2), -((depth + wallThickness) / 2));
+        object.position.set(0, ((height + roofThickness) / 2), -((depth + wallThickness) / 2) - 1);
         object.castShadow = true;
         object.name = "wall"; //naming to find and remove again later
         scene.add(object);
     }
-    calcLegs();
     legs();
     flatRoof();
-    //backwall();
+    if (guiItem.shed == true) {
+        backwall();
+    }
 }
 
 function removeCarport() {
