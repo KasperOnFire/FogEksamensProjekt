@@ -47,6 +47,59 @@ public class DataAccessObjectImpl implements DataAccessObject {
         return user;
     }
 
+    public AdminUser getAdminByUsername(String username) throws SQLException {
+        AdminUser user = null;
+        PreparedStatement stmt = null;
+        try {
+            stmt = dbcon.getConnection().prepareStatement("SELECT * FROM adminuser WHERE username = (?);");
+            stmt.setString(1, username);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                int UID = rs.getInt("UID");
+                String usernameRetrieved = rs.getString("username");
+                String passwordRetrieved = rs.getString("password");
+                String empnoRetrieved = rs.getString("empno");
+                String empnameRetrieved = rs.getString("empname");
+                String saltRetrieved = rs.getString("salt");
+                String userString = rs.getString("userstring");
+
+                user = new AdminUser(UID, usernameRetrieved, empnoRetrieved, empnameRetrieved, passwordRetrieved, saltRetrieved, userString);
+            }
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (Exception e) {
+            }
+        }
+        return user;
+    }
+
+    public boolean createAdmin(String username, String password, String empno, String empname) throws SQLException, UnsupportedEncodingException {
+        PreparedStatement stmt = null;
+        try {
+            String passSalt = pass.getSaltString();
+            stmt = dbcon.getConnection().prepareStatement("INSERT INTO adminuser (username, empno, empname, password, salt, userstring) VALUES (?, ?, ?, ?, ?, ?)");
+            stmt.setString(1, username);
+            stmt.setString(2, empno);
+            stmt.setString(3, empname);
+            stmt.setString(4, pass.get_SHA_512_SecurePassword(password, passSalt));
+            stmt.setString(5, passSalt);
+            stmt.setString(6, pass.getSaltString());
+            stmt.executeUpdate();
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                    return true;
+                }
+            } catch (Exception e) {
+            }
+        }
+        return false;
+    }
+
     public boolean createUser(String username, String password, String email) throws SQLException, UnsupportedEncodingException {
         PreparedStatement stmt = null;
         try {
