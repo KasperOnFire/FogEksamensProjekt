@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import User.Logic.Login;
+import java.util.ArrayList;
 
 @WebServlet(urlPatterns = {"/login"})
 public class login extends HttpServlet {
@@ -22,7 +23,18 @@ public class login extends HttpServlet {
         
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-
+        if(request.getParameter("adminLogin") != null){
+            System.out.println("Admin Login True");
+        }
+        
+        ArrayList<Integer> ordersArr = new ArrayList<Integer>();
+        
+        ordersArr.add(25);
+        ordersArr.add(30);
+        
+        
+        session.setAttribute("ordersPending", ordersArr);
+        
         if (session.getAttribute("loggedIn") == null) {
             session.setAttribute("loggedIn", false);
         }

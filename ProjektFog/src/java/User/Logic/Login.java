@@ -27,5 +27,9 @@ public class Login {
         }
         return false;
     }
+    
+    public boolean adminPasswordCheck(String username, String password){
+        return true;
+    }
 
 }
