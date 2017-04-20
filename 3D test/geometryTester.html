@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>geometry tester - webgl</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <style>
+        body {
+            margin: 0px;
+            background-color: #000000;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- <script src="build/three.js"></script> NOT LOCAL -->
+    <script src="https://ajax.googleapis.com/ajax/libs/threejs/r84/three.min.js"></script>
+    <script src="js/OrbitControls.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.4/dat.gui.min.js"></script>
+    <script>
+        var camera, scene, renderer, controls; //three.js
+        var geometry; 
+        //material
+        var material = new THREE.MeshPhongMaterial({
+            color: 0x8c4d27,
+            shininess: 100,
+            side: THREE.DoubleSide
+        })
+
+        //gui data object
+        var guiItem = {
+            resetCamera: function(){
+                camera.position.set(0, 5, 9);
+                controls.target.set(0, 1, 0);
+                controls.update();
+            },
+            height: 200,
+            shedWidth: 500,
+            shedDepth: 300,
+            doorPlacement: 0.00,
+            rotateDoor: false
+        };
+
+        //geom functions
+        function de2ra(degree) {
+            return degree * (Math.PI / 180);
+        }
+
+        function PrismGeometry(vertices, depth) { //function made for the gable roof
+            var shape = new THREE.Shape();
+            shape.moveTo(vertices[0].x, vertices[0].y);
+            for (var i = 1; i < vertices.length; i++) {
+                shape.lineTo(vertices[i].x, vertices[i].y);
+            }
+            shape.lineTo(vertices[0].x, vertices[0].y);
+            var settings = {
+                amount: depth,
+                bevelEnabled: false
+            };
+            var object = new THREE.ExtrudeGeometry(shape, settings);
+            return object;
+        };
+
+
+
+        function init() {
+            scene = new THREE.Scene();
+
+            camera = new THREE.PerspectiveCamera(
+                70, window.innerWidth / window.innerHeight, 0.25, 300);
+
+            camera.position.set(0, 5, 9);
+
+            // Lights
+            scene.add(new THREE.AmbientLight(0x726f6f));
+
+            var spotLight = new THREE.SpotLight(0xffffff);
+            spotLight.angle = Math.PI / 5; //how wide the angle of the light is, too wide and the shadows gets blurry 
+            spotLight.penumbra = 0.2; //how sharp edges on the light is
+            spotLight.position.set(9, 15, 9); //position of the light
+            spotLight.castShadow = true;
+            spotLight.shadow.camera.near = 3;
+            spotLight.shadow.camera.far = 10;
+
+            spotLight.shadow.mapSize.width = 1024;
+            spotLight.shadow.mapSize.height = 1024;
+            scene.add(spotLight);
+
+            var dirLight = new THREE.DirectionalLight(0x55505a, 1);
+            dirLight.position.set(0, 10, 0);
+            dirLight.castShadow = true;
+            dirLight.shadow.camera.near = 1;
+            dirLight.shadow.camera.far = 20;
+
+            dirLight.shadow.camera.right = 10;
+            dirLight.shadow.camera.left = -10;
+            dirLight.shadow.camera.top = 10;
+            dirLight.shadow.camera.bottom = -10;
+
+            dirLight.shadow.mapSize.width = 1024;
+            dirLight.shadow.mapSize.height = 1024;
+            scene.add(dirLight);
+
+            // Geometry
+            loadCarport();
+
+            //ground
+            var ground = new THREE.Mesh(
+                new THREE.PlaneBufferGeometry(500, 500, 1, 1),
+                new THREE.MeshPhongMaterial({
+                    color: 0xa0adaf,
+                    shininess: 150
+                }));
+            ground.rotation.x = -Math.PI / 2; // rotates X/Y to X/Z
+            ground.receiveShadow = true;
+            scene.add(ground);
+
+            // Renderer
+            renderer = new THREE.WebGLRenderer();
+            renderer.shadowMap.enabled = true;
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            window.addEventListener('resize', onWindowResize, false);
+            document.body.appendChild(renderer.domElement);
+
+            // Controls
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.target.set(0, 1, 0);
+            controls.update();
+
+            // GUI
+            var gui = new dat.gui.GUI();
+            gui.add(guiItem, 'resetCamera').name('Reset Kamera');
+            gui.add(guiItem, 'height').min(200).max(260).step(5).name('Højde').onChange(function () { rerender() });
+            gui.add(guiItem, 'shedWidth').min(200).max(750).step(5).name('Bredde').onChange(function () { rerender() });
+            gui.add(guiItem, 'shedDepth').min(200).max(400).step(5).name('Dybde').onChange(function () { rerender() });
+            gui.add(guiItem, 'doorPlacement').min(-0.8).max(0.8).step(0.05).name('Dør placering').onChange(function () { rerender() });
+            gui.add(guiItem, 'rotateDoor').name('Roter dør').onChange(function () { rerender() });
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function loadCarport() {
+            var width = guiItem.shedWidth / 100;
+            var height = guiItem.height / 100;
+
+            var shedDepth = guiItem.shedDepth / 100;
+
+
+            var shedHeightBack = height - 0.3;
+            var shedHeightFront = height;
+            var wallThickness = 0.02;
+            var offsetFromCenterX = wallThickness / 2 + width / 2;
+            var offsetFromCenterY = 0;
+            var offsetFromCenterZ = 0;
+
+            //side walls
+            geometry = PrismGeometry([
+                new THREE.Vector2(shedDepth / 2, 0), //bottom front  
+                new THREE.Vector2(shedDepth / 2, shedHeightFront),  //top front
+                new THREE.Vector2(-shedDepth / 2, shedHeightBack),  //top back
+                new THREE.Vector2(-shedDepth / 2, 0)  //bottom back 
+            ], wallThickness);
+
+            for (i = -1; i <= 1; i += 2) {  //to add one to each side
+                var object = new THREE.Mesh(geometry, material);
+                object.rotateY(de2ra(-90));
+                object.castShadow = true;
+                object.name = "shed"; //naming to find and remove again later
+                object.position.set(i * offsetFromCenterX, offsetFromCenterY, offsetFromCenterZ);
+                object.position.x += wallThickness / 2;   //to offset extrude så set works like any other geometry
+
+                scene.add(object);
+            }
+
+            //backwall
+            geometry = new THREE.BoxGeometry(width, shedHeightBack, wallThickness);
+            object = new THREE.Mesh(geometry, material);
+            object.position.set(0, shedHeightBack / 2, offsetFromCenterZ - shedDepth / 2 + wallThickness / 2);
+            object.castShadow = true;
+            object.name = "shed"; //naming to find and remove again later
+            scene.add(object);
+
+
+            //door
+            var doorHeight = 1.8;
+            var doorWidth = 0.7;
+            var doorThickness = 0.02;
+            var doorRotation;
+
+            if (guiItem.rotateDoor) {
+                doorRotation = 1;
+            } else {
+                doorRotation = -1;
+            }
+
+            geometry = new THREE.BoxGeometry(doorWidth, doorHeight, doorThickness);
+            object = new THREE.Mesh(geometry, material);
+            object.position.set(width / 2 * guiItem.doorPlacement, doorHeight / 2, offsetFromCenterZ + shedDepth / 2 - wallThickness / 2);
+            object.castShadow = true;
+            object.rotateY(de2ra(45 * doorRotation));
+            var doorOffset = (Math.sin(de2ra(45)) * doorWidth) / Math.sin(de2ra(90));
+            object.position.z += doorOffset / 2 /*- 0.01*/; //offset out because of the angel
+            object.name = "shed"; //naming to find and remove again later
+            scene.add(object);
+
+            //frontwall
+
+            var doorLeft;
+            if (guiItem.rotateDoor) {
+                doorLeft = width / 2 * guiItem.doorPlacement - 0.47 * doorRotation;
+            } else {
+                doorLeft = width / 2 * guiItem.doorPlacement + 0.23 * doorRotation;
+            }
+            
+            geometry = PrismGeometry([
+                new THREE.Vector2(-width / 2, shedHeightFront), //top left  
+                new THREE.Vector2(-width / 2, 0),  //bottom left
+                new THREE.Vector2(doorLeft , 0),  //door  bottom left
+                new THREE.Vector2(doorLeft, doorHeight),  //door top left 
+                new THREE.Vector2(doorLeft+doorWidth,doorHeight),  //door top right 
+                new THREE.Vector2(doorLeft+doorWidth,0),  //door bottom right 
+                new THREE.Vector2(width/2,0),  //bottom right 
+                new THREE.Vector2(width/2,height)  //top right 
+            ], wallThickness);
+            object = new THREE.Mesh(geometry, material);
+            object.position.set(0, 0, offsetFromCenterZ + shedDepth / 2 - wallThickness / 2);
+            object.position.z -= wallThickness/2;
+            object.castShadow = true;
+            object.name = "shed"; //naming to find and remove again later
+            scene.add(object);
+        }
+
+        function removeCarport() {
+            while (scene.getObjectByName("roof") != null) {
+                scene.remove(scene.getObjectByName("roof"));
+            }
+
+            while (scene.getObjectByName("shed") != null) {
+                scene.remove(scene.getObjectByName("shed"));
+            }
+
+            while (scene.getObjectByName("leg") != null) {
+                scene.remove(scene.getObjectByName("leg"));
+            }
+        }
+
+        function rerender() {
+            removeCarport();
+            loadCarport();
+        }
+
+        function render() {
+            requestAnimationFrame(render);
+
+            renderer.render(scene, camera);
+        }
+
+        init();
+        render();
+    </script>
+
+</body>
+
+</html>

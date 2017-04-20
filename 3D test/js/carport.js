@@ -30,6 +30,26 @@ var guiItem = {
     height: 230
 };
 
+//usefull geometry functions 
+function de2ra(degree) {
+    return degree * (Math.PI / 180);
+}
+
+function PrismGeometry(vertices, depth) { //function made for the gable roof
+    var shape = new THREE.Shape();
+    shape.moveTo(vertices[0].x, vertices[0].y);
+    for (var i = 1; i < vertices.length; i++) {
+        shape.lineTo(vertices[i].x, vertices[i].y);
+    }
+    shape.lineTo(vertices[0].x, vertices[0].y);
+    var settings = {
+        amount: depth,
+        bevelEnabled: false
+    };
+    var object = new THREE.ExtrudeGeometry(shape, settings);
+    return object;
+};
+
 function init() {
     scene = new THREE.Scene();
 
@@ -101,7 +121,7 @@ function init() {
     gui.add(guiItem, 'shed').name('Skur').onChange(function () { rerender() });
     gui.add(guiItem, 'width').min(200).max(750).step(5).name('Bredde').onChange(function () { rerender() });
     gui.add(guiItem, 'depth').min(200).max(800).step(5).name('Dybde').onChange(function () { rerender() });
-    gui.add(guiItem, 'height').min(200).max(360).step(5).name('Højde').onChange(function () { rerender() });
+    gui.add(guiItem, 'height').min(200).max(260).step(5).name('Højde').onChange(function () { rerender() });
 }
 
 function onWindowResize() {
@@ -160,7 +180,7 @@ function loadCarport() {
     function legSupport(x) {
         geometry = new THREE.BoxGeometry(legsThickness + 0.05, 0.2, roofDepth - 0.20);
         object = new THREE.Mesh(geometry, material);
-        object.position.set(x, height -0.1, 0);
+        object.position.set(x, height - 0.1, 0);
         object.castShadow = true;
         object.name = "roof"; //naming to find and remove again later
         if (guiItem.gableRoof == false) { //roof = gable lay support flat
@@ -168,10 +188,6 @@ function loadCarport() {
             object.rotateX(de2ra(slope));
         }
         scene.add(object);
-    }
-
-    function de2ra(degree) {
-        return degree * (Math.PI / 180);
     }
 
     function flatRoof() {
@@ -184,28 +200,12 @@ function loadCarport() {
         scene.add(object);
     }
 
-    function PrismGeometry(vertices, depth) { //function made for the gable roof
-        var shape = new THREE.Shape();
-        shape.moveTo(vertices[0].x, vertices[0].y);
-        for (var i = 1; i < vertices.length; i++) {
-            shape.lineTo(vertices[i].x, vertices[i].y);
-        }
-        shape.lineTo(vertices[0].x, vertices[0].y);
-        var settings = {
-            amount: depth,
-            bevelEnabled: false
-        };
-        var object = new THREE.ExtrudeGeometry(shape, settings);
-        return object;
-    };
-
     function gableRoof() {
-
         var geometry = PrismGeometry([
             new THREE.Vector2(0, Math.log(width)),  //top
             new THREE.Vector2(-width / 2, 0), //left corner 
             new THREE.Vector2(width / 2, 0)  //rigth corner
-            ], depth);
+        ], depth);
 
         var object = new THREE.Mesh(geometry, material);
         object.castShadow = true;
@@ -215,12 +215,12 @@ function loadCarport() {
         scene.add(object);
     }
 
-    function backwall() {
+    function shed() {
         geometry = new THREE.BoxGeometry(width, (height + roofThickness), wallThickness + 2);
         object = new THREE.Mesh(geometry, material);
         object.position.set(0, ((height + roofThickness) / 2), -((depth + wallThickness) / 2) - 1);
         object.castShadow = true;
-        object.name = "wall"; //naming to find and remove again later
+        object.name = "shed"; //naming to find and remove again later
         scene.add(object);
     }
     legs();
@@ -231,7 +231,7 @@ function loadCarport() {
         gableRoof();
     }
     if (guiItem.shed) {
-        backwall();
+        shed();
     }
 }
 
@@ -240,8 +240,8 @@ function removeCarport() {
         scene.remove(scene.getObjectByName("roof"));
     }
 
-    while (scene.getObjectByName("wall") != null) {
-        scene.remove(scene.getObjectByName("wall"));
+    while (scene.getObjectByName("shed") != null) {
+        scene.remove(scene.getObjectByName("shed"));
     }
 
     while (scene.getObjectByName("leg") != null) {
