@@ -14,10 +14,16 @@ var legsThickness = 0.15;
 var roofThickness = 0.30;
 var wallThickness = 0.15;
 
+//material
+var material = new THREE.MeshPhongMaterial({
+    color: 0x8c4d27,
+    shininess: 100,
+    side: THREE.DoubleSide
+})
 
 //gui data object
 var guiItem = {
-    gableRoof: false,
+    gableRoof: true,
     shed: false,
     width: 500,
     depth: 500,
@@ -91,11 +97,11 @@ function init() {
 
     // GUI
     var gui = new dat.gui.GUI();
-    gui.add(guiItem, 'gableRoof').name('Tag').onChange(function() { rerender() });
-    gui.add(guiItem, 'shed').name('Skur').onChange(function() { rerender() });
-    gui.add(guiItem, 'width').min(200).max(750).step(5).name('Bredde').onChange(function() { rerender() });
-    gui.add(guiItem, 'depth').min(200).max(800).step(5).name('Dybde').onChange(function() { rerender() });
-    gui.add(guiItem, 'height').min(200).max(360).step(5).name('Højde').onChange(function() { rerender() });
+    gui.add(guiItem, 'gableRoof').name('Tag').onChange(function () { rerender() });
+    gui.add(guiItem, 'shed').name('Skur').onChange(function () { rerender() });
+    gui.add(guiItem, 'width').min(200).max(750).step(5).name('Bredde').onChange(function () { rerender() });
+    gui.add(guiItem, 'depth').min(200).max(800).step(5).name('Dybde').onChange(function () { rerender() });
+    gui.add(guiItem, 'height').min(200).max(360).step(5).name('Højde').onChange(function () { rerender() });
 }
 
 function onWindowResize() {
@@ -106,12 +112,6 @@ function onWindowResize() {
 }
 
 function loadCarport() {
-    var material = new THREE.MeshPhongMaterial({
-        color: 0x8c4d27,
-        shininess: 100,
-        side: THREE.DoubleSide
-    })
-
     //gets the dimentions from the GUI
     height = guiItem.height / 100;
     depth = guiItem.depth / 100;
@@ -120,7 +120,7 @@ function loadCarport() {
     roofDepth = Math.sqrt(Math.pow(0.10, 2) + Math.pow(depth, 2));
     slope = -Math.tan(0.1 / (depth - spaceBack - spaceFront)) * 100; //slope of a flat roof
 
-    console.log(slope); //sout slope for debugging
+    //console.log(slope); //sout slope for debugging
 
     function calcLegs() {
         var m2 = (width) * (depth) / 2;
@@ -160,10 +160,11 @@ function loadCarport() {
     function legSupport(x) {
         geometry = new THREE.BoxGeometry(legsThickness + 0.05, 0.2, roofDepth - 0.20);
         object = new THREE.Mesh(geometry, material);
-        object.position.set(x, height - 0.0, 0);
+        object.position.set(x, height -0.1, 0);
         object.castShadow = true;
         object.name = "roof"; //naming to find and remove again later
         if (guiItem.gableRoof == false) { //roof = gable lay support flat
+            object.position.y += 0.1;
             object.rotateX(de2ra(slope));
         }
         scene.add(object);
@@ -183,6 +184,37 @@ function loadCarport() {
         scene.add(object);
     }
 
+    function PrismGeometry(vertices, depth) { //function made for the gable roof
+        var shape = new THREE.Shape();
+        shape.moveTo(vertices[0].x, vertices[0].y);
+        for (var i = 1; i < vertices.length; i++) {
+            shape.lineTo(vertices[i].x, vertices[i].y);
+        }
+        shape.lineTo(vertices[0].x, vertices[0].y);
+        var settings = {
+            amount: depth,
+            bevelEnabled: false
+        };
+        var object = new THREE.ExtrudeGeometry(shape, settings);
+        return object;
+    };
+
+    function gableRoof() {
+        
+        var geometry = PrismGeometry([
+            new THREE.Vector2(0, width/2),  //top
+            new THREE.Vector2(-width / 2, 0), //left corner 
+            new THREE.Vector2(width / 2, 0)  //rigth corner
+            ], depth);
+
+        var object = new THREE.Mesh(geometry, material);
+        object.castShadow = true;
+        object.name = "roof"; //naming to find and remove again later
+        object.position.set(0, height, -depth / 2);
+
+        scene.add(object);
+    }
+
     function backwall() {
         geometry = new THREE.BoxGeometry(width, (height + roofThickness), wallThickness + 2);
         object = new THREE.Mesh(geometry, material);
@@ -192,8 +224,13 @@ function loadCarport() {
         scene.add(object);
     }
     legs();
-    flatRoof();
-    if (guiItem.shed == true) {
+
+    if (!guiItem.gableRoof) {
+        flatRoof();
+    } else {
+        gableRoof();
+    }
+    if (guiItem.shed) {
         backwall();
     }
 }
