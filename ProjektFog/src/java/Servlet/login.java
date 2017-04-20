@@ -24,6 +24,8 @@ public class login extends HttpServlet {
         ArrayList<Integer> ordersArr = new ArrayList<Integer>();
         ordersArr.add(25);
         ordersArr.add(30);
+        ordersArr.get(0);
+        
         session.setAttribute("ordersPending", ordersArr);
 
         String username = request.getParameter("username");
@@ -59,7 +61,8 @@ public class login extends HttpServlet {
                     session.setAttribute("adminLoggedIn", true);
                     session.setAttribute("adminUser", login.returnAdminUser(username));
                     getServletContext().getRequestDispatcher("/manage.jsp").forward(request, response);
-                }else{
+                }else{//Wrong password
+                    session.setAttribute("adminLoggedIn", false);
                     getServletContext().getRequestDispatcher("/adminpanel.jsp").forward(request, response);
                 }
             }else{

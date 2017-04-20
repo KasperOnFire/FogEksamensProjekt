@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -30,13 +31,15 @@
                             <th>3D</th>
                         </tr></thead>
                     <tbody> <!-- c:out her til data fra db -->
-                        <tr>
-                            <td>1</td>
-                            <td>blabla</td>
-                            <td>Link eller andet</td>
-                            <td><a href="nothing here" class="btn btn-info">2d tegning</a></td>
-                            <td><a href="nothing here" class="btn btn-info">3d render</a></td>
-                        </tr>
+                        <c:forEach items="${ordersPending}" var="a">
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><a href="#" class="btn btn-info">2D tegning</a></td>
+                                <td><a href="#" class="btn btn-info">3D Render</a></td>
+                            </tr>
+                        </c:forEach>
                     </tbody>
                 </table>
             </div>
