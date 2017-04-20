@@ -200,9 +200,9 @@ function loadCarport() {
     };
 
     function gableRoof() {
-        
+
         var geometry = PrismGeometry([
-            new THREE.Vector2(0, width/2),  //top
+            new THREE.Vector2(0, Math.log(width)),  //top
             new THREE.Vector2(-width / 2, 0), //left corner 
             new THREE.Vector2(width / 2, 0)  //rigth corner
             ], depth);
