@@ -33,12 +33,12 @@ var material = new THREE.MeshPhongMaterial({
 //gui data object
 var guiItem = {
     resetCamera: function () {
-        camera.position.set(0, 5, 9);
+        camera.position.set(6, 5, 9);
         controls.target.set(0, 1, 0);
         controls.update();
     },
-    gableRoof: false,
-    shed: false,
+    gableRoof: true,
+    shed: true,
     width: 500,
     depth: 500,
     height: 230,
@@ -204,7 +204,10 @@ function loadCarport() {
     depth = guiItem.depth / 100;
     width = guiItem.width / 100;
     var shedDepth = guiShed.shedDepth / 100;
-        
+    var totalDepth = ((guiItem.shed) ? depth + shedDepth : depth);
+
+    var caportCenterOffsetZ = ((guiItem.shed) ? (totalDepth - depth) / 2 : 0);
+    
 
     roofDepth = (
         (!guiItem.gableRoof) ?
@@ -227,16 +230,17 @@ function loadCarport() {
 
     function legs() {
         calcLegs();
-        var zBack = spaceBack - (depth - legsThickness) / 2; //Finds the z axis 
+        var zBack = (
+            (guiItem.shed) ?
+                spaceBack - (depth - legsThickness) / 2 + shedDepth / 2 :
+                spaceBack - (depth - legsThickness) / 2
+        ); //Finds the z axis ##skal ses på igen 
         var tempX = (width - legsThickness) /
             2 - spaceSides; //sets the temp x for the current 
         var tempZ = zBack; //sets the temp z
         var zJump = (depth - legsThickness - spaceBack - spaceFront) /
             (numberOfLegs / 2 - 1); //calculates spaces between each leg
-        var heightBumb = 0;
-        if (guiItem.gableRoof == false) {
-            heightBumb = 0.1 / (numberOfLegs / 2);
-        }
+        var heightBumb = ((!guiItem.gableRoof) ? 0.1 / (numberOfLegs / 2) : 0);
 
         for (i = 1; i <= 2; i++) { //loop to place the 2 rows of legs
             legSupport(tempX);
@@ -269,7 +273,7 @@ function loadCarport() {
             roofDepth - 0.20
         );
         object = new THREE.Mesh(geometry, material);
-        object.position.set(x, height - 0.1, 0);
+        object.position.set(x, height - 0.1, caportCenterOffsetZ);
         object.castShadow = true;
         object.name = "roof"; //naming to find and remove again later
         if (guiItem.gableRoof == false) { //roof = gable lay support flat
@@ -289,7 +293,7 @@ function loadCarport() {
         object.position.set(
             0,
             (height + roofThickness / 2) + 0.1,
-            0
+            caportCenterOffsetZ
         );
         object.castShadow = true;
         object.name = "roof"; //naming to find and remove again later
@@ -315,13 +319,15 @@ function loadCarport() {
 
     function shed() {
         var shedHeightDiference = 0.3; //needs to be calculated from slope on roof or something
+        
+        //var offsetFromCenterZ = -(depth + shedDepth) / 2;
+        var offsetFromCenterZ = caportCenterOffsetZ - (totalDepth)/2;
         var shedHeightBack = (
             (guiItem.gableRoof) ?
                 height :
                 height - shedHeightDiference
         );
         var shedHeightFront = height;
-        var offsetFromCenterZ = -(depth + shedDepth) / 2;
         var doorRotation = ((guiShed.rotateDoor) ? 1 : -1);
         var doorLeft = (
             (guiShed.rotateDoor) ?
