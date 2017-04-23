@@ -318,7 +318,7 @@ function loadCarport() {
 
     function gableRoof() {
         var _depth = ((guiItem.shed) ? depth + shedDepth : depth);
-        geometry = PrismGeometry([
+        var geometry = PrismGeometry([
             new THREE.Vector2(0, Math.log(width)), //top
             new THREE.Vector2(-width / 2, 0), //left corner 
             new THREE.Vector2(width / 2, 0) //rigth corner

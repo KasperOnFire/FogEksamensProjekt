@@ -15,12 +15,9 @@
 </head>
 
 <body>
-    <script src="build/three.js"></script>
-    <script src="js/controls/OrbitControls.js"></script>
-
-    <script src="js/libs/stats.min.js"></script>
-
-    <script src="js/libs/dat.gui.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/threejs/r84/three.min.js"></script>
+    <script src="js/OrbitControls.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.4/dat.gui.min.js"></script>
     <script type="text/javascript">
         /*
         var obj = {
@@ -37,8 +34,9 @@
         gui.add(obj, 'width').min(200).max(600).step(5).name('Bredde');
         gui.add(obj, 'depth').min(200).max(800).step(5).name('Dybde');
         gui.add(obj, 'height').min(200).max(360).step(5).name('Højde');
-        */        
-        
+        */
+        var gui = new dat.gui.GUI();
+
         var obj = {
             message: 'Hello World',
             displayOutline: false,
@@ -49,14 +47,30 @@
             growthSpeed: 0.2,
             type: 'three',
             explode: function () {
-            alert('Bang!');
+                alert('Bang!');
             },
             color0: "#ffae23", // CSS string
-            color1: [ 0, 128, 255 ], // RGB array
-            color2: [ 0, 128, 255, 0.3 ], // RGB with alpha
-            color3: { h: 350, s: 0.9, v: 0.3 } // Hue, saturation, value
+            color1: [0, 128, 255], // RGB array
+            color2: [0, 128, 255, 0.3], // RGB with alpha
+            color3: { h: 350, s: 0.9, v: 0.3 }, // Hue, saturation, value
+            removeFolder: function () {
+                gui.removeFolder('Colors');
+            }
         };
-        var gui = new dat.gui.GUI();
+        
+        dat.GUI.prototype.removeFolder = function (name) {
+            var folder = this.__folders[name];
+            if (!folder) {
+                return;
+            }
+            folder.close();
+            this.__ul.removeChild(folder.domElement.parentNode);
+            delete this.__folders[name];
+            this.onResize();
+        }
+
+
+
         //gui.remember(obj);
         gui.add(obj, 'message');
         gui.add(obj, 'displayOutline');
@@ -64,9 +78,10 @@
         gui.add(obj, 'maxSize').min(-10).max(10).step(0.25);
         gui.add(obj, 'height').step(5); // Increment amount
         // Choose from accepted values
-        gui.add(obj, 'type', [ 'one', 'two', 'three' ] );
+        gui.add(obj, 'type', ['one', 'two', 'three']);
         // Choose from named values
-        gui.add(obj, 'speed', { Stopped: 0, Slow: 0.1, Fast: 5 } );
+        gui.add(obj, 'speed', { Stopped: 0, Slow: 0.1, Fast: 5 });
+        gui.add(obj, 'removeFolder');
         var f1 = gui.addFolder('Colors');
         f1.addColor(obj, 'color0');
         f1.addColor(obj, 'color1');
@@ -76,8 +91,7 @@
         f2.add(obj, 'noiseStrength');
         var f3 = f2.addFolder('Nested Folder');
         f3.add(obj, 'growthSpeed');
-        
-  </script>
+    </script>
 
 </body>
 
