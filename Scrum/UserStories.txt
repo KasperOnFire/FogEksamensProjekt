@@ -1,0 +1,14 @@
+______FOGS_KUNDE__________
+* Tidligere ordrer / tegninger (ved at havde et bruger panel)
+* Kunne få en tegning med mål
+* Kunne godt tænke at få noget visual af carporten
+* Design min egen carport
+* jeg vil gerne vide hvilke ting jeg skal bruge til at bygge (efter køb)
+
+
+______FOG_______
+* Skifte priser på materialer (ved et admin panel)
+* Se kunders ordrer
+* Få kundens kontakt oplysning
+* Se alle ordrer
+* Se materialer kunden skal bruge er på lager og tilgængelig
