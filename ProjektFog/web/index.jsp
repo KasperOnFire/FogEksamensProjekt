@@ -17,17 +17,23 @@
                 <h1>Design en Carport</h1>
             </div>
             <div class="main-contet">
-                <h1>Header</h1>
-                <p>Alle mål i cm</p>
+                <!--<p>Alle mål i cm</p>
                 <form action="ImageServlet" class="form-group">
                     <input type="number" name="height" placeholder="Højde" step="1" min="100" required="">
-                    <br>
-                    <input type="number" name="depth" placeholder="Længde" step="1" min="100" required="">
-                    <br>
-                    <input type="number" name="width" placeholder="Bredde" step="1" min="100" required="">
-                    <br>
-                    <input type="submit">
-                </form>
+                     <br>
+                     <input type="number" name="depth" placeholder="Længde" step="1" min="100" required="">
+                     <br>
+                     <input type="number" name="width" placeholder="Bredde" step="1" min="100" required="">
+                     <br>
+                     <input type="submit"> 
+                    
+                 </form>-->
+                <a href="Fog_Carport.html" class="link-button">Design din carport!</a>
+                <div class="img-display">
+                    <img src="img/fog.png"/> 
+                    <img src="img/fog.png"/>
+                    <img src="img/fog.png"/>
+                </div>
             </div>
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
