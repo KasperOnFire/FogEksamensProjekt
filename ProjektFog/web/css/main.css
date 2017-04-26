@@ -53,6 +53,8 @@ javascript.
 .main-header h1 {
     margin: auto;
     width: fit-content;
+    padding: 1em;
+
 }
 
 .main-header img {
