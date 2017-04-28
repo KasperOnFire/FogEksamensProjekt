@@ -10,7 +10,7 @@ function CarportObjectCalc(objectMaker) {
     var doorWidth = 0.7;
     var doorHeight = 1.8;
 
-    var slope = 0;
+    var slope = 0; //slope of a flat roof
 
     //calced form guiObjects
     //going to get mesurements from the first pull
@@ -62,15 +62,23 @@ function CarportObjectCalc(objectMaker) {
         shed.rotateDoor = object.guiShed.rotateDoor;
     }
 
-    function position(x, y, z) {
+    function Position(x, y, z) {
         return {
             x: x,
             y: y,
             z: z
         }
     }
+
+    function Vector2(x, y) {
+        return {
+            x: x,
+            y: y
+        }
+    }
+
     function buildCarport() {
-        //calcSlope();
+        calcSlope();
         if (roof.gable) {
             gableRoof();
         } else {
@@ -86,24 +94,23 @@ function CarportObjectCalc(objectMaker) {
     function legs() {
         numberOfLegs = calcLegs();
 
-        var zBack = roof.overhang.back - (carport.depth - legsThickness) / 2;
-        var tempX = (carport.width - legsThickness) /
-            2 - roof.overhang.sides; //sets the temp x for the current  
+        //var zBack = -(carport.depth - legsThickness) / 2;
+        var zBack = ((shed.shed) ? -(carport.depth - legsThickness) / 2 + shed.depth / 2 : -(carport.depth - legsThickness) / 2);
+        var tempX = (carport.width - legsThickness) / 2; //sets the temp x for the current  
         var tempZ = zBack; //sets the temp z
-        var zJump = (carport.depth - legsThickness - roof.overhang.back - roof.overhang.front) /
+        var zJump = (carport.depth - legsThickness) /
             (numberOfLegs / 2 - 1); //calculates spaces between each leg
-        var heightBumb = ((!roof.gable) ? 0.15 / (numberOfLegs / 2) : 0);
-        //position of all legs
+        //new Position of all legs
         for (i = 1; i <= 2; i++) { //loop to place the 2 rows of legs
             for (j = 0; j < numberOfLegs / 2; j++) { //make the leg obejcts for one side
                 objectMaker.makeGeometry(
                     {
                         x: legsThickness,
-                        y: carport.height - legSupportThickness + heightBumb * j + 0.03,
+                        y: 0.05 + carport.height + calcHeightDifference(-slope, zBack + tempZ),
                         z: legsThickness
                     },
                     objectMaker.wood,
-                    position(tempX, 0, tempZ)
+                    new Position(tempX, 0, tempZ)
                 );
 
                 tempZ += zJump; //move one step forward
@@ -116,6 +123,7 @@ function CarportObjectCalc(objectMaker) {
 
     function gableRoof() {
         var _depth = ((shed.shed) ? carport.depth + shed.depth : carport.depth);
+        _depth += roof.overhang.back + roof.overhang.front;
         for (i = -1; i <= 1; i += 2) { //loop to get one on each side
             objectMaker.makeGeometry(
                 {
@@ -124,149 +132,152 @@ function CarportObjectCalc(objectMaker) {
                     z: _depth
                 },
                 objectMaker.wood,
-                position(
-                    ((carport.width - legsThickness) / 2 - roof.overhang.sides)*i,
+                new Position(
+                    ((carport.width - legsThickness) / 2) * i,
                     carport.height - legSupportThickness,
-                    0)
+                    (roof.overhang.front - roof.overhang.back) / 2)
             );
         }
+
         var geometry = objectMaker.PrismGeometry([
-            new THREE.Vector2(0, Math.log(carport.width)), //top
-            new THREE.Vector2(-carport.width / 2, 0), //left corner 
-            new THREE.Vector2(carport.width / 2, 0)], //rigth corner 
+            new Vector2(0, Math.log(carport.width)), //top
+            new Vector2(-carport.width / 2 - roof.overhang.sides, 0), //left corner 
+            new Vector2(carport.width / 2 + roof.overhang.sides, 0)], //rigth corner 
             _depth,
             'front',
             objectMaker.wood,
-            position(0, carport.height, 0)
+            new Position(0, carport.height, (roof.overhang.front - roof.overhang.back) / 2)
         );
     }
 
     function flatRoof() {
-         for (i = -1; i <= 1; i += 2) { //loop to get one on each side
+        var _depth = ((shed.shed) ? (carport.depth + shed.depth) / 2 : carport.depth / 2);
+        var _distance = ((shed.shed) ? shed.depth + roof.overhang.back : roof.overhang.back);
+        var _posY = carport.height + calcHeightDifference(slope, _distance);
+        var _front = calcHeightDifference(-slope, _depth * 2 + roof.overhang.back + roof.overhang.front);
+        for (i = -1; i <= 1; i += 2) { //loop to get one on each side
             objectMaker.PrismGeometry([
-                new THREE.Vector2(-carport.depth / 2, legSupportThickness), //top back
-                new THREE.Vector2(-carport.depth / 2, 0), //bottom back 
-                new THREE.Vector2(carport.depth / 2, 0.1), //bottom front  
-                new THREE.Vector2(carport.depth / 2, 0.1 + legSupportThickness)], //top front
+                new Vector2(- _depth - roof.overhang.back, legSupportThickness), //top back
+                new Vector2(-_depth - roof.overhang.back, 0), //bottom back 
+                new Vector2(_depth + roof.overhang.front, _front), //bottom front  
+                new Vector2(_depth + roof.overhang.front, _front + legSupportThickness)], //top front
                 legsThickness,
                 'side',
                 objectMaker.wood,
-                position(
-                    ((carport.width - legsThickness) / 2 - roof.overhang.sides)*i,
-                    carport.height - legSupportThickness,
+                new Position(
+                    ((carport.width - legsThickness) / 2) * i,
+                    _posY - legSupportThickness,
                     0)
             );
         }
         objectMaker.PrismGeometry([
-            new THREE.Vector2(-carport.depth / 2, roofThickness), //top back
-            new THREE.Vector2(-carport.depth / 2, 0), //bottom back 
-            new THREE.Vector2(carport.depth / 2, 0.1), //bottom front  
-            new THREE.Vector2(carport.depth / 2, 0.1 + roofThickness)], //top front
-            carport.width,
+            new Vector2(-_depth - roof.overhang.back, roofThickness), //top back
+            new Vector2(-_depth - roof.overhang.back, 0), //bottom back 
+            new Vector2(_depth + roof.overhang.front, _front), //bottom front  
+            new Vector2(_depth + roof.overhang.front, _front + roofThickness)], //top front
+            carport.width + roof.overhang.sides * 2,
             'side',
-            objectMaker.wood,
-            position(0, carport.height, 0)
+            objectMaker.plastic,
+            new Position(0, _posY, 0)
         );
     }
 
     function makeShed() { //change y offset later
-        calcSlope();
-        var heightDifference = -(Math.sin(THREE.Math.degToRad(slope)) * shed.depth) /
-            Math.sin(THREE.Math.degToRad(90 + slope));
-
+        var _back = carport.height + calcHeightDifference(slope, shed.depth);
+        var _front = _back + calcHeightDifference(-slope, shed.depth);
         //frontwall
         var vectors = [];
-        vectors.push(new THREE.Vector2(-carport.width / 2 + roof.overhang.sides, carport.height)); //top left
-        vectors.push(new THREE.Vector2(-carport.width / 2 + roof.overhang.sides, 0)); //bottom left 
+        vectors.push(new Vector2(-carport.width / 2, _front)); //top left
+        vectors.push(new Vector2(-carport.width / 2, 0)); //bottom left 
         if (shed.side == 'Foran') {
             doorMid = 0 + shed.doorPlacement * carport.width / 2;
             var doorLeft = doorMid - doorWidth / 2;
             var doorRight = doorMid + doorWidth / 2;
 
-            vectors.push(new THREE.Vector2(doorLeft, 0)); //door bottom left
-            vectors.push(new THREE.Vector2(doorLeft, doorHeight)); //door top left
-            vectors.push(new THREE.Vector2(doorRight, doorHeight)); //door top right
-            vectors.push(new THREE.Vector2(doorRight, 0)); //door bottom right
+            vectors.push(new Vector2(doorLeft, 0)); //door bottom left
+            vectors.push(new Vector2(doorLeft, doorHeight)); //door top left
+            vectors.push(new Vector2(doorRight, doorHeight)); //door top right
+            vectors.push(new Vector2(doorRight, 0)); //door bottom right
         }
-        vectors.push(new THREE.Vector2(carport.width / 2 - roof.overhang.sides, 0)); //bottom right  
-        vectors.push(new THREE.Vector2(carport.width / 2 - roof.overhang.sides, carport.height)); //top right
+        vectors.push(new Vector2(carport.width / 2, 0)); //bottom right  
+        vectors.push(new Vector2(carport.width / 2, _front)); //top right
         objectMaker.PrismGeometry(
             vectors,
             wallThickness,
             'front',
             objectMaker.wood,
-            position(0, 0, -carport.depth / 2 + wallThickness / 2)
+            new Position(0, 0, (-carport.depth + wallThickness + shed.depth) / 2)
         );
 
         //back
         vectors = [];
-        vectors.push(new THREE.Vector2(-carport.width / 2 + roof.overhang.sides, carport.height - heightDifference)); //top left
-        vectors.push(new THREE.Vector2(-carport.width / 2 + roof.overhang.sides, 0)); //bottom left 
+        vectors.push(new Vector2(-carport.width / 2, _back)); //top left
+        vectors.push(new Vector2(-carport.width / 2, 0)); //bottom left 
         if (shed.side == 'Bagved') {
             doorMid = 0 + shed.doorPlacement * carport.width / 2;
             var doorLeft = doorMid - doorWidth / 2;
             var doorRight = doorMid + doorWidth / 2;
 
-            vectors.push(new THREE.Vector2(doorLeft, 0)); //door bottom left
-            vectors.push(new THREE.Vector2(doorLeft, doorHeight)); //door top left
-            vectors.push(new THREE.Vector2(doorRight, doorHeight)); //door top right
-            vectors.push(new THREE.Vector2(doorRight, 0)); //door bottom right
+            vectors.push(new Vector2(doorLeft, 0)); //door bottom left
+            vectors.push(new Vector2(doorLeft, doorHeight)); //door top left
+            vectors.push(new Vector2(doorRight, doorHeight)); //door top right
+            vectors.push(new Vector2(doorRight, 0)); //door bottom right
         }
-        vectors.push(new THREE.Vector2(carport.width / 2 - roof.overhang.sides, 0)); //bottom right  
-        vectors.push(new THREE.Vector2(carport.width / 2 - roof.overhang.sides, carport.height - heightDifference)); //top right
+        vectors.push(new Vector2(carport.width / 2, 0)); //bottom right  
+        vectors.push(new Vector2(carport.width / 2, _back)); //top right
         objectMaker.PrismGeometry(
             vectors,
             wallThickness,
             'front',
             objectMaker.wood,
-            position(0, 0, -carport.depth / 2 + wallThickness / 2 - shed.depth)
+            new Position(0, 0, (-carport.depth + wallThickness + shed.depth) / 2 - shed.depth)
         );
 
         //left
         vectors = [];
-        vectors.push(new THREE.Vector2(-shed.depth / 2, carport.height - heightDifference)); //top back
-        vectors.push(new THREE.Vector2(-shed.depth / 2, 0)); //bottom back 
+        vectors.push(new Vector2(-shed.depth / 2, _back)); //top back
+        vectors.push(new Vector2(-shed.depth / 2, 0)); //bottom back 
         if (shed.side == 'Venstre') {
             doorMid = 0 + shed.doorPlacement * shed.depth / 2;
             var doorLeft = doorMid - doorWidth / 2;
             var doorRight = doorMid + doorWidth / 2;
 
-            vectors.push(new THREE.Vector2(doorLeft, 0)); //door bottom left
-            vectors.push(new THREE.Vector2(doorLeft, doorHeight)); //door top left
-            vectors.push(new THREE.Vector2(doorRight, doorHeight)); //door top right
-            vectors.push(new THREE.Vector2(doorRight, 0)); //door bottom right
+            vectors.push(new Vector2(doorLeft, 0)); //door bottom left
+            vectors.push(new Vector2(doorLeft, doorHeight)); //door top left
+            vectors.push(new Vector2(doorRight, doorHeight)); //door top right
+            vectors.push(new Vector2(doorRight, 0)); //door bottom right
         }
-        vectors.push(new THREE.Vector2(shed.depth / 2, 0)); //bottom front  
-        vectors.push(new THREE.Vector2(shed.depth / 2, carport.height)); //top front
+        vectors.push(new Vector2(shed.depth / 2, 0)); //bottom front  
+        vectors.push(new Vector2(shed.depth / 2, _back)); //top front
         objectMaker.PrismGeometry(
             vectors,
             wallThickness,
             'side',
             objectMaker.wood,
-            position(-carport.width / 2 + roof.overhang.sides + wallThickness / 2, 0, (-carport.depth - shed.depth) / 2 + wallThickness / 2)
+            new Position(-carport.width / 2 + wallThickness / 2, 0, (-carport.depth + wallThickness) / 2)
         );
         //right
         vectors = [];
-        vectors.push(new THREE.Vector2(-shed.depth / 2, carport.height - heightDifference)); //top back
-        vectors.push(new THREE.Vector2(-shed.depth / 2, 0)); //bottom back 
+        vectors.push(new Vector2(-shed.depth / 2, _back)); //top back
+        vectors.push(new Vector2(-shed.depth / 2, 0)); //bottom back 
         if (shed.side == 'Højre') {
             doorMid = 0 + shed.doorPlacement * shed.depth / 2;
             var doorLeft = doorMid - doorWidth / 2;
             var doorRight = doorMid + doorWidth / 2;
 
-            vectors.push(new THREE.Vector2(doorLeft, 0)); //door bottom left
-            vectors.push(new THREE.Vector2(doorLeft, doorHeight)); //door top left
-            vectors.push(new THREE.Vector2(doorRight, doorHeight)); //door top right
-            vectors.push(new THREE.Vector2(doorRight, 0)); //door bottom right
+            vectors.push(new Vector2(doorLeft, 0)); //door bottom left
+            vectors.push(new Vector2(doorLeft, doorHeight)); //door top left
+            vectors.push(new Vector2(doorRight, doorHeight)); //door top right
+            vectors.push(new Vector2(doorRight, 0)); //door bottom right
         }
-        vectors.push(new THREE.Vector2(shed.depth / 2, 0)); //bottom front  
-        vectors.push(new THREE.Vector2(shed.depth / 2, carport.height)); //top front
+        vectors.push(new Vector2(shed.depth / 2, 0)); //bottom front  
+        vectors.push(new Vector2(shed.depth / 2, _front)); //top front
         objectMaker.PrismGeometry(
             vectors,
             wallThickness,
             'side',
             objectMaker.wood,
-            position(carport.width / 2 - roof.overhang.sides - wallThickness / 2, 0, (-carport.depth - shed.depth) / 2 + wallThickness / 2)
+            new Position(carport.width / 2 - wallThickness / 2, 0, (-carport.depth + wallThickness) / 2)
         );
 
     }
@@ -277,6 +288,16 @@ function CarportObjectCalc(objectMaker) {
 
 
     //math
+    function degToRad(degree) {
+        return degree * (Math.PI / 180);
+    }
+
+    function calcHeightDifference(slope, distance) {
+        return (Math.sin(degToRad(slope)) * distance) / Math.sin(degToRad(90 + slope));
+    }
+
+
+
     function calcLegs() {
         var m2 = (carport.width) * (carport.depth) / 2;
         numberOfLegs = Math.ceil(m2 / 4) * 2;
@@ -291,7 +312,7 @@ function CarportObjectCalc(objectMaker) {
             (!roof.gable) ?
                 -Math.tan(0.1 / (carport.depth - roof.overhang.back - roof.overhang.front)) * 100 :
                 0
-        ); //slope of a flat roof
+        ); 
     }
 
 
