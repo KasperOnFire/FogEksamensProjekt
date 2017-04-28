@@ -194,6 +194,16 @@ function CarportObjectCalc(objectMaker) {
             var doorLeft = doorMid - doorWidth / 2;
             var doorRight = doorMid + doorWidth / 2;
 
+            //door front
+            var posX = 0;
+            var posZ = (-carport.depth + wallThickness + shed.depth) / 2;
+            if (!shed.rotateDoor) {
+                door(1, 1, posX + doorLeft, posZ);
+            } else {
+                door(-1, 1, posX + doorRight, posZ);
+            }
+
+            //door outline
             vectors.push(new Vector2(doorLeft, 0)); //door bottom left
             vectors.push(new Vector2(doorLeft, doorHeight)); //door top left
             vectors.push(new Vector2(doorRight, doorHeight)); //door top right
@@ -218,6 +228,16 @@ function CarportObjectCalc(objectMaker) {
             var doorLeft = doorMid - doorWidth / 2;
             var doorRight = doorMid + doorWidth / 2;
 
+            //door back
+            var posX = 0;
+            var posZ = (-carport.depth + wallThickness + shed.depth) / 2 - shed.depth;
+            if (!shed.rotateDoor) {
+                door(1, -1, posX + doorLeft, posZ);
+            } else {
+                door(-1, -1, posX + doorRight, posZ);
+            }
+
+            //door outline
             vectors.push(new Vector2(doorLeft, 0)); //door bottom left
             vectors.push(new Vector2(doorLeft, doorHeight)); //door top left
             vectors.push(new Vector2(doorRight, doorHeight)); //door top right
@@ -242,6 +262,16 @@ function CarportObjectCalc(objectMaker) {
             var doorLeft = doorMid - doorWidth / 2;
             var doorRight = doorMid + doorWidth / 2;
 
+            //door left
+            var posX = -carport.width / 2 + wallThickness / 2;
+            var posZ = (-carport.depth + wallThickness) / 2;
+            if (!shed.rotateDoor) {
+                door(-1, 1, posX, posZ + doorLeft);
+            } else {
+                door(-1, -1, posX, posZ + doorRight);
+            }
+
+            //door outline
             vectors.push(new Vector2(doorLeft, 0)); //door bottom left
             vectors.push(new Vector2(doorLeft, doorHeight)); //door top left
             vectors.push(new Vector2(doorRight, doorHeight)); //door top right
@@ -265,6 +295,16 @@ function CarportObjectCalc(objectMaker) {
             var doorLeft = doorMid - doorWidth / 2;
             var doorRight = doorMid + doorWidth / 2;
 
+            //door right
+            var posX = carport.width / 2 - wallThickness / 2;
+            var posZ = (-carport.depth + wallThickness) / 2;
+            if (!shed.rotateDoor) {
+                door(1, 1, posX, posZ + doorLeft);
+            } else {
+                door(1, -1, posX, posZ + doorRight);
+            }
+
+            //door outline
             vectors.push(new Vector2(doorLeft, 0)); //door bottom left
             vectors.push(new Vector2(doorLeft, doorHeight)); //door top left
             vectors.push(new Vector2(doorRight, doorHeight)); //door top right
@@ -282,9 +322,22 @@ function CarportObjectCalc(objectMaker) {
 
     }
 
-
-
-
+    function door(x, y, posX, posZ) {
+        var doorDis = (Math.sin(degToRad(45)) * doorWidth) / Math.sin(degToRad(90));
+        var _offset = 0.01;
+        var _x = doorDis * x;
+        var _y = doorDis * y;
+        objectMaker.PrismGeometry([
+            new Vector2(0, 0), //center
+            new Vector2(0.01, 0), //center 
+            new Vector2(_x, _y), //outer  
+            new Vector2(_x - _offset, _y)], //outer
+            doorHeight,
+            'top',
+            objectMaker.wood,
+            new Position(posX, 0, posZ)
+        );
+    }
 
 
     //math
@@ -312,7 +365,7 @@ function CarportObjectCalc(objectMaker) {
             (!roof.gable) ?
                 -Math.tan(0.1 / (carport.depth - roof.overhang.back - roof.overhang.front)) * 100 :
                 0
-        ); 
+        );
     }
 
 
