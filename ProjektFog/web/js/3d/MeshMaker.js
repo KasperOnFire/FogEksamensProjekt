@@ -42,8 +42,8 @@ function MeshMaker(loader) {
                 object.rotateY(THREE.Math.degToRad(-90));
                 break;
             case "top": //not tested yet
-                object.rotateY(THREE.Math.degToRad(90));
-                object.translate(0, depth / 2, 0);
+                object.rotateX(THREE.Math.degToRad(90));
+                object.translate(0, depth, 0);
                 break;
         }
         pushToCanvas(object, material, position);
