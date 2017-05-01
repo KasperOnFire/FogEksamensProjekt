@@ -43,8 +43,8 @@ public class DataReciever extends HttpServlet {
 
         Gson gson = new Gson();
         JsonHelper carport = gson.fromJson(json, JsonHelper.class);
-
-        System.out.println(carport.);
+        System.out.println(carport.getCarport().getDepth());
+        //FFS WHAT IS THIS
 
     }
 

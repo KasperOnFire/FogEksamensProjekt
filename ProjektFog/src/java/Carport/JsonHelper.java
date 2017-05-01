@@ -10,125 +10,33 @@ package Carport;
  * @author Kasper
  */
 public class JsonHelper {
-    
 
-    class guiCarport {
+    private GuiCarportType carport;
+    private GuiRoofType roof;
+    private GuiShedType shed;
 
-        private int width;
-        private int depth;
-        private int height;
-
-        public int getWidth() {
-            return width;
-        }
-
-        public void setWidth(int width) {
-            this.width = width;
-        }
-
-        public int getDepth() {
-            return depth;
-        }
-
-        public void setDepth(int depth) {
-            this.depth = depth;
-        }
-
-        public int getHeight() {
-            return height;
-        }
-
-        public void setHeight(int height) {
-            this.height = height;
-        }
-
+    public GuiCarportType getCarport() {
+        return carport;
     }
 
-    class guiRoof {
-
-        private boolean gableRoof;
-
-        class overhang {
-
-            private int sides;
-            private int front;
-            private int back;
-
-            public int getSides() {
-                return sides;
-            }
-
-            public void setSides(int sides) {
-                this.sides = sides;
-            }
-
-            public int getFront() {
-                return front;
-            }
-
-            public void setFront(int front) {
-                this.front = front;
-            }
-
-            public int getBack() {
-                return back;
-            }
-
-            public void setBack(int back) {
-                this.back = back;
-            }
-
-        }
+    public void setCarport(GuiCarportType carport) {
+        this.carport = carport;
     }
 
-    class guiShed {
+    public GuiRoofType getRoof() {
+        return roof;
+    }
 
-        private boolean shed;
-        private int depth;
-        private int doorPlacement;
-        private String side;
-        private boolean rotateDoor;
+    public void setRoof(GuiRoofType roof) {
+        this.roof = roof;
+    }
 
-        public boolean isShed() {
-            return shed;
-        }
+    public GuiShedType getShed() {
+        return shed;
+    }
 
-        public void setShed(boolean shed) {
-            this.shed = shed;
-        }
-
-        public int getDepth() {
-            return depth;
-        }
-
-        public void setDepth(int depth) {
-            this.depth = depth;
-        }
-
-        public int getDoorPlacement() {
-            return doorPlacement;
-        }
-
-        public void setDoorPlacement(int doorPlacement) {
-            this.doorPlacement = doorPlacement;
-        }
-
-        public String getSide() {
-            return side;
-        }
-
-        public void setSide(String side) {
-            this.side = side;
-        }
-
-        public boolean isRotateDoor() {
-            return rotateDoor;
-        }
-
-        public void setRotateDoor(boolean rotateDoor) {
-            this.rotateDoor = rotateDoor;
-        }
-
+    public void setShed(GuiShedType shed) {
+        this.shed = shed;
     }
 
 }
