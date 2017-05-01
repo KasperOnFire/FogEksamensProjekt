@@ -22,19 +22,7 @@
                 <p>User and admin can't be logged in at the same time!</p>
                 <a href="logout">logout</a>
             </c:when>
-            <c:when test="${AdminloggedIn == null}">
-                <form action="login">
-                    <input type="hidden" name="adminLogin" value="true">
-                    <p>username:</p>
-                    <input type="text" name="username" placeholder="Username">
-                    <p>password:</p>
-                    <input type="password" name="password" placeholder="Password">
-                    <br>
-                    <br>
-                    <input type="submit">
-                </form>
-            </c:when>
-            <c:when test="${AdminloggedIn == false}">
+            <c:when test="${AdminloggedIn == null or adminLoggedIn == false}">
                 <form action="login">
                     <input type="hidden" name="adminLogin" value="true">
                     <p>username:</p>
