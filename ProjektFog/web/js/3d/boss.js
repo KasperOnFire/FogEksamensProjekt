@@ -18,6 +18,6 @@ function sendJson() {
     var http = new XMLHttpRequest();
     var url = 'DataReciever';
     http.open("POST", url, true);
-    http.setRequestHeader("Content-type", "x-www-form-urlencode")
-    http.send(jsonData);
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+    http.send('json=' + encodeURIComponent(jsonData));
 }

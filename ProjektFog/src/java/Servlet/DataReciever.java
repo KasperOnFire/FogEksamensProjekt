@@ -5,9 +5,11 @@
  */
 package Servlet;
 
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Enumeration;
+import javax.json.JsonObject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,6 +35,12 @@ public class DataReciever extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+
+        String json = (String) request.getParameter("json");
+        System.out.println(json);
+        System.out.println("test");
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -63,17 +71,6 @@ public class DataReciever extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
 
-        HttpSession session = request.getSession();
-
-        Enumeration<String> params = request.getParameterNames();
-        System.out.println(params.hasMoreElements());
-        while (params.hasMoreElements()) {
-            String name = params.nextElement();
-            System.out.println(name);
-        }
-
-        String json = (String) request.getAttribute("jsonData");
-        System.out.println(json);
     }
 
     /**
