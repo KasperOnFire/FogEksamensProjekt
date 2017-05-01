@@ -1,4 +1,4 @@
-var svgmaker = new Svgmaker();
+var svgmaker = new SvgMaker();
 
 svgmaker.makeGeometry(
     {

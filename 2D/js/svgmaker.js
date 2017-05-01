@@ -1,9 +1,9 @@
-function Svgmaker() {
+function SvgMaker() {
     this.wood = {
-        color: '0x000000'
+        color: 'black'
     }
     this.plastic = {
-        color: '0x000000'
+        color: 'black'
     }
     this.PrismGeometry = function (vertices, depth, loadside, material, position) {
 
@@ -11,8 +11,11 @@ function Svgmaker() {
     this.makeGeometry = function (object, material, position) {
         var draw = SVG('drawing').size(500, 500)
 
-        var polygon = draw.polygon('50,50 100,100 150,150')
-        polygon.fill(material.color).move(50, 50)
-        console.log('pik')
+        var polygon = draw.polygon('50,50 50,100 150,150')
+        .fill(material.color)
+        .stroke({ width: 1 })
+        .move(50, 50);
+        
+        //var polygon = draw.polygon('0,0 100,50 50,100').fill('black').stroke({ width: 1 })
     }
 }
