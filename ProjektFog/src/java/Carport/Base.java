@@ -44,4 +44,9 @@ public class Base {
     public void setHeight(int height) {
         this.height = height;
     }
+
+    @Override
+    public String toString() {
+        return width + "x" + height + "x" + depth;
+    }
 }

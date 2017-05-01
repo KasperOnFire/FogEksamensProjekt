@@ -5,18 +5,16 @@
  */
 package Servlet;
 
+import Backend.*;
 import Carport.*;
-import JSON.*;
-import com.google.gson.*;
-import com.google.gson.reflect.*;
 import java.io.IOException;
-import java.util.*;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.json.*;
 
 /**
  *
@@ -36,33 +34,16 @@ public class DataReciever extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
 
+        HttpSession session = request.getSession();
+        DataProcessor dp = new DataProcessor();
         String json = (String) request.getParameter("json");
 
-        //Next try, like finalproject
-        JSONObject obj = new JSONObject(json);
-        //base
-        int width = obj.getJSONObject("guiCarport").getInt("width");
-        int height = obj.getJSONObject("guiCarport").getInt("height");
-        int depth = obj.getJSONObject("guiCarport").getInt("depth");
-        Base b = new Base(width, depth, height);
-        //roof
-        boolean isGable = obj.getJSONObject("guiRoof").getBoolean("gableRoof");
-        int sides = obj.getJSONObject("guiRoof").getJSONObject("overhang").getInt("sides");
-        int front = obj.getJSONObject("guiRoof").getJSONObject("overhang").getInt("front");
-        int back = obj.getJSONObject("guiRoof").getJSONObject("overhang").getInt("back");
-        Roof r = new Roof(isGable, sides, front, back);
-        //shed
-        boolean hasShed = obj.getJSONObject("guiShed").getBoolean("shed");
-        int depthShed = obj.getJSONObject("guiShed").getInt("depth");
-        int doorPlacement = obj.getJSONObject("guiShed").getInt("doorPLacement");
-        String side = obj.getJSONObject("guiShed").getString("side");
-        boolean rotateDoor = obj.getJSONObject("guiShed").getBoolean("rotateDoor");
-        Shed s = new Shed(hasShed, depthShed, doorPlacement, side, rotateDoor);
-
-        //Carport
-        Carport c = new Carport(b, r, s);
+        if (dp.parseJson(json)) {
+            //Do something if it works
+        } else {
+            //if not
+        }
 
     }
 
