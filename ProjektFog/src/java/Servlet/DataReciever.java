@@ -36,11 +36,13 @@ public class DataReciever extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-
+        
         String json = (String) request.getParameter("json");
         System.out.println(json);
-        System.out.println("test");
+        
+        JSONObject carport =
 
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
