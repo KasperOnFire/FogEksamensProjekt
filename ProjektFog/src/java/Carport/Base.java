@@ -9,7 +9,13 @@ package Carport;
  *
  * @author Kasper
  */
-public class GuiCarportType {
+public class Base {
+
+    public Base(int width, int depth, int height) {
+        this.width = width;
+        this.depth = depth;
+        this.height = height;
+    }
 
     private int width;
     private int depth;

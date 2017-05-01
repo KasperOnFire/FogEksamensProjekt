@@ -9,20 +9,28 @@ package Carport;
  *
  * @author Kasper
  */
-public class GuiShedType {
+public class Shed {
 
-    private boolean shed;
+    public Shed(boolean shed, int depth, int doorPlacement, String side, boolean rotateDoor) {
+        this.hasShed = shed;
+        this.depth = depth;
+        this.doorPlacement = doorPlacement;
+        this.side = side;
+        this.rotateDoor = rotateDoor;
+    }
+
+    private boolean hasShed;
     private int depth;
     private int doorPlacement;
     private String side;
     private boolean rotateDoor;
 
-    public boolean isShed() {
-        return shed;
+    public boolean isHasShed() {
+        return hasShed;
     }
 
-    public void setShed(boolean shed) {
-        this.shed = shed;
+    public void setHasShed(boolean hasShed) {
+        this.hasShed = hasShed;
     }
 
     public int getDepth() {

@@ -9,10 +9,16 @@ package Carport;
  *
  * @author Kasper
  */
-public class GuiRoofType {
+public class Roof {
 
-    private boolean gableRoof;
+    public Roof(boolean isGable, int sides, int front, int back) {
+        this.isGable = isGable;
+        this.sides = sides;
+        this.front = front;
+        this.back = back;
+    }
 
+    private boolean isGable;
     private int sides;
     private int front;
     private int back;
