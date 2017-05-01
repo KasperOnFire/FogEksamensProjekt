@@ -5,11 +5,11 @@
  */
 package Servlet;
 
-import com.google.gson.Gson;
+import Carport.*;
+import com.google.gson.*;
+import com.google.gson.reflect.*;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Enumeration;
-import javax.json.JsonObject;
+import java.util.*;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,16 +36,19 @@ public class DataReciever extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        
-        String json = (String) request.getParameter("json");
-        System.out.println(json);
-        
-        JSONObject carport =
 
-        
+//         Type type = new TypeToken<Map<String, String>>(){}.getType();
+////        Map<String, String> datamap = gson.fromJson(json, type);
+        String json = (String) request.getParameter("json");
+
+        Gson gson = new Gson();
+        JsonHelper carport = gson.fromJson(json, JsonHelper.class);
+
+        System.out.println(carport.);
+
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
