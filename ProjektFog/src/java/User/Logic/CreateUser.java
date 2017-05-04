@@ -14,20 +14,15 @@ public class CreateUser {
     }
 
     public boolean insertUser(String username, String password, String email) throws SQLException, UnsupportedEncodingException {
-        if(DAO.createUser(username, password, email)){
-            return true;
-        }
-        return false;
+        return DAO.createUser(username, password, email);
     }
 
     public boolean checkIfAvaible(String username) throws UnsupportedEncodingException, SQLException {
-        if (DAO.getUserByUsername(username) == null) {
-            return true;
-        }
-        return false;
+        return DAO.getUserByUsername(username) == null;
+
     }
-    
-    public User returnUser(String username) throws SQLException{
+
+    public User returnUser(String username) throws SQLException {
         return DAO.getUserByUsername(username);
     }
 

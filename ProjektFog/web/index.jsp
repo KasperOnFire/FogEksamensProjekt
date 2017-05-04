@@ -20,12 +20,12 @@
             <div class="main-content">
                 <a href="Fog_Carport.html" class="link-button">Design din carport!</a>
                 <c:choose>
-                    <c:when test="${user.User.getUname==null}">
-                        <a class="link-button-small" href="login.jsp">Gå til login!</a>
-                        <a class="link-button-small" href="signup.jsp">har du ikke en bruger? Registrer her?</a>
+                    <c:when test="${loggedIn==false}">
+                        <a class="link-button" href="login.jsp">Gå til login!</a>
+                        <a href="signup.jsp">har du ikke en bruger? Registrer her?</a>
                     </c:when>
                     <c:otherwise>
-                        <p>Logget in som:${user.User.getUname()}</p>
+                        <p>Logget in som: <c:out value="${currentUser}"></c:out></p>
                     </c:otherwise>
                 </c:choose>
                 <div class="img-display">

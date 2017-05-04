@@ -29,6 +29,7 @@ public class createuser extends HttpServlet {
             if (CU.insertUser(username, password, email)) {
                 session.setAttribute("loggedIn", true);
                 session.setAttribute("user", CU.returnUser(username));
+                session.setAttribute("currentUser", CU.returnUser(username).getUname());
                 request.getRequestDispatcher("/index.jsp").forward(request, response);
             } else {
                 String eMessage = "Something went wrong!";

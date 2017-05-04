@@ -27,9 +27,9 @@ CREATE TABLE adminuser (
 
 CREATE TABLE IF NOT EXISTS users (
     uid INT NOT NULL UNIQUE AUTO_INCREMENT,
-    uname VARCHAR(50) UNIQUE,
-    email VARCHAR(255) UNIQUE,
-    password VARCHAR(55),
+    uname VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(55) NOT NULL,
     Salt VARCHAR(45) NOT NULL,
     userstring VARCHAR(45) NOT NULL,
     carport TEXT NOT NULL,
