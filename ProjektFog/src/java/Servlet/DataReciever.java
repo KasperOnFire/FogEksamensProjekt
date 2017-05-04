@@ -38,11 +38,15 @@ public class DataReciever extends HttpServlet {
         HttpSession session = request.getSession();
         DataProcessor dp = new DataProcessor();
         String json = (String) request.getParameter("json");
+        Carport c = dp.parseJson(json);
 
-        if (dp.parseJson(json)) {
-            //Do something if it works
+        if (c != null) {
+            session.setAttribute("Carport", c);
+            if ((boolean) session.getAttribute("loggedIn") != true) {
+                
+            }
         } else {
-            //if not
+            // do something
         }
 
     }

@@ -14,20 +14,22 @@ import org.json.*;
  */
 public class DataProcessor {
 
-    //Next try, like finalproject
-    public boolean parseJson(String json) {
+    public Carport parseJson(String json) {
         JSONObject obj = new JSONObject(json);
+
         //base
         int width = obj.getJSONObject("guiCarport").getInt("width");
         int height = obj.getJSONObject("guiCarport").getInt("height");
         int depth = obj.getJSONObject("guiCarport").getInt("depth");
         Base b = new Base(width, depth, height);
+
         //roof
         boolean isGable = obj.getJSONObject("guiRoof").getBoolean("gableRoof");
         int sides = obj.getJSONObject("guiRoof").getJSONObject("overhang").getInt("sides");
         int front = obj.getJSONObject("guiRoof").getJSONObject("overhang").getInt("front");
         int back = obj.getJSONObject("guiRoof").getJSONObject("overhang").getInt("back");
         Roof r = new Roof(isGable, sides, front, back);
+
         //shed
         boolean hasShed = obj.getJSONObject("guiShed").getBoolean("shed");
         int depthShed = obj.getJSONObject("guiShed").getInt("depth");
@@ -38,7 +40,10 @@ public class DataProcessor {
 
         //Carport
         Carport c = new Carport(b, r, s);
-        System.out.println(c.getBase().toString());
-        return true;
-    } //FUCK YES DET VIRKER
+        if (c.getBase().getDepth() != 0) {
+            return c;
+        } else {
+            return null;
+        }
+    }
 }
