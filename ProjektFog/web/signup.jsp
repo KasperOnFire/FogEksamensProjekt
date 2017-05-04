@@ -19,7 +19,7 @@
             <p>password:</p>
             <input type="password" name="password" placeholder="Password">
             <p>email</p>
-            <input type="mail" name="email" placeholder="email">
+            <input type="email" name="email" placeholder="email">
             <br>
             <br>
             <input type="submit">

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -16,19 +17,19 @@
                 <img src="img/fog.png">
                 <h1>Design en Carport</h1>
             </div>
-            <div class="main-contet">
-                <!--<p>Alle mål i cm</p>
-                <form action="ImageServlet" class="form-group">
-                    <input type="number" name="height" placeholder="Højde" step="1" min="100" required="">
-                     <br>
-                     <input type="number" name="depth" placeholder="Længde" step="1" min="100" required="">
-                     <br>
-                     <input type="number" name="width" placeholder="Bredde" step="1" min="100" required="">
-                     <br>
-                     <input type="submit"> 
-                    
-                 </form>-->
+            <div class="main-content">
+
                 <a href="Fog_Carport.html" class="link-button">Design din carport!</a>
+                <c:choose>
+                    <c:when test="${user.User.getUname==null}">
+                        <a class="link-button-small" href="login.jsp">Gå til login!</a>
+                        <a class="link-button-small" href="signup.jsp">har du ikke en bruger? Registrer her?</a>
+                    </c:when>
+                    <c:otherwise>
+                        <p>Logget in som:${user.User.getUname()}</p>
+                    </c:otherwise>
+                </c:choose>
+
                 <div class="img-display">
                     <img src="img/fog.png"/> 
                     <img src="img/fog.png"/>
