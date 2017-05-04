@@ -18,7 +18,6 @@
                 <h1>Design en Carport</h1>
             </div>
             <div class="main-content">
-
                 <a href="Fog_Carport.html" class="link-button">Design din carport!</a>
                 <c:choose>
                     <c:when test="${user.User.getUname==null}">
@@ -29,7 +28,6 @@
                         <p>Logget in som:${user.User.getUname()}</p>
                     </c:otherwise>
                 </c:choose>
-
                 <div class="img-display">
                     <img src="img/fog.png"/> 
                     <img src="img/fog.png"/>
