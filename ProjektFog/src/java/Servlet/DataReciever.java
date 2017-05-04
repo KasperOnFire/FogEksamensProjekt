@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.json.*;
 
 /**
  *
@@ -34,21 +33,23 @@ public class DataReciever extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        
         HttpSession session = request.getSession();
         DataProcessor dp = new DataProcessor();
         String json = (String) request.getParameter("json");
         Carport c = dp.parseJson(json);
-
-        if (c != null) {
+        
+        if (c != null) { //Hvis det lykkedes
             session.setAttribute("Carport", c);
             if ((boolean) session.getAttribute("loggedIn") != true) {
-                
+                getServletContext().getRequestDispatcher("/signup.jsp").forward(request, response); //TODO: i det servlet der handler signup, skal der være et tjek for carport - så den kan gemmes
             }
         } else {
-            // do something
+            String userstring = (String) session.getAttribute("userString");
+            dp.saveCarportToUser(userstring, c);
+            getServletContext().getRequestDispatcher("wherever").forward(request, response);
         }
-
+        
     }
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -78,7 +79,7 @@ public class DataReciever extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-
+        
     }
 
     /**
