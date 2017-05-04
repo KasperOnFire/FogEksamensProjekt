@@ -18,9 +18,9 @@
                 <h1>Design en Carport</h1>
             </div>
             <div class="main-content">
-                <a href="Fog_Carport.html" class="link-button">Design din carport!</a>
+                <a href="carport.jsp" class="link-button">Design din carport!</a>
                 <c:choose>
-                    <c:when test="${loggedIn==false}">
+                    <c:when test="${loggedIn!=true}">
                         <a class="link-button" href="login.jsp">Gå til login!</a>
                         <a href="signup.jsp">har du ikke en bruger? Registrer her?</a>
                     </c:when>

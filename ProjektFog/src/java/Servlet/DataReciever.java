@@ -45,9 +45,9 @@ public class DataReciever extends HttpServlet {
                 String userstring = (String) session.getAttribute("userString");
                 dp.saveCarportToUser(userstring, c);
                 getServletContext().getRequestDispatcher("wherever").forward(request, response);
+            } else {
+                request.getRequestDispatcher("/signup.jsp").forward(request, response); //TODO: i det servlet der handler signup, skal der være et tjek for carport - så den kan gemmes
             }
-        } else {
-            getServletContext().getRequestDispatcher("/signup.jsp").forward(request, response); //TODO: i det servlet der handler signup, skal der være et tjek for carport - så den kan gemmes
         }
 
     }
