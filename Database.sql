@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS material (
     type VARCHAR(35) NOT NULL,
     price DOUBLE NOT NULL,
     name VARCHAR(55) NOT NULL,
-    Qoh INT,
+    qoh INT,
     size INT NOT NULL,
     PRIMARY KEY (mno)
 );
@@ -30,9 +30,9 @@ CREATE TABLE IF NOT EXISTS users (
     uname VARCHAR(50) UNIQUE NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(55) NOT NULL,
-    Salt VARCHAR(45) NOT NULL,
+    salt VARCHAR(45) NOT NULL,
     userstring VARCHAR(45) NOT NULL,
-    carport TEXT NOT NULL,
+    carport TEXT,
     PRIMARY KEY (uid)
 );
 
