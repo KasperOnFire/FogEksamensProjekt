@@ -111,7 +111,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
             stmt.setString(3, pass.get_SHA_512_SecurePassword(password, passSalt));
             stmt.setString(4, passSalt);
             stmt.setString(5, pass.getSaltString());
-            stmt.executeUpdate();
+            int i = stmt.executeUpdate();
         } finally {
             try {
                 if (stmt != null) {
