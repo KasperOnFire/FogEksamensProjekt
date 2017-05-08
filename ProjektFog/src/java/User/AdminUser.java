@@ -2,12 +2,12 @@ package User;
 
 public class AdminUser {
 
-    String uname;
-    String empno;
-    String empname;
-    String hashedPW;
-    String salt;
-    String userString;
+    private String uname;
+    private String empno;
+    private String empname;
+    private String hashedPW;
+    private String salt;
+    private String userString;
 
     public AdminUser(String uname, String empno, String empname, String hashedPW, String salt, String userString) {
         this.uname = uname;

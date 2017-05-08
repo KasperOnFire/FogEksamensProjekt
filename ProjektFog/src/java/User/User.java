@@ -2,13 +2,13 @@ package User;
 
 public class User {
 
-    int uno;
-    String uname;
-    String hashedPW;
-    String salt;
-    String email;
-    String userString;
-    String carport;
+    private int uno;
+    private String uname;
+    private String hashedPW;
+    private String salt;
+    private String email;
+    private String userString;
+    private String carport;
 
     public User(int uno, String uname, String hashedPW, String salt, String email, String uString) {
         this.uno = uno;
