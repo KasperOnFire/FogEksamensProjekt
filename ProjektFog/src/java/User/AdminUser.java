@@ -2,7 +2,6 @@ package User;
 
 public class AdminUser {
 
-    int uno;
     String uname;
     String empno;
     String empname;
@@ -10,18 +9,13 @@ public class AdminUser {
     String salt;
     String userString;
 
-    public AdminUser(int uno, String uname, String empno, String empname, String hashedPW, String salt, String userString) {
-        this.uno = uno;
+    public AdminUser(String uname, String empno, String empname, String hashedPW, String salt, String userString) {
         this.uname = uname;
         this.empno = empno;
         this.empname = empname;
         this.hashedPW = hashedPW;
         this.salt = salt;
         this.userString = userString;
-    }
-
-    public int getUno() {
-        return uno;
     }
 
     public String getUname() {

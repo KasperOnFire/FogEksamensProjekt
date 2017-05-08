@@ -56,7 +56,6 @@ public class DataAccessObjectImpl implements DataAccessObject {
             stmt.setString(1, username);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                int UID = rs.getInt("UID");
                 String usernameRetrieved = rs.getString("username");
                 String passwordRetrieved = rs.getString("password");
                 String empnoRetrieved = rs.getString("empno");
@@ -64,7 +63,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
                 String saltRetrieved = rs.getString("salt");
                 String userString = rs.getString("userstring");
 
-                user = new AdminUser(UID, usernameRetrieved, empnoRetrieved, empnameRetrieved, passwordRetrieved, saltRetrieved, userString);
+                user = new AdminUser(usernameRetrieved, empnoRetrieved, empnameRetrieved, passwordRetrieved, saltRetrieved, userString);
             }
         } finally {
             try {
