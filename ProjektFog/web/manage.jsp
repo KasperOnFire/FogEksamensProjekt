@@ -43,7 +43,13 @@
                                                 <input type="hidden" value="">
                                                 <input type="button" value="2D tegning" class="btn btn-info"> 
                                             </form>
-                                        <td><a href="#" class="btn btn-info">3D Render</a></td>
+                                        </td>
+                                        <td>
+                                            <form> <!-- Testing form -->
+                                                <input type="hidden" value="">
+                                                <input type="button" value="3D tegning" class="btn btn-info"> 
+                                            </form>
+                                        </td>
                                     </tr>
                                 </c:forEach>
                             </tbody>
