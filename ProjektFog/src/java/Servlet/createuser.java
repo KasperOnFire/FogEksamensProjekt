@@ -20,19 +20,26 @@ public class createuser extends HttpServlet {
 
         HttpSession session = request.getSession();
         CreateUser CU = new CreateUser();
-        
-        
+
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String email = request.getParameter("email");
         System.out.println(username);
         System.out.println(password);
         System.out.println(email);
+        
 //SHIT DOESNT WORK FROM HERE
+
         if (CU.checkIfAvaible(username)) {
-            if (CU.insertUser(username, password, email)) {
+            
+            CU.insertUser(username, password, email);
+            System.out.println(username);
+            User u = CU.returnUser(username);
+            System.out.println(u.getUname());
+            
+            if (u.getUname() != null) {
                 session.setAttribute("loggedIn", true);
-                User u = CU.returnUser(username);
+                //User u = CU.returnUser(username);
                 session.setAttribute("user", u);
                 session.setAttribute("currentUser", u.getUname());
                 request.getRequestDispatcher("/index.jsp").forward(request, response);

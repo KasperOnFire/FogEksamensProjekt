@@ -19,7 +19,6 @@ public class CreateUser {
 
     public boolean checkIfAvaible(String username) throws UnsupportedEncodingException, SQLException {
         return DAO.getUserByUsername(username) == null;
-
     }
 
     public User returnUser(String username) throws SQLException {
