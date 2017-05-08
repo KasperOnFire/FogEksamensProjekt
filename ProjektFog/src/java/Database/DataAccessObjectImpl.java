@@ -23,18 +23,19 @@ public class DataAccessObjectImpl implements DataAccessObject {
         User user = null;
         PreparedStatement stmt = null;
         try {
-            stmt = dbcon.getConnection().prepareStatement("SELECT * FROM user WHERE username = (?);");
+            stmt = dbcon.getConnection().prepareStatement("SELECT * FROM users WHERE uname = ?;");
             stmt.setString(1, username);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                int UID = rs.getInt("UID");
-                String usernameRetrieved = rs.getString("username");
+                int UID = rs.getInt("uid");
+                String usernameRetrieved = rs.getString("uname");
                 String passwordRetrieved = rs.getString("password");
                 String saltRetrieved = rs.getString("salt");
                 String emailRetrieved = rs.getString("email");
                 String userString = rs.getString("userstring");
 
                 user = new User(UID, usernameRetrieved, passwordRetrieved, saltRetrieved, emailRetrieved, userString);
+                System.out.println(user.getUname());
             }
         } finally {
             try {
@@ -80,9 +81,9 @@ public class DataAccessObjectImpl implements DataAccessObject {
         PreparedStatement stmt = null;
         try {
             String passSalt = pass.getSaltString();
-            stmt = dbcon.getConnection().prepareStatement("INSERT INTO adminuser (username, empno, empname, password, salt, userstring) VALUES (?, ?, ?, ?, ?, ?)");
-            stmt.setString(1, username);
-            stmt.setString(2, empno);
+            stmt = dbcon.getConnection().prepareStatement("INSERT INTO adminuser VALUES (?, ?, ?, ?, ?, ?)");
+            stmt.setString(1, empno);
+            stmt.setString(2, username);
             stmt.setString(3, empname);
             stmt.setString(4, pass.get_SHA_512_SecurePassword(password, passSalt));
             stmt.setString(5, passSalt);
@@ -104,13 +105,13 @@ public class DataAccessObjectImpl implements DataAccessObject {
         PreparedStatement stmt = null;
         try {
             String passSalt = pass.getSaltString();
-            stmt = dbcon.getConnection().prepareStatement("INSERT INTO user (username, email, password, salt, userstring) VALUES (?, ?, ?, ?, ?)");
+            stmt = dbcon.getConnection().prepareStatement("INSERT INTO users VALUES (default, ?, ?, ?, ?, ?, null)");
             stmt.setString(1, username);
             stmt.setString(2, email);
             stmt.setString(3, pass.get_SHA_512_SecurePassword(password, passSalt));
             stmt.setString(4, passSalt);
             stmt.setString(5, pass.getSaltString());
-            stmt.executeUpdate();
+            int i = stmt.executeUpdate();
         } finally {
             try {
                 if (stmt != null) {
@@ -179,4 +180,6 @@ public class DataAccessObjectImpl implements DataAccessObject {
 
         return null;
     }
+    
+    
 }

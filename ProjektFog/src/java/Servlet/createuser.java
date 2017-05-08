@@ -1,5 +1,6 @@
 package Servlet;
 
+import User.*;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,16 +20,22 @@ public class createuser extends HttpServlet {
 
         HttpSession session = request.getSession();
         CreateUser CU = new CreateUser();
-        
-        
+
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String email = request.getParameter("email");
+        System.out.println(username);
+        System.out.println(password);
+        System.out.println(email);
 
+//SHIT DOESNT WORK FROM HERE
         if (CU.checkIfAvaible(username)) {
-            if (CU.insertUser(username, password, email)) {
+            CU.insertUser(username, password, email);
+            User u = CU.returnUser(username);
+            if (u.getUname() != null) {
                 session.setAttribute("loggedIn", true);
-                session.setAttribute("user", CU.returnUser(username));
+                session.setAttribute("user", u);
+                session.setAttribute("currentUser", u.getUname());
                 request.getRequestDispatcher("/index.jsp").forward(request, response);
             } else {
                 String eMessage = "Something went wrong!";

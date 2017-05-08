@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -14,25 +15,28 @@
         <div class="main-div">
             <div class="main-header">
                 <img src="img/fog.png">
-                <h1>Design en Carport</h>
+                <h1>Design en Carport</h1>
             </div>
-            <div class="main-contet">
-                <h1>Header</h1>
-                <p>Alle mål i cm</p>
-                <form action="ImageServlet" class="form-group">
-                    <input type="number" name="height" placeholder="Højde" step="1" min="100" required="">
-                    <br>
-                    <input type="number" name="depth" placeholder="Længde" step="1" min="100" required="">
-                    <br>
-                    <input type="number" name="width" placeholder="Bredde" step="1" min="100" required="">
-                    <br>
-                    <input type="submit">
-                </form>
+            <div class="main-content">
+                <a href="carport.jsp" class="link-button">Design din carport!</a>
+                <c:choose>
+                    <c:when test="${loggedIn!=true}">
+                        <a class="link-button" href="login.jsp">Gå til login!</a>
+                        <a href="signup.jsp">har du ikke en bruger? Registrer her?</a>
+                    </c:when>
+                    <c:otherwise>
+                        <p>Logget in som: <c:out value="${currentUser}"></c:out></p>
+                    </c:otherwise>
+                </c:choose>
+                <div class="img-display">
+                    <img src="img/fog.png"/> 
+                    <img src="img/fog.png"/>
+                    <img src="img/fog.png"/>
+                </div>
             </div>
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-        crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </body>
 
 </html>
