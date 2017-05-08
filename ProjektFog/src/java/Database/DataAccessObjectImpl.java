@@ -180,5 +180,23 @@ public class DataAccessObjectImpl implements DataAccessObject {
         return null;
     }
     
-    
+    public boolean updateCarport(String jsonString, String userString) throws SQLException{ //NEEDS FIXING, NULL POINTER???
+        String sql = "UPDATE users SET carport = ? WHERE userString = ?";
+        PreparedStatement stmt = null;
+        try {
+            stmt = dbcon.getConnection().prepareStatement(sql);
+            stmt.setString(1, jsonString);
+            stmt.setString(2, userString);
+            stmt.executeQuery();
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                    return true;
+                }
+            } catch (Exception e) {
+            }
+        }
+        return false;
+    }
 }
