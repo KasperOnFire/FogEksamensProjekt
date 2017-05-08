@@ -1,6 +1,10 @@
 function MeshMaker(loader) {
     var loader = loader;
 
+    this.paint = function (){
+
+    }
+    
     this.done = function () {
         loader.paint();
     }
@@ -32,7 +36,7 @@ function MeshMaker(loader) {
         };
 
         var object = new THREE.ExtrudeGeometry(shape, settings);
-        //console.log(laodside);
+
         switch (loadside.valueOf()) {
             case "front":
                 object.translate(0, 0, -depth / 2);
@@ -41,7 +45,7 @@ function MeshMaker(loader) {
                 object.translate(0, 0, -depth / 2);
                 object.rotateY(THREE.Math.degToRad(-90));
                 break;
-            case "top": //not tested yet
+            case "top":
                 object.rotateX(THREE.Math.degToRad(90));
                 object.translate(0, depth, 0);
                 break;

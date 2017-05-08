@@ -40,7 +40,7 @@ function CarportObjectCalc(objectMaker) {
 
     this.calcCarport = function (object) {
         setMesurments(object);
-        
+
         //Needed for SVG
         objectMaker.paint(
             carport.width + 1,
@@ -102,19 +102,18 @@ function CarportObjectCalc(objectMaker) {
     function legs() {
         numberOfLegs = calcLegs();
 
-        //var zBack = -(carport.depth - legsThickness) / 2;
         var zBack = ((shed.shed) ? -(carport.depth - legsThickness) / 2 + shed.depth / 2 : -(carport.depth - legsThickness) / 2);
         var tempX = (carport.width - legsThickness) / 2; //sets the temp x for the current  
         var tempZ = zBack; //sets the temp z
         var zJump = (carport.depth - legsThickness) /
             (numberOfLegs / 2 - 1); //calculates spaces between each leg
-        //new Position of all legs
+
         for (i = 1; i <= 2; i++) { //loop to place the 2 rows of legs
             for (j = 0; j < numberOfLegs / 2; j++) { //make the leg obejcts for one side
                 objectMaker.makeGeometry(
                     {
                         x: legsThickness,
-                        y: ((!roof.gable) ? 0.05 + carport.height + calcHeightDifference(-slope, zBack + tempZ) : carport.height),
+                        y: ((!roof.gable) ? 0.05 + carport.height + calcHeightDifference(-slope, tempZ - zBack) : carport.height),
                         z: legsThickness
                     },
                     objectMaker.wood,
@@ -191,8 +190,7 @@ function CarportObjectCalc(objectMaker) {
         );
     }
 
-    function makeShed() { //change y offset later
-
+    function makeShed() { 
         var _back = carport.height + calcHeightDifference(slope, shed.depth);
         var _front = _back + calcHeightDifference(-slope, shed.depth);
 
@@ -201,7 +199,7 @@ function CarportObjectCalc(objectMaker) {
         vectors.push(new Vector2(-carport.width / 2 + wallThickness, _front)); //top left
         vectors.push(new Vector2(-carport.width / 2 + wallThickness, 0)); //bottom left 
         if (shed.side == 'Foran') {
-            doorMid = 0 + shed.doorPlacement * carport.width / 2;
+            doorMid = shed.doorPlacement * (carport.width / 2 - doorWidth/2 - legsThickness);
             var doorLeft = doorMid - doorWidth / 2;
             var doorRight = doorMid + doorWidth / 2;
 
@@ -235,7 +233,7 @@ function CarportObjectCalc(objectMaker) {
         vectors.push(new Vector2(-carport.width / 2 + wallThickness, _back)); //top left
         vectors.push(new Vector2(-carport.width / 2 + wallThickness, 0)); //bottom left 
         if (shed.side == 'Bagved') {
-            doorMid = 0 + shed.doorPlacement * carport.width / 2;
+            doorMid = shed.doorPlacement * (carport.width / 2 - doorWidth/2 - legsThickness);
             var doorLeft = doorMid - doorWidth / 2;
             var doorRight = doorMid + doorWidth / 2;
 
@@ -269,7 +267,7 @@ function CarportObjectCalc(objectMaker) {
         vectors.push(new Vector2(-shed.depth / 2 - wallThickness, _back)); //top back
         vectors.push(new Vector2(-shed.depth / 2 - wallThickness, 0)); //bottom back 
         if (shed.side == 'Højre') {
-            doorMid = 0 + shed.doorPlacement * shed.depth / 2;
+            doorMid = shed.doorPlacement * (shed.depth / 2 - doorWidth/2);
             var doorLeft = doorMid - doorWidth / 2;
             var doorRight = doorMid + doorWidth / 2;
 
@@ -303,7 +301,7 @@ function CarportObjectCalc(objectMaker) {
         vectors.push(new Vector2(-shed.depth / 2 - wallThickness, _back)); //top back
         vectors.push(new Vector2(-shed.depth / 2 - wallThickness, 0)); //bottom back 
         if (shed.side == 'Venstre') {
-            doorMid = 0 + shed.doorPlacement * shed.depth / 2;
+            doorMid = shed.doorPlacement * (shed.depth / 2 - doorWidth/2);
             var doorLeft = doorMid - doorWidth / 2;
             var doorRight = doorMid + doorWidth / 2;
 
@@ -323,7 +321,7 @@ function CarportObjectCalc(objectMaker) {
             vectors.push(new Vector2(doorRight, 0)); //door bottom right
         }
         vectors.push(new Vector2(shed.depth / 2, 0)); //bottom front  
-        vectors.push(new Vector2(shed.depth / 2, _back)); //top front
+        vectors.push(new Vector2(shed.depth / 2, _front)); //top front
         objectMaker.PrismGeometry(
             vectors,
             wallThickness,
@@ -358,7 +356,7 @@ function CarportObjectCalc(objectMaker) {
     }
 
     function calcHeightDifference(slope, distance) {
-        return (Math.sin(degToRad(slope)) * distance) / Math.sin(degToRad(90 + slope));
+        return (Math.sin(degToRad(slope)) * distance) / Math.sin(degToRad(90 - slope));
     }
 
 

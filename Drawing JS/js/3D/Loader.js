@@ -3,7 +3,6 @@ function Loader(canvas){
     var meshes = [];
     this.add = function(mesh){  //needs to be rewritten later
         meshes.push(mesh);
-        //canvas.add(mesh);
     }
 
     this.paint = function(){

@@ -147,8 +147,8 @@ function DatGui() {
                     update()
                 });
             shed.add(guiShed, 'doorPlacement')
-                .min(-0.65)
-                .max(0.65)
+                .min(-1)
+                .max(1)
                 .step(0.05)
                 .name('Dør placering').onChange(function () {
                     update()

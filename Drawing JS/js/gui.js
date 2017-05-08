@@ -20,6 +20,9 @@ function DatGui() {
         resetCamera: function () {
             canvas.resetCamera();
         },
+        saveData: function () {
+            sendJson();
+        }
     };
 
     var guiCarport = {
@@ -57,6 +60,8 @@ function DatGui() {
     function init() {
         gui.add(guiFunctions, 'resetCamera')
             .name('Reset Kamera');
+        gui.add(guiFunctions, 'saveData')
+            .name('Gem Carport');
 
         gui.add(guiShed, 'shed')
             .name('Skur')
@@ -142,13 +147,13 @@ function DatGui() {
                     update()
                 });
             shed.add(guiShed, 'doorPlacement')
-                .min(-0.65)
-                .max(0.65)
+                .min(-1)
+                .max(1)
                 .step(0.05)
                 .name('Dør placering').onChange(function () {
                     update()
                 });
-            shed.add(guiShed, 'side', [ 'Foran', 'Bagved', 'Venstre', 'Højre' ])
+            shed.add(guiShed, 'side', ['Foran', 'Bagved', 'Venstre', 'Højre'])
                 .name('Side')
                 .onChange(function () {
                     update()
