@@ -6,6 +6,7 @@
 package Carport;
 
 /**
+ * The base of the carport
  *
  * @author Kasper
  */

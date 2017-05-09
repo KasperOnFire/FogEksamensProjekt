@@ -28,7 +28,7 @@ public class createuser extends HttpServlet {
         System.out.println(password);
         System.out.println(email);
 
-//SHIT DOESNT WORK FROM HERE
+
         if (CU.checkIfAvaible(username)) {
             CU.insertUser(username, password, email);
             User u = CU.returnUser(username);
