@@ -25,7 +25,7 @@ public class login extends HttpServlet {
         ordersArr.add(25);
         ordersArr.add(30);
         ordersArr.get(0);
-        
+
         session.setAttribute("ordersPending", ordersArr);
 
         String username = request.getParameter("username");
@@ -34,11 +34,11 @@ public class login extends HttpServlet {
         if (session.getAttribute("loggedIn") == null) {
             session.setAttribute("loggedIn", false);
         }
-        
-        if(session.getAttribute("adminLoggedIn") == null){
+
+        if (session.getAttribute("adminLoggedIn") == null) {
             session.setAttribute("adminLoggedIn", false);
         }
-        
+
         if (request.getParameter("adminLogin") == null) {
             if (!(Boolean) session.getAttribute("loggedIn")) {
                 if (login.passwordCheck(username, password)) {
@@ -55,17 +55,17 @@ public class login extends HttpServlet {
                 request.setAttribute("errorCode", eMessage);
                 getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
             }
-        }else{
-            if(!(Boolean) session.getAttribute("loggedIn") && !(Boolean) session.getAttribute("adminLoggedIn")){
-                if(login.adminPasswordCheck(username, password)){
+        } else {
+            if (!(Boolean) session.getAttribute("loggedIn") && !(Boolean) session.getAttribute("adminLoggedIn")) {
+                if (login.adminPasswordCheck(username, password)) {
                     session.setAttribute("adminLoggedIn", true);
                     session.setAttribute("adminUser", login.returnAdminUser(username));
                     getServletContext().getRequestDispatcher("/manage.jsp").forward(request, response);
-                }else{//Wrong password
+                } else {//Wrong password
                     session.setAttribute("adminLoggedIn", false);
                     getServletContext().getRequestDispatcher("/adminpanel.jsp").forward(request, response);
                 }
-            }else{
+            } else {
                 getServletContext().getRequestDispatcher("/adminpanel.jsp").forward(request, response);
             }
         }

@@ -10,7 +10,7 @@ public class DBConnector {
 
     private static final String IP = "46.101.97.181";
     private static final int PORT = 3306;
-    public static final String DATABASE = "FogDatabase";
+    public static final String DATABASE = "fogdb";
     private static final String USERNAME = "servletuser";
     private static final String PASSWORD = "ServletSucks";
 

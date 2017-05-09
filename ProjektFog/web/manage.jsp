@@ -38,8 +38,18 @@
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <td><a href="#" class="btn btn-info">2D tegning</a></td>
-                                        <td><a href="#" class="btn btn-info">3D Render</a></td>
+                                        <td>
+                                            <form> <!-- Testing form -->
+                                                <input type="hidden" value="">
+                                                <input type="button" value="2D tegning" class="btn btn-info"> 
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <form> <!-- Testing form -->
+                                                <input type="hidden" value="">
+                                                <input type="button" value="3D tegning" class="btn btn-info"> 
+                                            </form>
+                                        </td>
                                     </tr>
                                 </c:forEach>
                             </tbody>

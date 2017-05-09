@@ -1,13 +1,14 @@
 package User;
 
 public class User {
-    
-    int uno;
-    String uname;
-    String hashedPW;
-    String salt;
-    String email;
-    String userString;
+
+    private int uno;
+    private String uname;
+    private String hashedPW;
+    private String salt;
+    private String email;
+    private String userString;
+    private String carport;
 
     public User(int uno, String uname, String hashedPW, String salt, String email, String uString) {
         this.uno = uno;
@@ -41,4 +42,13 @@ public class User {
     public String getUserString() {
         return userString;
     }
+
+    public String getCarport() {
+        return carport;
+    }
+
+    public void setCarport(String carport) {
+        this.carport = carport;
+    }
+
 }
