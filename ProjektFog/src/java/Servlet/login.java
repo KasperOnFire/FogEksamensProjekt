@@ -24,7 +24,6 @@ public class login extends HttpServlet {
         ArrayList<Integer> ordersArr = new ArrayList<Integer>();
         ordersArr.add(25);
         ordersArr.add(30);
-        ordersArr.get(0);
 
         session.setAttribute("ordersPending", ordersArr);
 

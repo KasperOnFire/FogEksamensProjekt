@@ -10,13 +10,14 @@ public class User {
     private String userString;
     private String carport;
 
-    public User(int uno, String uname, String hashedPW, String salt, String email, String uString) {
+    public User(int uno, String uname, String hashedPW, String salt, String email, String uString, String carport) {
         this.uno = uno;
         this.uname = uname;
         this.hashedPW = hashedPW;
         this.salt = salt;
         this.email = email;
         this.userString = uString;
+        this.carport = carport;
     }
 
     public int getUno() {

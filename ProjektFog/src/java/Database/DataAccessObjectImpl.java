@@ -33,8 +33,9 @@ public class DataAccessObjectImpl implements DataAccessObject {
                 String saltRetrieved = rs.getString("salt");
                 String emailRetrieved = rs.getString("email");
                 String userString = rs.getString("userstring");
+                String carportRetrieved = rs.getString("carport");
 
-                user = new User(UID, usernameRetrieved, passwordRetrieved, saltRetrieved, emailRetrieved, userString);
+                user = new User(UID, usernameRetrieved, passwordRetrieved, saltRetrieved, emailRetrieved, userString, carportRetrieved);
                 System.out.println(user.getUname());
             }
         } finally {
@@ -179,15 +180,23 @@ public class DataAccessObjectImpl implements DataAccessObject {
 
         return null;
     }
-    
-    public boolean updateCarport(String jsonString, String userString) throws SQLException{ //NEEDS FIXING, NULL POINTER???
-        String sql = "UPDATE users SET carport = ? WHERE userString = ?";
+
+    public boolean updateCarport(String jsonString, String userString) throws SQLException { //NEEDS FIXING, NULL POINTER???
+        String sql = "UPDATE users SET carport = ? WHERE userString = ? and uid = ?";
         PreparedStatement stmt = null;
+        int UID;
         try {
             stmt = dbcon.getConnection().prepareStatement(sql);
             stmt.setString(1, jsonString);
             stmt.setString(2, userString);
-            stmt.executeQuery();
+            try {
+                UID = getUIDFromUserString(userString);
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+                return false;
+            }
+            stmt.setInt(3, UID);
+            stmt.executeUpdate();
         } finally {
             try {
                 if (stmt != null) {
@@ -195,8 +204,25 @@ public class DataAccessObjectImpl implements DataAccessObject {
                     return true;
                 }
             } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         return false;
+    }
+    
+    public int getUIDFromUserString(String userString) {
+        String sql = "SELECT UID FROM users WHERE userstring = ?";
+        PreparedStatement stmt = null;
+        try {
+            stmt = dbcon.getConnection().prepareStatement(sql);
+            stmt.setString(1, userString);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("uid");
+            }
+        } catch (Exception e) {
+        }finally{
+            throw new IllegalArgumentException("Userstring not found!");
+        } 
     }
 }

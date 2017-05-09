@@ -7,7 +7,12 @@ package Servlet;
 
 import Backend.*;
 import Carport.*;
+import User.Logic.Login;
+import User.User;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,17 +39,32 @@ public class DataReciever extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        Login login = null;
+        try {
+            login = new Login();
+        } catch (Exception ex) {
+            Logger.getLogger(DataReciever.class.getName()).log(Level.SEVERE, null, ex);
+        }
         HttpSession session = request.getSession();
         DataProcessor dp = new DataProcessor();
         String json = (String) request.getParameter("json");
         Carport c = dp.parseJson(json);
-
+        
+        System.out.println(json);
+        
         if (c != null) { //Hvis det lykkedes
             session.setAttribute("Carport", c);
             if ((boolean) session.getAttribute("loggedIn") == true) {
-                String userstring = (String) session.getAttribute("userString");
+                //String userstring = (String) session.getAttribute("userString");
+                User user = (User) session.getAttribute("user");
+                String userstring = user.getUserString();
                 dp.saveCarportToUser(userstring, c);
-                getServletContext().getRequestDispatcher("wherever").forward(request, response);
+                try {
+                    login.saveCarport(userstring, json);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+                getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
             } else {
                 request.getRequestDispatcher("/signup.jsp").forward(request, response); //TODO: i det servlet der handler signup, skal der være et tjek for carport - så den kan gemmes
             }
