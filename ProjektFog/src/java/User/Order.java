@@ -1,5 +1,9 @@
 package User;
 
+/**
+ *
+ * This class contains the datastructure of an order from the database.
+ */
 public class Order {
 
     private int ono;

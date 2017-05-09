@@ -12,9 +12,25 @@ import javax.servlet.http.HttpSession;
 import User.Logic.Login;
 import java.util.ArrayList;
 
+/**
+ * 
+ * This servlet handles the login of a user or an admin
+ *
+ * @author Kasper
+ */
 @WebServlet(urlPatterns = {"/login"})
 public class login extends HttpServlet {
 
+    /**
+     * 
+     * Handles the login request
+     *
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     * @throws Exception
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
 

@@ -1,5 +1,9 @@
 package User;
 
+/**
+ *
+ * The class with the datastructure of an admin from the database
+ */
 public class AdminUser {
 
     private String uname;
