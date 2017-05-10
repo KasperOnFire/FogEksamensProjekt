@@ -10,8 +10,6 @@ function update() {
     objectCalc.calcCarport(datGui.getObjects());
 }
 
-update();
-
 function sendJson() {
     var jsonData = JSON.stringify(datGui.getObjects());
     console.log(jsonData);
@@ -21,3 +19,13 @@ function sendJson() {
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
     http.send('json=' + encodeURIComponent(jsonData));
 }
+
+function getJson() {
+    var json = document.getElementById("json").value;
+    if (json.length > 0) {
+        datGui.setObjects(JSON.parse(json));
+    }
+}
+
+getJson();
+update();
