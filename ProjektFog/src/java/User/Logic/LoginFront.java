@@ -6,20 +6,21 @@ import User.Password;
 import User.User;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
-/**
- *
- * This class handles all methods that constitutes the login system. It avoids
- * direct contact between DataAccessObject and Servlet
- *
- * @author Kasper
- */
-public class Login {
+public class LoginFront {
 
+    /**
+     *
+     * This class handles all methods that constitutes the login system. It
+     * avoids direct contact between DataAccessObject and Servlet
+     *
+     * @author Kasper
+     */
     DataAccessObjectImpl DAO;
     Password pass = new Password();
 
-    public Login() throws Exception {
+    public LoginFront() throws Exception {
         this.DAO = new DataAccessObjectImpl();
     }
 
@@ -75,6 +76,10 @@ public class Login {
             }
         }
         return false;
+    }
+
+    public ArrayList getOrders() {
+        return DAO.getOrders();
     }
 
 }

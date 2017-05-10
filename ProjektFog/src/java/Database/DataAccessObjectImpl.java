@@ -8,6 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import User.*;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 
 /**
  * Implentation of DataBaseObject. Handles all methods that has direct contact
@@ -308,4 +309,94 @@ public class DataAccessObjectImpl implements DataAccessObject {
 
         return null;
     }
+
+    public boolean insertOrder(String json, String userString, double price) {
+        String sql = "INSERT INTO orders (uid, ostatus, carport, price) VALUES (?, ?, ?, ?)";
+        PreparedStatement stmt = null;
+        try {
+            stmt = dbcon.getConnection().prepareStatement(sql);
+            stmt.setInt(1, this.getUIDFromUserString(userString));
+            stmt.setInt(2, 0);
+            stmt.setString(3, json);
+            stmt.setDouble(4, price);
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                    return true;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    public ArrayList getOrders() {
+        ArrayList<Order> orderArray = new ArrayList();
+        Order order = null;
+        String sql = "SELECT * FROM orders";
+        PreparedStatement stmt = null;
+        try {
+            stmt = dbcon.getConnection().prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int onoRetrieved = rs.getInt("ono");
+                int uidRetrieved = rs.getInt("uid");
+                int oStatusRetrieved = rs.getInt("ostatus");
+                String carportRetrieved = rs.getString("carport");
+                double priceRetrieved = rs.getDouble("price");
+
+                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved);
+                orderArray.add(order);
+            }
+        } catch (Exception e) {
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                    return orderArray;
+                }
+            } catch (Exception e) {
+            }
+        }
+        return null;
+    }
+
+    public ArrayList getOrdersOnONO(int ono) {
+        ArrayList<Order> orderArray = new ArrayList();
+        Order order = null;
+        String sql = "SELECT * FROM orders WHERE ono = ?";
+        PreparedStatement stmt = null;
+        try {
+            stmt = dbcon.getConnection().prepareStatement(sql);
+            stmt.setInt(1, ono);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int onoRetrieved = rs.getInt("ono");
+                int uidRetrieved = rs.getInt("uid");
+                int oStatusRetrieved = rs.getInt("ostatus");
+                String carportRetrieved = rs.getString("carport");
+                double priceRetrieved = rs.getDouble("price");
+
+                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved);
+                orderArray.add(order);
+            }
+        } catch (Exception e) {
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                    return orderArray;
+                }
+            } catch (Exception e) {
+            }
+        }
+        return null;
+    }
+
 }

@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import User.Logic.Login;
+import User.Logic.LoginFront;
+import User.Order;
+import User.User;
 import java.util.ArrayList;
 
 /**
@@ -35,14 +37,9 @@ public class login extends HttpServlet {
             throws ServletException, IOException, Exception {
 
         HttpSession session = request.getSession();
-        Login login = new Login();
-
-        ArrayList<Integer> ordersArr = new ArrayList<Integer>();
-        ordersArr.add(25);
-        ordersArr.add(30);
-
-        session.setAttribute("ordersPending", ordersArr);
-
+        LoginFront login = new LoginFront();
+        User user = null;
+        
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
@@ -57,8 +54,13 @@ public class login extends HttpServlet {
         if (request.getParameter("adminLogin") == null) {
             if (!(Boolean) session.getAttribute("loggedIn")) {
                 if (login.passwordCheck(username, password)) {
+                    
+                    user = login.returnUser(username);
                     session.setAttribute("loggedIn", true);
                     session.setAttribute("user", login.returnUser(username));
+                    session.setAttribute("username", user.getUname());
+                    session.setAttribute("userString", user.getUserString());
+                    session.setAttribute("carport", user.getCarport());
                     getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
                 } else {
                     String eMessage = "Wrong username / password";
@@ -73,6 +75,8 @@ public class login extends HttpServlet {
         } else {
             if (!(Boolean) session.getAttribute("loggedIn") && !(Boolean) session.getAttribute("adminLoggedIn")) {
                 if (login.adminPasswordCheck(username, password)) {
+                    ArrayList<Order> orders = login.getOrders();
+                    session.setAttribute("ordersPending", orders);
                     session.setAttribute("adminLoggedIn", true);
                     session.setAttribute("adminUser", login.returnAdminUser(username));
                     getServletContext().getRequestDispatcher("/manage.jsp").forward(request, response);

@@ -1,6 +1,10 @@
 package Servlet;
 
+import User.Logic.DatabaseFront;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,27 +12,32 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-/**
- * Handles logout of a user.
- *
- * @author Kasper
- */
-@WebServlet(name = "logout", urlPatterns = {"/logout"})
-public class logout extends HttpServlet {
+@WebServlet(name = "userpanel", urlPatterns = {"/userpanel"})
+public class userpanel extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
 
         HttpSession session = request.getSession();
-
+        DatabaseFront DBF = null;
         try {
-            session.invalidate();
-            response.sendRedirect("index.jsp");
-        } catch (IllegalStateException e) {
-            System.out.println("ERROR Logout:");
-            e.printStackTrace();
-            response.sendRedirect("index.jsp");
+            DBF = new DatabaseFront();
+        } catch (Exception ex) {
         }
+        
+        System.out.println("Debug #1");
+        
+        if(request.getParameter("addOrder") != null){
+        System.out.println("Debug #2");
+            System.out.println("Par: 1: " + request.getParameter("carport"));
+            System.out.println("Par: 2: " + (String) session.getAttribute("userString"));
+            DBF.addOrder((String) request.getParameter("carport"), (String) session.getAttribute("userString"), 0);
+        System.out.println("Debug #3");
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
+        System.out.println("Debug #4");
+        }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -7,48 +7,36 @@ package User;
 public class Order {
 
     private int ono;
-    private int cno;
-    private double length;
-    private double width;
+    private int uid;
+    private int ostatus;
+    private String carport;
     private double price;
-    private String rooftype;
-    private int status;
 
-    public Order(int ono, int cno, double length, double width, double price, String rooftype, int status) {
+    public Order(int ono, int uid, int ostatus, String carport, double price) {
         this.ono = ono;
-        this.cno = cno;
-        this.length = length;
-        this.width = width;
+        this.uid = uid;
+        this.ostatus = ostatus;
+        this.carport = carport;
         this.price = price;
-        this.rooftype = rooftype;
-        this.status = status;
     }
 
     public int getOno() {
         return ono;
     }
 
-    public int getCno() {
-        return cno;
+    public int getUid() {
+        return uid;
     }
 
-    public double getLength() {
-        return length;
+    public int getOstatus() {
+        return ostatus;
     }
 
-    public double getWidth() {
-        return width;
+    public String getCarport() {
+        return carport;
     }
 
     public double getPrice() {
         return price;
-    }
-
-    public String getRooftype() {
-        return rooftype;
-    }
-
-    public int getStatus() {
-        return status;
     }
 }

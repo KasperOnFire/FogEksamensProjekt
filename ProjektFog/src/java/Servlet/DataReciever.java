@@ -7,7 +7,7 @@ package Servlet;
 
 import Backend.*;
 import Carport.*;
-import User.Logic.Login;
+import User.Logic.LoginFront;
 import User.User;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -42,9 +42,9 @@ public class DataReciever extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        Login login = null;
+        LoginFront login = null;
         try {
-            login = new Login();
+            login = new LoginFront();
         } catch (Exception ex) {
             Logger.getLogger(DataReciever.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -56,12 +56,12 @@ public class DataReciever extends HttpServlet {
         if (c != null) { //Hvis det lykkedes
             session.setAttribute("Carport", c);
             if ((boolean) session.getAttribute("loggedIn") == true) {
-                //String userstring = (String) session.getAttribute("userString");
+                String userString = (String) session.getAttribute("userString");
                 User user = (User) session.getAttribute("user");
                 String userstring = user.getUserString();
-                dp.saveCarportToUser(userstring, c);
+                dp.saveCarportToUser(userString, c);
                 try {
-                    login.saveCarport(userstring, json);
+                    login.saveCarport(userString, json);
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }

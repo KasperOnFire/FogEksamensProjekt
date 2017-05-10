@@ -25,7 +25,9 @@
                         <a href="signup.jsp">har du ikke en bruger? Registrer her?</a>
                     </c:when>
                     <c:otherwise>
-                        <p>Logget in som: <c:out value="${user.getUname()}"></c:out></p>
+                        <p>Logget in som: <c:out value="${username}"></c:out></p>
+                        <p>userString: <c:out value="${userString}"></c:out></p>
+                        <p>Gemt caport: <c:out value="${carport}"></c:out></p>
                     </c:otherwise>
                 </c:choose>
                 <div class="img-display">
