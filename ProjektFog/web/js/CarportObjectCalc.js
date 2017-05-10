@@ -89,7 +89,7 @@ function CarportObjectCalc(objectMaker) {
         }
         //mesurements for SVG
         //carport width
-        objectMaker.drawMesurements(carport.width - 2 * legsThickness,
+        objectMaker.drawMeasurements(carport.width - 2 * legsThickness,
             'x',
             new Position(
                 0,
@@ -98,7 +98,7 @@ function CarportObjectCalc(objectMaker) {
             )
         );
         //roof width
-        objectMaker.drawMesurements(carport.width + roof.overhang.sides * 2,
+        objectMaker.drawMeasurements(carport.width + roof.overhang.sides * 2,
             'x',
             new Position(
                 0,
@@ -167,7 +167,7 @@ function CarportObjectCalc(objectMaker) {
         );
 
         //svg
-        objectMaker.drawMesurements(
+        objectMaker.drawMeasurements(
             _depth,
             'z',
             new Position(
@@ -303,7 +303,7 @@ function CarportObjectCalc(objectMaker) {
 
 
         //svg
-        objectMaker.drawMesurements(
+        objectMaker.drawMeasurements(
             _depth * 2 + roof.overhang.back + roof.overhang.front,
             'z',
             new Position(
@@ -313,7 +313,7 @@ function CarportObjectCalc(objectMaker) {
             )
         );
         //svg
-        objectMaker.drawMesurements(
+        objectMaker.drawMeasurements(
             _posY - legSupportThickness,
             'y',
             new Position(
@@ -324,7 +324,7 @@ function CarportObjectCalc(objectMaker) {
         );
 
         //svg
-        objectMaker.drawMesurements(
+        objectMaker.drawMeasurements(
             _posY + _front - legSupportThickness,
             'y',
             new Position(
