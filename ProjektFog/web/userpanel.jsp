@@ -43,9 +43,10 @@
                     </form>
                 </td>
                 <td>
-                    <form action="">
-                        <input type="hidden" value="${carport}">
-                        <input type="button" value="Kontakt mig" class="btn btn-info"> 
+                    <form action="userpanel" method="post">
+                        <input type="hidden" value="true" name="addOrder">
+                        <input type="hidden" value='${carport}' name="carport">
+                        <input type="submit" value="Kontakt mig" class="btn btn-info"> 
                     </form>
                 </td>
             </tr>

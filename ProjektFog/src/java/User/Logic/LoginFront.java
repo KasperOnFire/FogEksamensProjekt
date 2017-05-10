@@ -6,6 +6,7 @@ import User.Password;
 import User.User;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class LoginFront {
 
@@ -50,5 +51,9 @@ public class LoginFront {
         }
         return false;
     }
-
+    
+    public ArrayList getOrders(){
+        return DAO.getOrders();
+    }
+    
 }

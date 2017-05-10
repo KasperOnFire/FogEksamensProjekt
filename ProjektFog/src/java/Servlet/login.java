@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import User.Logic.LoginFront;
+import User.Order;
 import User.User;
 import java.util.ArrayList;
 
@@ -58,6 +59,8 @@ public class login extends HttpServlet {
         } else {
             if (!(Boolean) session.getAttribute("loggedIn") && !(Boolean) session.getAttribute("adminLoggedIn")) {
                 if (login.adminPasswordCheck(username, password)) {
+                    ArrayList<Order> orders = login.getOrders();
+                    session.setAttribute("ordersPending", orders);
                     session.setAttribute("adminLoggedIn", true);
                     session.setAttribute("adminUser", login.returnAdminUser(username));
                     getServletContext().getRequestDispatcher("/manage.jsp").forward(request, response);
