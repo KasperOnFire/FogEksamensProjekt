@@ -21,10 +21,10 @@
         <script src="js/libs/OrbitControls.js"></script>
 
         <script src="js/3d/gui.js"></script>
-        <script src="js/3d/canvas.js"></script>
+        <script src="js/3D/canvas.js"></script>
 
-        <script src="js/3d/Loader.js"></script>
-        <script src="js/3d/MeshMaker.js"></script>
+        <script src="js/3D/Loader.js"></script>
+        <script src="js/3D/MeshMaker.js"></script>
         <script src="js/3d/CarportObjectCalc.js"></script>
         <script src="js/3d/boss.js">
         </script>
