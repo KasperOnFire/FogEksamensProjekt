@@ -13,6 +13,27 @@
 
     <body>
         <div class="main-div">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="#">Johannes Fog</a>
+                    </div>
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="index.jsp">Hjem</a></li>
+                        <li><a href="carport.jsp">Design din carport</a></li>
+                            <c:choose>
+                                <c:when test="${loggedIn!=true}">
+                                <li><a style="" href="login.jsp">Log ind</a></li>
+                                <li><a style="" href="signup.jsp">Registrer</a></li>
+                                </c:when>
+                                <c:otherwise>
+                                <li class="active"><a href="userpanel.jsp">Bruger Panel</a></li>
+                                <li><a href="logout">Logout</a></li>
+                                </c:otherwise>
+                            </c:choose>
+                    </ul>
+                </div>
+            </nav>
             <div class="main-header">
                 <img src="img/fog.png">
                 <h1>Design en Carport</h1>
