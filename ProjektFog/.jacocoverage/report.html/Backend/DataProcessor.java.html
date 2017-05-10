@@ -9,7 +9,7 @@ import org.json.*;
  *
  * @author Kasper
  */
-<span class="nc" id="L12">public class DataProcessor {</span>
+<span class="fc" id="L12">public class DataProcessor {</span>
 
     /**
      * Takes a String of JSON that follows the datastructure in the Carport
@@ -20,33 +20,33 @@ import org.json.*;
      * @return the Carport with all the data from the JSON String.
      */
     public Carport parseJson(String json) {
-<span class="nc" id="L23">        JSONObject obj = new JSONObject(json);</span>
+<span class="fc" id="L23">        JSONObject obj = new JSONObject(json);</span>
 
         //base
-<span class="nc" id="L26">        int width = obj.getJSONObject(&quot;guiCarport&quot;).getInt(&quot;width&quot;);</span>
-<span class="nc" id="L27">        int height = obj.getJSONObject(&quot;guiCarport&quot;).getInt(&quot;height&quot;);</span>
-<span class="nc" id="L28">        int depth = obj.getJSONObject(&quot;guiCarport&quot;).getInt(&quot;depth&quot;);</span>
-<span class="nc" id="L29">        Base b = new Base(width, depth, height);</span>
+<span class="fc" id="L26">        int width = obj.getJSONObject(&quot;guiCarport&quot;).getInt(&quot;width&quot;);</span>
+<span class="fc" id="L27">        int height = obj.getJSONObject(&quot;guiCarport&quot;).getInt(&quot;height&quot;);</span>
+<span class="fc" id="L28">        int depth = obj.getJSONObject(&quot;guiCarport&quot;).getInt(&quot;depth&quot;);</span>
+<span class="fc" id="L29">        Base b = new Base(width, depth, height);</span>
 
         //roof
-<span class="nc" id="L32">        boolean isGable = obj.getJSONObject(&quot;guiRoof&quot;).getBoolean(&quot;gableRoof&quot;);</span>
-<span class="nc" id="L33">        int sides = obj.getJSONObject(&quot;guiRoof&quot;).getJSONObject(&quot;overhang&quot;).getInt(&quot;sides&quot;);</span>
-<span class="nc" id="L34">        int front = obj.getJSONObject(&quot;guiRoof&quot;).getJSONObject(&quot;overhang&quot;).getInt(&quot;front&quot;);</span>
-<span class="nc" id="L35">        int back = obj.getJSONObject(&quot;guiRoof&quot;).getJSONObject(&quot;overhang&quot;).getInt(&quot;back&quot;);</span>
-<span class="nc" id="L36">        Roof r = new Roof(isGable, sides, front, back);</span>
+<span class="fc" id="L32">        boolean isGable = obj.getJSONObject(&quot;guiRoof&quot;).getBoolean(&quot;gableRoof&quot;);</span>
+<span class="fc" id="L33">        int sides = obj.getJSONObject(&quot;guiRoof&quot;).getJSONObject(&quot;overhang&quot;).getInt(&quot;sides&quot;);</span>
+<span class="fc" id="L34">        int front = obj.getJSONObject(&quot;guiRoof&quot;).getJSONObject(&quot;overhang&quot;).getInt(&quot;front&quot;);</span>
+<span class="fc" id="L35">        int back = obj.getJSONObject(&quot;guiRoof&quot;).getJSONObject(&quot;overhang&quot;).getInt(&quot;back&quot;);</span>
+<span class="fc" id="L36">        Roof r = new Roof(isGable, sides, front, back);</span>
 
         //shed
-<span class="nc" id="L39">        boolean hasShed = obj.getJSONObject(&quot;guiShed&quot;).getBoolean(&quot;shed&quot;);</span>
-<span class="nc" id="L40">        int depthShed = obj.getJSONObject(&quot;guiShed&quot;).getInt(&quot;depth&quot;);</span>
-<span class="nc" id="L41">        int doorPlacement = obj.getJSONObject(&quot;guiShed&quot;).getInt(&quot;doorPlacement&quot;);</span>
-<span class="nc" id="L42">        String side = obj.getJSONObject(&quot;guiShed&quot;).getString(&quot;side&quot;);</span>
-<span class="nc" id="L43">        boolean rotateDoor = obj.getJSONObject(&quot;guiShed&quot;).getBoolean(&quot;rotateDoor&quot;);</span>
-<span class="nc" id="L44">        Shed s = new Shed(hasShed, depthShed, doorPlacement, side, rotateDoor);</span>
+<span class="fc" id="L39">        boolean hasShed = obj.getJSONObject(&quot;guiShed&quot;).getBoolean(&quot;shed&quot;);</span>
+<span class="fc" id="L40">        int depthShed = obj.getJSONObject(&quot;guiShed&quot;).getInt(&quot;depth&quot;);</span>
+<span class="fc" id="L41">        int doorPlacement = obj.getJSONObject(&quot;guiShed&quot;).getInt(&quot;doorPlacement&quot;);</span>
+<span class="fc" id="L42">        String side = obj.getJSONObject(&quot;guiShed&quot;).getString(&quot;side&quot;);</span>
+<span class="fc" id="L43">        boolean rotateDoor = obj.getJSONObject(&quot;guiShed&quot;).getBoolean(&quot;rotateDoor&quot;);</span>
+<span class="fc" id="L44">        Shed s = new Shed(hasShed, depthShed, doorPlacement, side, rotateDoor);</span>
 
         //Carport
-<span class="nc" id="L47">        Carport c = new Carport(b, r, s);</span>
-<span class="nc bnc" id="L48" title="All 2 branches missed.">        if (c.getBase().getDepth() != 0) {</span>
-<span class="nc" id="L49">            return c;</span>
+<span class="fc" id="L47">        Carport c = new Carport(b, r, s);</span>
+<span class="pc bpc" id="L48" title="1 of 2 branches missed.">        if (c.getBase().getDepth() != 0) {</span>
+<span class="fc" id="L49">            return c;</span>
         } else {
 <span class="nc" id="L51">            return null;</span>
         }

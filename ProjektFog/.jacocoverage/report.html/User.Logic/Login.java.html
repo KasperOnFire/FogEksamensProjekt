@@ -7,48 +7,74 @@ import User.User;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 
+/**
+ *
+ * This class handles all methods that constitutes the login system. It avoids
+ * direct contact between DataAccessObject and Servlet
+ *
+ * @author Kasper
+ */
 public class Login {
 
     DataAccessObjectImpl DAO;
-<span class="nc" id="L13">    Password pass = new Password();</span>
+<span class="fc" id="L20">    Password pass = new Password();</span>
 
-<span class="nc" id="L15">    public Login() throws Exception {</span>
-<span class="nc" id="L16">        this.DAO = new DataAccessObjectImpl();</span>
-<span class="nc" id="L17">    }</span>
-    
-    public void saveCarport(String userString, String json) throws SQLException{
-<span class="nc" id="L20">        DAO.updateCarport(json, userString);</span>
-<span class="nc" id="L21">    }</span>
+<span class="fc" id="L22">    public Login() throws Exception {</span>
+<span class="fc" id="L23">        this.DAO = new DataAccessObjectImpl();</span>
+<span class="fc" id="L24">    }</span>
+
+    public void saveCarport(String userString, String json) throws SQLException {
+<span class="nc" id="L27">        DAO.updateCarport(json, userString);</span>
+<span class="nc" id="L28">    }</span>
 
     public User returnUser(String username) throws SQLException {
-<span class="nc" id="L24">        return DAO.getUserByUsername(username);</span>
+<span class="nc" id="L31">        return DAO.getUserByUsername(username);</span>
     }
 
     public AdminUser returnAdminUser(String username) throws SQLException {
-<span class="nc" id="L28">        return DAO.getAdminByUsername(username);</span>
+<span class="nc" id="L35">        return DAO.getAdminByUsername(username);</span>
     }
 
+    /**
+     * This method compares the input password with the one retrieved from the
+     * database. if the hashed passwords match, returns true.
+     *
+     * @param username to check
+     * @param password to compare
+     * @return Boolean did the passwords match
+     * @throws SQLException if anything sql-related goes wrong
+     * @throws UnsupportedEncodingException if hashing goes wrong
+     */
     public boolean passwordCheck(String username, String password) throws SQLException, UnsupportedEncodingException {
-<span class="nc" id="L32">        User user = DAO.getUserByUsername(username);</span>
+<span class="nc" id="L49">        User user = DAO.getUserByUsername(username);</span>
 
-<span class="nc bnc" id="L34" title="All 2 branches missed.">        if (user != null) {</span>
-<span class="nc bnc" id="L35" title="All 2 branches missed.">            if (user.getHashedPW().equals(pass.get_SHA_512_SecurePassword(password, user.getSalt()))) {</span>
-<span class="nc" id="L36">                return true;</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">        if (user != null) {</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">            if (user.getHashedPW().equals(pass.get_SHA_512_SecurePassword(password, user.getSalt()))) {</span>
+<span class="nc" id="L53">                return true;</span>
             }
         }
-<span class="nc" id="L39">        return false;</span>
+<span class="nc" id="L56">        return false;</span>
     }
 
+    /**
+     * This method compares the input password with the one retrieved from the
+     * database. if the hashed passwords match, returns true.
+     *
+     * @param username to check
+     * @param password to compare
+     * @return Boolean did the passwords match
+     * @throws SQLException if anything sql-related goes wrong
+     * @throws UnsupportedEncodingException if hashing goes wrong
+     */
     public boolean adminPasswordCheck(String username, String password) throws SQLException, UnsupportedEncodingException {
-        //DAO.createAdmin(&quot;Admin&quot;, &quot;Admin&quot;, &quot;1&quot;, &quot;Test Nejsen&quot;);
-<span class="nc" id="L44">        AdminUser user = DAO.getAdminByUsername(username);</span>
+<span class="nc" id="L70">        AdminUser user = DAO.getAdminByUsername(username);</span>
 
-<span class="nc bnc" id="L46" title="All 2 branches missed.">        if (user != null) {</span>
-<span class="nc bnc" id="L47" title="All 2 branches missed.">            if (user.getHashedPW().equals(pass.get_SHA_512_SecurePassword(password, user.getSalt()))) {</span>
-<span class="nc" id="L48">                return true;</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">        if (user != null) {</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">            if (user.getHashedPW().equals(pass.get_SHA_512_SecurePassword(password, user.getSalt()))) {</span>
+<span class="nc" id="L74">                return true;</span>
             }
         }
-<span class="nc" id="L51">        return false;</span>
+<span class="nc" id="L77">        return false;</span>
     }
 
 }

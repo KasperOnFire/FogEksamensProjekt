@@ -5,24 +5,31 @@ import Database.DataAccessObjectImpl;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 
+/**
+ *
+ * This class is a wrapper for the DataAccessObject, as to not have direct
+ * contact between servlet and DAO.
+ *
+ * @author Kasper
+ */
 public class CreateUser {
 
     DataAccessObjectImpl DAO;
 
-<span class="fc" id="L12">    public CreateUser() throws Exception {</span>
-<span class="fc" id="L13">        this.DAO = new DataAccessObjectImpl();</span>
-<span class="fc" id="L14">    }</span>
+<span class="fc" id="L19">    public CreateUser() throws Exception {</span>
+<span class="fc" id="L20">        this.DAO = new DataAccessObjectImpl();</span>
+<span class="fc" id="L21">    }</span>
 
     public boolean insertUser(String username, String password, String email) throws SQLException, UnsupportedEncodingException {
-<span class="fc" id="L17">        return DAO.createUser(username, password, email);</span>
+<span class="fc" id="L24">        return DAO.createUser(username, password, email);</span>
     }
-    
+
     public boolean checkIfAvaible(String username) throws UnsupportedEncodingException, SQLException {
-<span class="pc bpc" id="L21" title="1 of 2 branches missed.">        return DAO.getUserByUsername(username) == null;</span>
+<span class="pc bpc" id="L28" title="1 of 2 branches missed.">        return DAO.getUserByUsername(username) == null;</span>
     }
 
     public User returnUser(String username) throws SQLException {
-<span class="fc" id="L25">        return DAO.getUserByUsername(username);</span>
+<span class="fc" id="L32">        return DAO.getUserByUsername(username);</span>
     }
 
 }

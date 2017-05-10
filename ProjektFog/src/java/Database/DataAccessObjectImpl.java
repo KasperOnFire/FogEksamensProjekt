@@ -85,7 +85,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
         AdminUser user = null;
         PreparedStatement stmt = null;
         try {
-            stmt = dbcon.getConnection().prepareStatement("SELECT * FROM adminuser WHERE username = (?);");
+            stmt = dbcon.getConnection().prepareStatement("SELECT * FROM adminuser WHERE username = ?");
             stmt.setString(1, username);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
@@ -232,17 +232,24 @@ public class DataAccessObjectImpl implements DataAccessObject {
     public int getUIDFromUserString(String userString) {
         String sql = "SELECT UID FROM users WHERE userstring = ?";
         PreparedStatement stmt = null;
+        int i = 0;
         try {
             stmt = dbcon.getConnection().prepareStatement(sql);
             stmt.setString(1, userString);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                return rs.getInt("uid");
+                i = rs.getInt("uid");
             }
         } catch (Exception e) {
         } finally {
-            throw new IllegalArgumentException("Userstring not found!");
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (Exception e) {
+            }
         }
+        return i;
     }
 
     public int getInt(String var, String table, String term, String termName) {
