@@ -10,10 +10,16 @@ function CarportObjectCalc(objectMaker) {
     var doorWidth = 0.7;
     var doorHeight = 1.8;
 
+    //temp
+    var boardThickness = 0.025;
+    var boardHeight = 0.195;
+    var rafterThickness = 0.07;
+    var rafterHeight = 0.07;
+
     var slope = 0; //slope of a flat roof
 
     //calced form guiObjects
-    //going to get Measurements from the first pull
+    //going to get mesurements from the first pull
     var carport = {
         width: 0,
         depth: 0,
@@ -81,9 +87,9 @@ function CarportObjectCalc(objectMaker) {
         } else {
             flatRoof();
         }
-        //Measurements for SVG
+        //mesurements for SVG
         //carport width
-        objectMaker.drawMeasurements(carport.width - 2 * legsThickness,
+        objectMaker.drawMesurements(carport.width - 2 * legsThickness,
             'x',
             new Position(
                 0,
@@ -92,7 +98,7 @@ function CarportObjectCalc(objectMaker) {
             )
         );
         //roof width
-        objectMaker.drawMeasurements(carport.width + roof.overhang.sides * 2,
+        objectMaker.drawMesurements(carport.width + roof.overhang.sides * 2,
             'x',
             new Position(
                 0,
@@ -161,23 +167,13 @@ function CarportObjectCalc(objectMaker) {
         );
 
         //svg
-        objectMaker.drawMeasurements(
+        objectMaker.drawMesurements(
             _depth,
             'z',
             new Position(
                 (-carport.width / 2 - 0.55),
                 (-0.1),
                 (roof.overhang.front - roof.overhang.back) / 2
-            )
-        );
-        //svg
-        objectMaker.drawMeasurements(
-            carport.height,
-            'y',
-            new Position(
-                0,
-                0,
-                (-_depth - roof.overhang.back - roof.overhang.front) / 2 - 0.15
             )
         );
     }
@@ -204,6 +200,8 @@ function CarportObjectCalc(objectMaker) {
                     0)
             );
         }
+
+        //roof
         objectMaker.PrismGeometry([
                 new Vector2(-_depth - roof.overhang.back, roofThickness), //top back
                 new Vector2(-_depth - roof.overhang.back, 0), //bottom back 
@@ -213,11 +211,99 @@ function CarportObjectCalc(objectMaker) {
             carport.width + roof.overhang.sides * 2,
             'side',
             objectMaker.plastic,
-            new Position(0, _posY, 0)
+            new Position(0, _posY + rafterHeight, 0) //maybe not
         );
 
+
+        //#in progress
+
+        //rafter
+        var rafterAmount = Math.ceil(_depth * 2 / 0.6);
+        var _heightdif = calcHeightDifference(-slope, rafterHeight);
+
+        var _tempZ = -_depth;
+        var _zSpacing = _depth * 2 / rafterAmount;
+
+        var _tempY = _posY;
+        var _heightBumb = calcHeightDifference(-slope, _zSpacing);
+
+        for (i = rafterAmount; i >= 0; i--) {
+            objectMaker.PrismGeometry([
+                    new Vector2(-rafterThickness / 2 - _heightdif, rafterHeight), //top back
+                    new Vector2(-rafterThickness / 2, 0), //bottom back 
+                    new Vector2(rafterThickness / 2, _heightdif), //bottom front  
+                    new Vector2(rafterThickness / 2 - _heightdif, _heightdif + rafterHeight) //top front
+                ],
+                carport.width + roof.overhang.sides * 2,
+                'side',
+                objectMaker.wood,
+                new Position(0, _tempY, _tempZ)
+            );
+            _tempZ += _zSpacing; //move one step forward
+            _tempY += _heightBumb; //moves up
+        }
+
+        //boards
+        //back
+        objectMaker.PrismGeometry([
+                new Vector2(-boardThickness / 2, boardHeight), //top back
+                new Vector2(-boardThickness / 2, 0), //bottom back 
+                new Vector2(boardThickness / 2, 0), //bottom front  
+                new Vector2(boardThickness / 2, boardHeight) //top front
+            ],
+            carport.width + roof.overhang.sides * 2,
+            'side',
+            objectMaker.wood,
+            new Position(0, _posY - boardThickness - rafterHeight + roofThickness / 2, -_depth - roof.overhang.back - boardThickness / 2)
+        );
+        //front
+        objectMaker.PrismGeometry([
+                new Vector2(-boardThickness / 2, boardHeight), //top back
+                new Vector2(-boardThickness / 2, 0), //bottom back 
+                new Vector2(boardThickness / 2, 0), //bottom front  
+                new Vector2(boardThickness / 2, boardHeight) //top front
+            ],
+            carport.width + roof.overhang.sides * 2,
+            'side',
+            objectMaker.wood,
+            new Position(0, _posY + _front - boardThickness - rafterHeight + roofThickness / 2, _depth + roof.overhang.front + boardThickness / 2)
+        );
+        //right
+        objectMaker.PrismGeometry([
+                new Vector2(-_depth - roof.overhang.back - boardThickness, boardHeight), //top back
+                new Vector2(-_depth - roof.overhang.back - boardThickness, 0), //bottom back 
+                new Vector2(_depth + roof.overhang.front + boardThickness, _front), //bottom front  
+                new Vector2(_depth + roof.overhang.front + boardThickness, _front + boardHeight)
+            ], //top front
+            boardThickness,
+            'side',
+            objectMaker.wood,
+            new Position(
+                carport.width / 2 + roof.overhang.sides,
+                _posY - boardThickness - rafterHeight + roofThickness / 2,
+                0)
+        );
+
+
+        //left
+        objectMaker.PrismGeometry([
+                new Vector2(-_depth - roof.overhang.back - boardThickness, boardHeight), //top back
+                new Vector2(-_depth - roof.overhang.back - boardThickness, 0), //bottom back 
+                new Vector2(_depth + roof.overhang.front + boardThickness, _front), //bottom front  
+                new Vector2(_depth + roof.overhang.front + boardThickness, _front + boardHeight)
+            ], //top front
+            boardThickness,
+            'side',
+            objectMaker.wood,
+            new Position(
+                (-carport.width / 2 - roof.overhang.sides),
+                _posY - boardThickness - rafterHeight + roofThickness / 2,
+                0)
+        );
+
+
         //svg
-        objectMaker.drawMeasurements(
+        objectMaker.drawMesurements(
             _depth * 2 + roof.overhang.back + roof.overhang.front,
             'z',
             new Position(
@@ -227,8 +313,8 @@ function CarportObjectCalc(objectMaker) {
             )
         );
         //svg
-        objectMaker.drawMeasurements(
-            _posY,
+        objectMaker.drawMesurements(
+            _posY - legSupportThickness,
             'y',
             new Position(
                 0,
@@ -238,8 +324,8 @@ function CarportObjectCalc(objectMaker) {
         );
 
         //svg
-        objectMaker.drawMeasurements(
-            _posY + _front,
+        objectMaker.drawMesurements(
+            _posY + _front - legSupportThickness,
             'y',
             new Position(
                 0,
