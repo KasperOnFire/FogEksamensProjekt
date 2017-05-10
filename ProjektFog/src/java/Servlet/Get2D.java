@@ -6,29 +6,20 @@
 package Servlet;
 
 import Backend.*;
-import Carport.*;
-import User.Logic.LoginFront;
-import User.User;
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.logging.*;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 
 /**
  *
- * This servlet recieves the carport in JSON format from the 3d-render-gui, and
- * tries to save it to the user.
- *
  * @author Kasper
  */
-@WebServlet(name = "DataReciever", urlPatterns = {"/DataReciever"})
-public class DataReciever extends HttpServlet {
+@WebServlet(name = "Get2D", urlPatterns = {"/Get2D"})
+public class Get2D extends HttpServlet {
+
+    DataProcessor dp;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,35 +32,15 @@ public class DataReciever extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
-
-        LoginFront login = null;
-        try {
-            login = new LoginFront();
-        } catch (Exception ex) {
-            Logger.getLogger(DataReciever.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
-        DataProcessor dp = new DataProcessor();
-        String json = (String) request.getParameter("json");
-        Carport c = dp.parseJson(json);
 
-        if (c != null) { //Hvis det lykkedes
-            session.setAttribute("Carport", c);
-            if ((boolean) session.getAttribute("loggedIn") == true) {
-                String userString = (String) session.getAttribute("userString");
-                User user = (User) session.getAttribute("user");
-                String userstring = user.getUserString();
-                dp.saveCarportToUser(userstring, json);
-                try {
-                    login.saveCarport(userString, json);
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-                getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
-            } else {
-                request.getRequestDispatcher("/signup.jsp").forward(request, response); //TODO: i det servlet der handler signup, skal der være et tjek for carport - så den kan gemmes
-            }
-        }
+        dp = new DataProcessor();
+        String userString = (String) session.getAttribute("userString");
+
+        String carport = dp.getCarportFromUser(userString);
+
+        request.setAttribute("json", carport);
 
     }
 
@@ -88,7 +59,7 @@ public class DataReciever extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (Exception ex) {
-            Logger.getLogger(DataReciever.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Get2D.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -106,9 +77,8 @@ public class DataReciever extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (Exception ex) {
-            Logger.getLogger(DataReciever.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Get2D.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     /**

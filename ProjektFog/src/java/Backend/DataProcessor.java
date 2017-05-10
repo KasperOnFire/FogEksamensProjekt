@@ -1,6 +1,8 @@
 package Backend;
 
 import Carport.*;
+import Database.*;
+import java.sql.*;
 import org.json.*;
 
 /**
@@ -10,6 +12,16 @@ import org.json.*;
  * @author Kasper
  */
 public class DataProcessor {
+
+    DataAccessObjectImpl dao;
+
+    /**
+     *
+     * @throws Exception
+     */
+    public DataProcessor() throws Exception {
+        dao = new DataAccessObjectImpl();
+    }
 
     /**
      * Takes a String of JSON that follows the datastructure in the Carport
@@ -57,9 +69,22 @@ public class DataProcessor {
      * The method that handles saving a carport to a specific user.
      *
      * @param username - the username to where the carport should be saved.
-     * @param c the Carport to be saved in the database for the user.
+     * @param carport - the carport in json to save
+     * @return status of the operation
+     * @throws java.sql.SQLException if something goes wrong
      */
-    public void saveCarportToUser(String username, Carport c) {
+    public boolean saveCarportToUser(String username, String carport) throws SQLException {
+        return dao.updateCarport(carport, username);
+    }
 
+    /**
+     *
+     * Gets the carport as json from the database
+     *
+     * @param userString the user to get it from
+     * @return the carport in json
+     */
+    public String getCarportFromUser(String userString) {
+        return dao.getCarport(userString);
     }
 }

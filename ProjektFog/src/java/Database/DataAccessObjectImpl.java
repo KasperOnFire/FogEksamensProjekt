@@ -399,4 +399,26 @@ public class DataAccessObjectImpl implements DataAccessObject {
         return null;
     }
 
+    public String getCarport(String userString) {
+        String sql = "SELECT carport FROM users WHERE userstring = ?";
+        PreparedStatement stmt = null;
+        String s = null;
+        try {
+            stmt = dbcon.getConnection().prepareStatement(sql);
+            stmt.setString(1, userString);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                s = rs.getString("carport");
+            }
+        } catch (Exception e) {
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (Exception e) {
+            }
+        }
+        return s;
+    }
 }
