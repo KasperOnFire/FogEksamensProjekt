@@ -1,14 +1,14 @@
 function THREECanvas() {
 
-    this.render = function () {
+    this.render = function() {
         render();
     }
 
-    this.resetCamera = function () {
+    this.resetCamera = function() {
         resetCamera();
     }
 
-    this.add = function (object) {
+    this.add = function(object) {
         scene.add(object);
     }
     this.removeOld = function() { //temp function just to get it started

@@ -1,14 +1,14 @@
-function Loader(canvas){
+function Loader(canvas) {
     var threeJS = canvas;
     var meshes = [];
-    this.add = function(mesh){  //needs to be rewritten later
+
+    this.add = function(mesh) {
         meshes.push(mesh);
-        //canvas.add(mesh);
     }
 
-    this.paint = function(){
+    this.paint = function() {
         canvas.removeOld();
-        while(meshes.length > 0){
+        while (meshes.length > 0) {
             canvas.add(meshes.pop());
         }
     }

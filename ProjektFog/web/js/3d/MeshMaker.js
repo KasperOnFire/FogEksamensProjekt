@@ -1,7 +1,11 @@
 function MeshMaker(loader) {
     var loader = loader;
 
-    this.done = function () {
+    //used in svg
+    this.paint = function() {}
+    this.drawMeasurements = function(length, axis, position) {}
+
+    this.done = function() {
         loader.paint();
     }
 
@@ -18,7 +22,7 @@ function MeshMaker(loader) {
 
     });
 
-    this.PrismGeometry = function (vertices, depth, loadside, material, position) { //function made for the gable roof
+    this.PrismGeometry = function(vertices, depth, loadside, material, position) { //function made for the gable roof
         var shape = new THREE.Shape();
         var settings;
         shape.moveTo(vertices[0].x, vertices[0].y);
@@ -32,7 +36,7 @@ function MeshMaker(loader) {
         };
 
         var object = new THREE.ExtrudeGeometry(shape, settings);
-        //console.log(laodside);
+
         switch (loadside.valueOf()) {
             case "front":
                 object.translate(0, 0, -depth / 2);
@@ -41,7 +45,7 @@ function MeshMaker(loader) {
                 object.translate(0, 0, -depth / 2);
                 object.rotateY(THREE.Math.degToRad(-90));
                 break;
-            case "top": //not tested yet
+            case "top":
                 object.rotateX(THREE.Math.degToRad(90));
                 object.translate(0, depth, 0);
                 break;
@@ -49,7 +53,7 @@ function MeshMaker(loader) {
         pushToCanvas(object, material, position);
     };
 
-    this.makeGeometry = function (object, material, position) {
+    this.makeGeometry = function(object, material, position) {
         var geometry = new THREE.BoxGeometry(object.x, object.y, object.z);
         //moves cube up half of Y to get a new center at 0,0,0
         //this makes it easier to place later without going under the ground
@@ -64,5 +68,6 @@ function MeshMaker(loader) {
         object.name = 'carport'; //needs to be something else later
         loader.add(object);
     }
+
 
 }
