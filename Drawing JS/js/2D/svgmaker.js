@@ -8,6 +8,7 @@ function SvgMaker() {
 
     drawTop = new SVG('topView');
     drawSide = new SVG('sideView');
+    var sideMid, topMid;
 
     this.wood = {
         color: 'white'
@@ -15,15 +16,29 @@ function SvgMaker() {
     this.plastic = {
         color: 'white'
     }
+
+    function calcMid() {
+        sideMid = {
+            z: _depth / 2,
+            y: 50,
+        }
+
+        topMid = {
+            z: _depth / 2,
+            x: _width / 2,
+        }
+    }
+
     function makeCanvas(width, height, depth) {
         drawTop.size(depth, width);
         drawSide.size(depth, height);
         _width = width;
         _height = height;
         _depth = depth;
+        calcMid();
     }
 
-    this.paint = function (width, height, depth) {
+    this.paint = function(width, height, depth) {
         makeCanvas(width * 100, height * 100, depth * 100);
         drawTop.clear();
         drawSide.clear();
@@ -34,7 +49,8 @@ function SvgMaker() {
         var midt = drawTop.ellipse(6, 6)
             .fill('pink')
             .stroke({ width: 1 })
-            .move((_depth - 6) / 2, (_width - 6) / 2);
+            .move(topMid.z - (6 / 2), topMid.x - (6 / 2));
+        //.move((_depth - 6) / 2, (_width - 6) / 2);
 
         var midt = drawSide.ellipse(6, 6)
             .fill('pink')
@@ -44,14 +60,14 @@ function SvgMaker() {
         */
     }
 
-    this.done = function () {
+    this.done = function() {
         //work in progress needs to scale to fixed width
         drawTop.scale(1);
         drawSide.scale(1);
 
     }
 
-    this.PrismGeometry = function (vertices, depth, loadside, material, position) {
+    this.PrismGeometry = function(vertices, depth, loadside, material, position) {
         switch (loadside.valueOf()) {
             case "front":
                 //top
@@ -91,8 +107,8 @@ function SvgMaker() {
                 var poly = drawTop.polygon(points);
                 poly.fill("none")
                     .stroke({ width: 1 })
-                    .move((_depth - depth * 100) / 2 + pos.z, _width / 2 + pos.x)
-                    .flip('y', _width / 2);
+                    .move(topMid.z - (depth * 100 / 2) + pos.z, topMid.x + pos.x)
+                    .flip('y', topMid.x);
 
                 //side
                 var pos = {
@@ -131,7 +147,7 @@ function SvgMaker() {
                 var poly = drawSide.polygon(points);
                 poly.fill(material.color)
                     .stroke({ width: 1 })
-                    .move((_depth - depth * 100) / 2 + pos.z, pos.y)
+                    .move(sideMid.z - (depth * 100 / 2) + pos.z, sideMid.y + pos.y)
                     .flip('y', _height / 2);
                 break;
 
@@ -173,8 +189,8 @@ function SvgMaker() {
                 var poly = drawTop.polygon(points);
                 poly.fill("none")
                     .stroke({ width: 1 })
-                    .move(_depth / 2 + pos.z, (_width - depth * 100) / 2 + pos.x)
-                    .flip('y', _width / 2);
+                    .move(topMid.z + pos.z, topMid.x - (depth * 100 / 2) + pos.x)
+                    .flip('y', topMid.x);
 
                 //side
                 var pos = {
@@ -210,7 +226,7 @@ function SvgMaker() {
                 var poly = drawSide.polygon(points);
                 poly.fill(material.color)
                     .stroke({ width: 1 })
-                    .move(_depth / 2 + pos.z, pos.y)
+                    .move(sideMid.z + pos.z, sideMid.y + pos.y)
                     .flip('y', _height / 2)
                 break;
 
@@ -249,8 +265,8 @@ function SvgMaker() {
                 var poly = drawTop.polygon(points);
                 poly.fill(material.color)
                     .stroke({ width: 1 })
-                    .move(_depth / 2 + pos.z, _width / 2 + pos.x)
-                    .flip('y', _width / 2);
+                    .move(topMid.z + pos.z, topMid.x + pos.x)
+                    .flip('y', topMid.x);
 
                 //side
                 var pos = {
@@ -289,7 +305,7 @@ function SvgMaker() {
                 var poly = drawSide.polygon(points);
                 poly.fill(material.color)
                     .stroke({ width: 1 })
-                    .move(_depth / 2 + pos.z, 0)
+                    .move(sideMid.z + pos.z, sideMid.y + pos.y)
                     .flip('y', _height / 2);
 
                 break;
@@ -298,7 +314,7 @@ function SvgMaker() {
 
 
     }
-    this.makeGeometry = function (object, material, position) {
+    this.makeGeometry = function(object, material, position) {
         var _x = object.x * 100;
         var _y = object.y * 100;
         var _z = object.z * 100;
@@ -307,25 +323,98 @@ function SvgMaker() {
         var poly = drawTop.rect(_z, _x)
             .fill('none')
             .stroke({ width: 1 })
-            .move((_depth - _z) / 2 + position.z * 100, (_width - _x) / 2 + position.x * 100)
-            .flip('y', _width / 2);
+            .move(topMid.z - _z / 2 + position.z * 100, topMid.x - _x / 2 + position.x * 100)
+            .flip('y', topMid.x);
 
         //side
         var poly = drawSide.rect(_z, _y)
             .fill(material.color)
             .stroke({ width: 1 })
-            .move((_depth - _z) / 2 + position.z * 100, position.y * 100)
-            .flip('y', _height / 2)
+            .move(sideMid.z - _z / 2 + position.z * 100, sideMid.y + position.y * 100)
+            .flip('y', _height / 2);
     }
 
-}
+    this.drawMeasurements = function(length, axis, position) {
+        //
+        length *= 100;
+        if (length % 1 < 0.5) {
+            length = Math.floor(length);
+        } else {
+            length = Math.ceil(length);
+        }
+        axis.toLowerCase();
 
-function Vector2(_x, _y) {
-    this.x = _x;
-    this.y = _y;
-}
-function Position(_x, _y, _z) {
-    this.x = _x;
-    this.y = _y;
-    this.z = _z;
+        //top
+        if (axis == 'x') {
+            var line = drawTop.polyline([
+                    [0, 0],
+                    [10, 0],
+                    [5, 0],
+                    [5, length],
+                    [0, length],
+                    [10, length]
+                ])
+                .fill('none')
+                .stroke({ width: 1 })
+                .move(topMid.z - 5 + position.z * 100, topMid.x - (length / 2) + position.x * 100)
+                .flip('y', topMid.x);
+            var text = drawTop.text((length) + 'cm')
+                .move(topMid.z - 35 + position.z * 100, topMid.x + position.x * 100)
+                .rotate(-90)
+        }
+
+        if (axis == 'z') {
+            var line = drawTop.polyline([
+                    [0, 0],
+                    [0, 10],
+                    [0, 5],
+                    [length, 5],
+                    [length, 0],
+                    [length, 10]
+                ])
+                .fill('none')
+                .stroke({ width: 1 })
+                .move(topMid.z - (length / 2) + position.z * 100, topMid.x + position.x * 100)
+                .flip('y', topMid.x);
+            var text = drawTop.text((length) + 'cm')
+                .move(topMid.z + position.z * 100, topMid.x - position.x * 100)
+        }
+
+        //side
+        if (axis == 'y') {
+            var line = drawSide.polyline([
+                    [0, 0],
+                    [10, 0],
+                    [5, 0],
+                    [5, length],
+                    [0, length],
+                    [10, length]
+                ])
+                .fill('none')
+                .stroke({ width: 1 })
+                .move(sideMid.z - 5 + position.z * 100, sideMid.y + position.y * 100)
+                .flip('y', _height / 2);
+            var text = drawSide.text((length) + 'cm')
+                .move(sideMid.z + position.z * 100 - 35, _height - sideMid.y + position.y * 100 - (length / 2))
+                .rotate(-90)
+        }
+
+        if (axis == 'z') {
+            var line = drawSide.polyline([
+                    [0, 0],
+                    [0, 10],
+                    [0, 5],
+                    [length, 5],
+                    [length, 0],
+                    [length, 10]
+                ])
+                .fill('none')
+                .stroke({ width: 1 })
+                .move(sideMid.z - (length / 2) + position.z * 100, sideMid.y + position.y * 100)
+                .flip('y', _height / 2);
+            var text = drawSide.text((length) + 'cm')
+                .move(sideMid.z + position.z * 100, _height - sideMid.y - position.y * 100)
+        }
+
+    }
 }

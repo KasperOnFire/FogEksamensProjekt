@@ -1,10 +1,26 @@
 function DatGui() {
 
-    this.getObjects = function () {
-        return groupObjects();
+    this.getObjects = function() {
+        return {
+            guiCarport: guiCarport,
+            guiRoof: guiRoof,
+            guiShed: guiShed
+
+        }
     }
-    var gui = new dat.gui.GUI();
-    dat.GUI.prototype.removeFolder = function (name) { //extend with useful function
+
+    this.setObjects = function(object) { //not tested yet #DOESN'T WORK
+        gui.destroy();
+        guiCarport = object.guiCarport;
+        guiRoof = object.guiRoof;
+        guiShed = object.guiShed;
+        init();
+        update();
+    }
+    var guiCarport, guiRoof, guiShed, guiFunctions;
+    var gui;
+
+    dat.GUI.prototype.removeFolder = function(name) { //extend with useful function
         var folder = this.__folders[name];
         if (folder != null) {
             folder.close();
@@ -16,22 +32,22 @@ function DatGui() {
         return;
     }
 
-    var guiFunctions = {
-        resetCamera: function () {
+    guiFunctions = {
+        resetCamera: function() {
             canvas.resetCamera();
         },
-        saveData: function () {
+        saveData: function() {
             sendJson();
         }
     };
 
-    var guiCarport = {
+    guiCarport = {
         width: 500,
         depth: 500,
         height: 230
     };
 
-    var guiRoof = {
+    guiRoof = {
         gableRoof: false,
         overhang: {
             sides: 20,
@@ -40,7 +56,7 @@ function DatGui() {
         }
     };
 
-    var guiShed = {
+    guiShed = {
         shed: false,
         depth: 300,
         doorPlacement: 0.00,
@@ -48,16 +64,10 @@ function DatGui() {
         rotateDoor: false
     };
 
-    function groupObjects() {
-        return {
-            guiCarport: guiCarport,
-            guiRoof: guiRoof,
-            guiShed: guiShed
-
-        }
-    }
 
     function init() {
+        gui = new dat.gui.GUI();
+
         gui.add(guiFunctions, 'resetCamera')
             .name('Reset Kamera');
         gui.add(guiFunctions, 'saveData')
@@ -65,7 +75,7 @@ function DatGui() {
 
         gui.add(guiShed, 'shed')
             .name('Skur')
-            .onChange(function () {
+            .onChange(function() {
                 shedFolder();
                 update()
             });
@@ -76,7 +86,7 @@ function DatGui() {
             .max(750)
             .step(5)
             .name('Bredde')
-            .onChange(function () {
+            .onChange(function() {
                 update()
             });
         gui.add(guiCarport, 'depth')
@@ -84,7 +94,7 @@ function DatGui() {
             .max(800)
             .step(5)
             .name('Dybde')
-            .onChange(function () {
+            .onChange(function() {
                 update()
             });
         gui.add(guiCarport, 'height')
@@ -92,7 +102,7 @@ function DatGui() {
             .max(260)
             .step(5)
             .name('Højde')
-            .onChange(function () {
+            .onChange(function() {
                 update()
             });
 
@@ -100,7 +110,7 @@ function DatGui() {
         var roof = gui.addFolder('Tag');
         roof.add(guiRoof, 'gableRoof')
             .name('Spidstag')
-            .onChange(function () {
+            .onChange(function() {
                 update()
             });
         var overhang = roof.addFolder('overhang');
@@ -109,7 +119,7 @@ function DatGui() {
             .max(30)
             .step(5)
             .name("sider")
-            .onChange(function () {
+            .onChange(function() {
                 update()
             });
         overhang.add(guiRoof.overhang, 'front')
@@ -117,7 +127,7 @@ function DatGui() {
             .max(30)
             .step(5)
             .name("foran")
-            .onChange(function () {
+            .onChange(function() {
                 update()
             });
         overhang.add(guiRoof.overhang, 'back')
@@ -125,7 +135,7 @@ function DatGui() {
             .max(30)
             .step(5)
             .name("bagved")
-            .onChange(function () {
+            .onChange(function() {
                 update()
             });
         overhang.open();
@@ -143,25 +153,25 @@ function DatGui() {
                 .max(400)
                 .step(5)
                 .name('Dybde')
-                .onChange(function () {
+                .onChange(function() {
                     update()
                 });
             shed.add(guiShed, 'doorPlacement')
                 .min(-1)
                 .max(1)
                 .step(0.05)
-                .name('Dør placering').onChange(function () {
+                .name('Dør placering').onChange(function() {
                     update()
                 });
             shed.add(guiShed, 'side', ['Foran', 'Bagved', 'Venstre', 'Højre'])
                 .name('Side')
-                .onChange(function () {
+                .onChange(function() {
                     update()
                 });
             shed.open();
             shed.add(guiShed, 'rotateDoor')
                 .name('Roter dør')
-                .onChange(function () {
+                .onChange(function() {
                     update()
                 });
             shed.open();
