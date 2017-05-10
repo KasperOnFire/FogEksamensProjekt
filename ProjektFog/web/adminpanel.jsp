@@ -9,12 +9,9 @@
     <body>
         <c:choose>
             <c:when test="${adminLoggedIn == true}">
-                Welcome ${adminUser.getUname()}
-                <a href="#">pending orders (${ordersPending.size()})</a>
+                Welcome ${username}
+                <a href="manage.jsp">pending orders (${ordersPending.size()})</a>
                 <br>
-                <c:forEach items="${ordersPending}" var="a">
-                    <c:out value="${a}" />
-                </c:forEach>
                 <br>
                 <a href="logout">logout</a>
             </c:when>

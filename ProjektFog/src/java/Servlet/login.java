@@ -1,5 +1,6 @@
 package Servlet;
 
+import User.AdminUser;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,6 +40,7 @@ public class login extends HttpServlet {
         HttpSession session = request.getSession();
         LoginFront login = new LoginFront();
         User user = null;
+        AdminUser AdminUser = null;
         
         String username = request.getParameter("username");
         String password = request.getParameter("password");
@@ -57,7 +59,6 @@ public class login extends HttpServlet {
                     
                     user = login.returnUser(username);
                     session.setAttribute("loggedIn", true);
-                    session.setAttribute("user", login.returnUser(username));
                     session.setAttribute("username", user.getUname());
                     session.setAttribute("userString", user.getUserString());
                     session.setAttribute("carport", user.getCarport());
@@ -75,10 +76,13 @@ public class login extends HttpServlet {
         } else {
             if (!(Boolean) session.getAttribute("loggedIn") && !(Boolean) session.getAttribute("adminLoggedIn")) {
                 if (login.adminPasswordCheck(username, password)) {
+                    AdminUser = login.returnAdminUser(username);
                     ArrayList<Order> orders = login.getOrders();
+                    
                     session.setAttribute("ordersPending", orders);
                     session.setAttribute("adminLoggedIn", true);
-                    session.setAttribute("adminUser", login.returnAdminUser(username));
+                    session.setAttribute("username", AdminUser.getUname());
+                    session.setAttribute("userString", AdminUser.getUserString());
                     getServletContext().getRequestDispatcher("/manage.jsp").forward(request, response);
                 } else {//Wrong password
                     session.setAttribute("adminLoggedIn", false);
