@@ -24,10 +24,6 @@ public class LoginFront {
         this.DAO = new DataAccessObjectImpl();
     }
 
-    public void saveCarport(String userString, String json) throws SQLException {
-        DAO.updateCarport(json, userString);
-    }
-
     public User returnUser(String username) throws SQLException {
         return DAO.getUserByUsername(username);
     }
@@ -77,9 +73,4 @@ public class LoginFront {
         }
         return false;
     }
-
-    public ArrayList getOrders() {
-        return DAO.getOrders();
-    }
-
 }

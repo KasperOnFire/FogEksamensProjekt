@@ -366,7 +366,100 @@ public class DataAccessObjectImpl implements DataAccessObject {
         }
         return null;
     }
+    
+        public ArrayList getNewOrders() {
+        ArrayList<Order> orderArray = new ArrayList();
+        Order order = null;
+        String sql = "SELECT * FROM orders WHERE ostatus = 0";
+        PreparedStatement stmt = null;
+        try {
+            stmt = dbcon.getConnection().prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int onoRetrieved = rs.getInt("ono");
+                int uidRetrieved = rs.getInt("uid");
+                int oStatusRetrieved = rs.getInt("ostatus");
+                String carportRetrieved = rs.getString("carport");
+                double priceRetrieved = rs.getDouble("price");
 
+                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved);
+                orderArray.add(order);
+            }
+        } catch (Exception e) {
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                    return orderArray;
+                }
+            } catch (Exception e) {
+            }
+        }
+        return null;
+    }
+        
+    public ArrayList getNotDoneOrders() {
+        ArrayList<Order> orderArray = new ArrayList();
+        Order order = null;
+        String sql = "SELECT * FROM orders WHERE ostatus = 0 OR ostatus = 1";
+        PreparedStatement stmt = null;
+        try {
+            stmt = dbcon.getConnection().prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int onoRetrieved = rs.getInt("ono");
+                int uidRetrieved = rs.getInt("uid");
+                int oStatusRetrieved = rs.getInt("ostatus");
+                String carportRetrieved = rs.getString("carport");
+                double priceRetrieved = rs.getDouble("price");
+
+                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved);
+                orderArray.add(order);
+            }
+        } catch (Exception e) {
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                    return orderArray;
+                }
+            } catch (Exception e) {
+            }
+        }
+        return null;
+    }
+
+        public ArrayList getDoneOrders() {
+        ArrayList<Order> orderArray = new ArrayList();
+        Order order = null;
+        String sql = "SELECT * FROM orders WHERE ostatus = 2";
+        PreparedStatement stmt = null;
+        try {
+            stmt = dbcon.getConnection().prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int onoRetrieved = rs.getInt("ono");
+                int uidRetrieved = rs.getInt("uid");
+                int oStatusRetrieved = rs.getInt("ostatus");
+                String carportRetrieved = rs.getString("carport");
+                double priceRetrieved = rs.getDouble("price");
+
+                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved);
+                orderArray.add(order);
+            }
+        } catch (Exception e) {
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                    return orderArray;
+                }
+            } catch (Exception e) {
+            }
+        }
+        return null;
+    }
+    
     public ArrayList getOrdersOnONO(int ono) {
         ArrayList<Order> orderArray = new ArrayList();
         Order order = null;

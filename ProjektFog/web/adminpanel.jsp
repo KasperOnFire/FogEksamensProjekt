@@ -12,7 +12,7 @@
                 Welcome ${username}
                 <a href="manage.jsp">pending orders (${ordersPending.size()})</a>
                 <br>
-                <br>
+                <a href=""></a>
                 <a href="logout">logout</a>
             </c:when>
             <c:when test="${loggedIn == true}">
