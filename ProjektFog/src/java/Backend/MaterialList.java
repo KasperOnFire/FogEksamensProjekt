@@ -4,6 +4,11 @@ import Database.DataAccessObject;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * generates a list of materials for building a carport, and estimates the price
+ * of this.
+ *
+ */
 public class MaterialList {
 
     private static double m2;
@@ -12,12 +17,12 @@ public class MaterialList {
     private DataAccessObject dao;
     private Part p;
 
-//    public static void main(String[] args) {
-//        for (Map.Entry<String, Part> part : matList.entrySet()) {
-//            System.out.println("Name: " + part.getKey() + " Amount: " + part.getValue().getAmount() + " Price: " + part.getValue().getPrice());
-//        }
-//    }
-
+    /**
+     *
+     * Estimates the price of the materials.
+     *
+     * @return the rounded price
+     */
     public int totalPriceRounded() {
         double totalPrice = 0;
         for (Map.Entry<String, Part> part : matList.entrySet()) {
@@ -27,6 +32,14 @@ public class MaterialList {
         return (int) totalAdjustedPrice;
     }
 
+    /**
+     *
+     * Calculates what parts should be used for a carport with the specific
+     * dimensions
+     *
+     * @param length of the carport
+     * @param width of the carport
+     */
     public void calcMaterialList(int length, int width) {
         //p = new Part(roof(length,width),dao.getDouble("price", "roofing", "roofname", "Plastmo Trapez"));
         p = new Part(roof(length, width), 200.0);

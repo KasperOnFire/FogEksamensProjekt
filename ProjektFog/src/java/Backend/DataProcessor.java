@@ -1,19 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Backend;
 
 import Carport.*;
 import org.json.*;
 
 /**
+ * This class exists to process the json that comes from the 3d render of the
+ * carport, and to save it to the user.
  *
  * @author Kasper
  */
 public class DataProcessor {
 
+    /**
+     * Takes a String of JSON that follows the datastructure in the Carport
+     * class, and converts it to java object. non flexible method - only works
+     * with one datastructure.
+     *
+     * @param json - the string to be converted to java.
+     * @return the Carport with all the data from the JSON String.
+     */
     public Carport parseJson(String json) {
         JSONObject obj = new JSONObject(json);
 
@@ -46,8 +51,15 @@ public class DataProcessor {
             return null;
         }
     }
-    
-    public void saveCarportToUser(String userstring, Carport c){
-        
+
+    /**
+     *
+     * The method that handles saving a carport to a specific user.
+     *
+     * @param username - the username to where the carport should be saved.
+     * @param c the Carport to be saved in the database for the user.
+     */
+    public void saveCarportToUser(String username, Carport c) {
+
     }
 }

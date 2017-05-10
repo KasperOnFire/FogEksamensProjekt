@@ -10,16 +10,38 @@ import User.*;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
+/**
+ * Implentation of DataBaseObject. Handles all methods that has direct contact
+ * with the database
+ *
+ * @author Kasper
+ */
 public class DataAccessObjectImpl implements DataAccessObject {
 
     private final DBConnector dbcon;
     private final Connection conn = null;
     Password pass = new Password();
 
+    /**
+     * established connection to the database when instantiated.
+     *
+     * @throws Exception if anything goes wrong - see DBConnector object for
+     * details.
+     */
     public DataAccessObjectImpl() throws Exception {
         this.dbcon = new DBConnector();
     }
 
+    /**
+     *
+     * Finds all data about a user from the database. Returns null if user
+     * doesn't exist.
+     *
+     * @param username to get data about.
+     * @return User object containing found data.
+     * @throws SQLException if the sqlstatement is wrong or, the access to the
+     * database is wrong.
+     */
     public User getUserByUsername(String username) throws SQLException {
         User user = null;
         PreparedStatement stmt = null;
@@ -50,11 +72,21 @@ public class DataAccessObjectImpl implements DataAccessObject {
         return user;
     }
 
+    /**
+     *
+     * Finds all data about an administrator user and returns it in an Adminuser
+     * object.
+     *
+     * @param username to find data about
+     * @return AdminUser object with the data.
+     * @throws SQLException if the sqlstatement is wrong or, the access to the
+     * database is wrong.
+     */
     public AdminUser getAdminByUsername(String username) throws SQLException {
         AdminUser user = null;
         PreparedStatement stmt = null;
         try {
-            stmt = dbcon.getConnection().prepareStatement("SELECT * FROM adminuser WHERE username = (?);");
+            stmt = dbcon.getConnection().prepareStatement("SELECT * FROM adminuser WHERE username = ?");
             stmt.setString(1, username);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
@@ -78,6 +110,20 @@ public class DataAccessObjectImpl implements DataAccessObject {
         return user;
     }
 
+    /**
+     *
+     * SQL statement for inserting a new administrator.
+     *
+     * @param username for the admin
+     * @param password the sha-512 hashed secure password-string
+     * @param empno employee number
+     * @param empname employee name
+     * @return Boolean determining the state of success of the insertion.
+     * @throws SQLException if the sqlstatement is wrong or, the access to the
+     * database is wrong.
+     * @throws UnsupportedEncodingException if the hashing of password goes
+     * wrong
+     */
     public boolean createAdmin(String username, String password, String empno, String empname) throws SQLException, UnsupportedEncodingException {
         PreparedStatement stmt = null;
         try {
@@ -102,6 +148,20 @@ public class DataAccessObjectImpl implements DataAccessObject {
         return false;
     }
 
+    /**
+     *
+     * Creates a new user and saves it to the database
+     *
+     * @param username of the user
+     * @param password sha-512 hashed secure password to save
+     * @param email of the user - for later usage, e.g marketing and resetting a
+     * password.
+     * @return Boolean determining the state of success of the insertion.
+     * @throws SQLException if the sqlstatement is wrong or, the access to the
+     * database is wrong.
+     * @throws UnsupportedEncodingException if the hashing of password goes
+     * wrong
+     */
     public boolean createUser(String username, String password, String email) throws SQLException, UnsupportedEncodingException {
         PreparedStatement stmt = null;
         try {
@@ -123,6 +183,74 @@ public class DataAccessObjectImpl implements DataAccessObject {
             }
         }
         return false;
+    }
+
+    /**
+     *
+     * Updates the carport a user has saved to their account
+     *
+     * @param jsonString of the carport
+     * @param userString of the user
+     * @return Boolean determining the state of success of the insertion.
+     * @throws SQLException if the sqlstatement is wrong or, the access to the
+     * database is wrong.
+     */
+    public boolean updateCarport(String jsonString, String userString) throws SQLException { //NEEDS FIXING, NULL POINTER???
+        String sql = "UPDATE users SET carport = ? WHERE userString = ? and uid = ?";
+        PreparedStatement stmt = null;
+        int UID;
+        try {
+            stmt = dbcon.getConnection().prepareStatement(sql);
+            stmt.setString(1, jsonString);
+            stmt.setString(2, userString);
+            try {
+                UID = getUIDFromUserString(userString);
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+                return false;
+            }
+            stmt.setInt(3, UID);
+            stmt.executeUpdate();
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                    return true;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    /**
+     * get userID of a user.
+     *
+     * @param userString to get the userID of.
+     * @return the id.
+     */
+    public int getUIDFromUserString(String userString) {
+        String sql = "SELECT UID FROM users WHERE userstring = ?";
+        PreparedStatement stmt = null;
+        int i = 0;
+        try {
+            stmt = dbcon.getConnection().prepareStatement(sql);
+            stmt.setString(1, userString);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                i = rs.getInt("uid");
+            }
+        } catch (Exception e) {
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (Exception e) {
+            }
+        }
+        return i;
     }
 
     public int getInt(String var, String table, String term, String termName) {
@@ -180,50 +308,6 @@ public class DataAccessObjectImpl implements DataAccessObject {
         }
 
         return null;
-    }
-
-    public boolean updateCarport(String jsonString, String userString) throws SQLException { //NEEDS FIXING, NULL POINTER???
-        String sql = "UPDATE users SET carport = ? WHERE userString = ? and uid = ?";
-        PreparedStatement stmt = null;
-        int UID;
-        try {
-            stmt = dbcon.getConnection().prepareStatement(sql);
-            stmt.setString(1, jsonString);
-            stmt.setString(2, userString);
-            try {
-                UID = getUIDFromUserString(userString);
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
-                return false;
-            }
-            stmt.setInt(3, UID);
-            stmt.executeUpdate();
-        } finally {
-            try {
-                if (stmt != null) {
-                    stmt.close();
-                    return true;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return false;
-    }
-
-    public int getUIDFromUserString(String userString) {
-        String sql = "SELECT UID FROM users WHERE userstring = ?";
-        PreparedStatement stmt = null;
-        try {
-            stmt = dbcon.getConnection().prepareStatement(sql);
-            stmt.setString(1, userString);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return rs.getInt("uid");
-            }
-        } catch (Exception e) {
-        }
-        throw new IllegalArgumentException("Userstring not found!");
     }
 
     public boolean insertOrder(String json, String userString, double price) {

@@ -22,6 +22,9 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
+ * This servlet recieves the carport in JSON format from the 3d-render-gui, and
+ * tries to save it to the user.
+ *
  * @author Kasper
  */
 @WebServlet(name = "DataReciever", urlPatterns = {"/DataReciever"})
@@ -49,9 +52,7 @@ public class DataReciever extends HttpServlet {
         DataProcessor dp = new DataProcessor();
         String json = (String) request.getParameter("json");
         Carport c = dp.parseJson(json);
-        
-        System.out.println(json);
-        
+
         if (c != null) { //Hvis det lykkedes
             session.setAttribute("Carport", c);
             if ((boolean) session.getAttribute("loggedIn") == true) {

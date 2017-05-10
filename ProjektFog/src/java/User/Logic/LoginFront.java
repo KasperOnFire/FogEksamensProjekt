@@ -10,14 +10,21 @@ import java.util.ArrayList;
 
 public class LoginFront {
 
+    /**
+     *
+     * This class handles all methods that constitutes the login system. It
+     * avoids direct contact between DataAccessObject and Servlet
+     *
+     * @author Kasper
+     */
     DataAccessObjectImpl DAO;
     Password pass = new Password();
 
     public LoginFront() throws Exception {
         this.DAO = new DataAccessObjectImpl();
     }
-    
-    public void saveCarport(String userString, String json) throws SQLException{
+
+    public void saveCarport(String userString, String json) throws SQLException {
         DAO.updateCarport(json, userString);
     }
 
@@ -29,6 +36,16 @@ public class LoginFront {
         return DAO.getAdminByUsername(username);
     }
 
+    /**
+     * This method compares the input password with the one retrieved from the
+     * database. if the hashed passwords match, returns true.
+     *
+     * @param username to check
+     * @param password to compare
+     * @return Boolean did the passwords match
+     * @throws SQLException if anything sql-related goes wrong
+     * @throws UnsupportedEncodingException if hashing goes wrong
+     */
     public boolean passwordCheck(String username, String password) throws SQLException, UnsupportedEncodingException {
         User user = DAO.getUserByUsername(username);
 
@@ -40,8 +57,17 @@ public class LoginFront {
         return false;
     }
 
+    /**
+     * This method compares the input password with the one retrieved from the
+     * database. if the hashed passwords match, returns true.
+     *
+     * @param username to check
+     * @param password to compare
+     * @return Boolean did the passwords match
+     * @throws SQLException if anything sql-related goes wrong
+     * @throws UnsupportedEncodingException if hashing goes wrong
+     */
     public boolean adminPasswordCheck(String username, String password) throws SQLException, UnsupportedEncodingException {
-        //DAO.createAdmin("Admin", "Admin", "1", "Test Nejsen");
         AdminUser user = DAO.getAdminByUsername(username);
 
         if (user != null) {
@@ -51,9 +77,9 @@ public class LoginFront {
         }
         return false;
     }
-    
-    public ArrayList getOrders(){
+
+    public ArrayList getOrders() {
         return DAO.getOrders();
     }
-    
+
 }

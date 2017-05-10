@@ -44,7 +44,6 @@ public class DBConnectorTest {
      */
     @Test
     public void testGetConnection() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-        System.out.println("getConnection");
         DBConnector instance = new DBConnector();
         Connection con = instance.getConnection();
         boolean expResult = true;

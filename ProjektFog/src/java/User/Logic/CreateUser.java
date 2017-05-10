@@ -5,6 +5,13 @@ import Database.DataAccessObjectImpl;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 
+/**
+ *
+ * This class is a wrapper for the DataAccessObject, as to not have direct
+ * contact between servlet and DAO.
+ *
+ * @author Kasper
+ */
 public class CreateUser {
 
     DataAccessObjectImpl DAO;
@@ -16,7 +23,7 @@ public class CreateUser {
     public boolean insertUser(String username, String password, String email) throws SQLException, UnsupportedEncodingException {
         return DAO.createUser(username, password, email);
     }
-    
+
     public boolean checkIfAvaible(String username) throws UnsupportedEncodingException, SQLException {
         return DAO.getUserByUsername(username) == null;
     }

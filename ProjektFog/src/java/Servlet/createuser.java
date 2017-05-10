@@ -12,9 +12,25 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
 
+/**
+ * 
+ * This servlet handles the signup of a new user.
+ *
+ * @author Kasper
+ */
 @WebServlet(urlPatterns = {"/createuser"})
 public class createuser extends HttpServlet {
 
+    /**
+     * 
+     * Processes the request
+     *
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     * @throws Exception
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
 
@@ -28,7 +44,6 @@ public class createuser extends HttpServlet {
         System.out.println(password);
         System.out.println(email);
 
-//SHIT DOESNT WORK FROM HERE
         if (CU.checkIfAvaible(username)) {
             CU.insertUser(username, password, email);
             User u = CU.returnUser(username);

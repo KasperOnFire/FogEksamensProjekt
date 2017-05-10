@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="da"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>DataAccessObjectImpl.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;ProjektFog&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">Database</a> &gt; <span class="el_source">DataAccessObjectImpl.java</span></div><h1>DataAccessObjectImpl.java</h1><pre class="source lang-java linenums">package Database;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import User.*;
+import java.io.UnsupportedEncodingException;
+
+/**
+ * Implentation of DataBaseObject. Handles all methods that has direct contact
+ * with the database
+ *
+ * @author Kasper
+ */
+public class DataAccessObjectImpl implements DataAccessObject {
+
+    private final DBConnector dbcon;
+<span class="fc" id="L21">    private final Connection conn = null;</span>
+<span class="fc" id="L22">    Password pass = new Password();</span>
+
+    /**
+     * established connection to the database when instantiated.
+     *
+     * @throws Exception if anything goes wrong - see DBConnector object for
+     * details.
+     */
+<span class="fc" id="L30">    public DataAccessObjectImpl() throws Exception {</span>
+<span class="fc" id="L31">        this.dbcon = new DBConnector();</span>
+<span class="fc" id="L32">    }</span>
+
+    /**
+     *
+     * Finds all data about a user from the database. Returns null if user
+     * doesn't exist.
+     *
+     * @param username to get data about.
+     * @return User object containing found data.
+     * @throws SQLException if the sqlstatement is wrong or, the access to the
+     * database is wrong.
+     */
+    public User getUserByUsername(String username) throws SQLException {
+<span class="fc" id="L45">        User user = null;</span>
+<span class="fc" id="L46">        PreparedStatement stmt = null;</span>
+        try {
+<span class="fc" id="L48">            stmt = dbcon.getConnection().prepareStatement(&quot;SELECT * FROM users WHERE uname = ?;&quot;);</span>
+<span class="fc" id="L49">            stmt.setString(1, username);</span>
+<span class="fc" id="L50">            ResultSet rs = stmt.executeQuery();</span>
+<span class="pc bpc" id="L51" title="1 of 2 branches missed.">            if (rs.next()) {</span>
+<span class="fc" id="L52">                int UID = rs.getInt(&quot;uid&quot;);</span>
+<span class="fc" id="L53">                String usernameRetrieved = rs.getString(&quot;uname&quot;);</span>
+<span class="fc" id="L54">                String passwordRetrieved = rs.getString(&quot;password&quot;);</span>
+<span class="fc" id="L55">                String saltRetrieved = rs.getString(&quot;salt&quot;);</span>
+<span class="fc" id="L56">                String emailRetrieved = rs.getString(&quot;email&quot;);</span>
+<span class="fc" id="L57">                String userString = rs.getString(&quot;userstring&quot;);</span>
+<span class="fc" id="L58">                String carportRetrieved = rs.getString(&quot;carport&quot;);</span>
+
+<span class="fc" id="L60">                user = new User(UID, usernameRetrieved, passwordRetrieved, saltRetrieved, emailRetrieved, userString, carportRetrieved);</span>
+<span class="fc" id="L61">                System.out.println(user.getUname());</span>
+            }
+        } finally {
+<span class="nc" id="L64">            try {</span>
+<span class="pc bpc" id="L65" title="3 of 4 branches missed.">                if (stmt != null) {</span>
+<span class="pc" id="L66">                    stmt.close();</span>
+                }
+<span class="nc" id="L68">            } catch (Exception e) {</span>
+<span class="pc" id="L69">            }</span>
+<span class="nc" id="L70">        }</span>
+<span class="fc" id="L71">        return user;</span>
+    }
+
+    /**
+     *
+     * Finds all data about an administrator user and returns it in an Adminuser
+     * object.
+     *
+     * @param username to find data about
+     * @return AdminUser object with the data.
+     * @throws SQLException if the sqlstatement is wrong or, the access to the
+     * database is wrong.
+     */
+    public AdminUser getAdminByUsername(String username) throws SQLException {
+<span class="fc" id="L85">        AdminUser user = null;</span>
+<span class="fc" id="L86">        PreparedStatement stmt = null;</span>
+        try {
+<span class="fc" id="L88">            stmt = dbcon.getConnection().prepareStatement(&quot;SELECT * FROM adminuser WHERE username = ?&quot;);</span>
+<span class="fc" id="L89">            stmt.setString(1, username);</span>
+<span class="fc" id="L90">            ResultSet rs = stmt.executeQuery();</span>
+<span class="pc bpc" id="L91" title="1 of 2 branches missed.">            if (rs.next()) {</span>
+<span class="fc" id="L92">                String usernameRetrieved = rs.getString(&quot;username&quot;);</span>
+<span class="fc" id="L93">                String passwordRetrieved = rs.getString(&quot;password&quot;);</span>
+<span class="fc" id="L94">                String empnoRetrieved = rs.getString(&quot;empno&quot;);</span>
+<span class="fc" id="L95">                String empnameRetrieved = rs.getString(&quot;empname&quot;);</span>
+<span class="fc" id="L96">                String saltRetrieved = rs.getString(&quot;salt&quot;);</span>
+<span class="fc" id="L97">                String userString = rs.getString(&quot;userstring&quot;);</span>
+
+<span class="fc" id="L99">                user = new AdminUser(usernameRetrieved, empnoRetrieved, empnameRetrieved, passwordRetrieved, saltRetrieved, userString);</span>
+            }
+        } finally {
+<span class="nc" id="L102">            try {</span>
+<span class="pc bpc" id="L103" title="3 of 4 branches missed.">                if (stmt != null) {</span>
+<span class="pc" id="L104">                    stmt.close();</span>
+                }
+<span class="nc" id="L106">            } catch (Exception e) {</span>
+<span class="pc" id="L107">            }</span>
+<span class="nc" id="L108">        }</span>
+<span class="fc" id="L109">        return user;</span>
+    }
+
+    /**
+     *
+     * SQL statement for inserting a new administrator.
+     *
+     * @param username for the admin
+     * @param password the sha-512 hashed secure password-string
+     * @param empno employee number
+     * @param empname employee name
+     * @return Boolean determining the state of success of the insertion.
+     * @throws SQLException if the sqlstatement is wrong or, the access to the
+     * database is wrong.
+     * @throws UnsupportedEncodingException if the hashing of password goes
+     * wrong
+     */
+    public boolean createAdmin(String username, String password, String empno, String empname) throws SQLException, UnsupportedEncodingException {
+<span class="nc" id="L127">        PreparedStatement stmt = null;</span>
+        try {
+<span class="nc" id="L129">            String passSalt = pass.getSaltString();</span>
+<span class="nc" id="L130">            stmt = dbcon.getConnection().prepareStatement(&quot;INSERT INTO adminuser VALUES (?, ?, ?, ?, ?, ?)&quot;);</span>
+<span class="nc" id="L131">            stmt.setString(1, empno);</span>
+<span class="nc" id="L132">            stmt.setString(2, username);</span>
+<span class="nc" id="L133">            stmt.setString(3, empname);</span>
+<span class="nc" id="L134">            stmt.setString(4, pass.get_SHA_512_SecurePassword(password, passSalt));</span>
+<span class="nc" id="L135">            stmt.setString(5, passSalt);</span>
+<span class="nc" id="L136">            stmt.setString(6, pass.getSaltString());</span>
+<span class="nc" id="L137">            stmt.executeUpdate();</span>
+        } finally {
+<span class="nc" id="L139">            try {</span>
+<span class="nc bnc" id="L140" title="All 4 branches missed.">                if (stmt != null) {</span>
+<span class="nc" id="L141">                    stmt.close();</span>
+<span class="nc" id="L142">                    return true;</span>
+                }
+<span class="nc" id="L144">            } catch (Exception e) {</span>
+<span class="nc" id="L145">            }</span>
+<span class="nc" id="L146">        }</span>
+<span class="nc" id="L147">        return false;</span>
+    }
+
+    /**
+     *
+     * Creates a new user and saves it to the database
+     *
+     * @param username of the user
+     * @param password sha-512 hashed secure password to save
+     * @param email of the user - for later usage, e.g marketing and resetting a
+     * password.
+     * @return Boolean determining the state of success of the insertion.
+     * @throws SQLException if the sqlstatement is wrong or, the access to the
+     * database is wrong.
+     * @throws UnsupportedEncodingException if the hashing of password goes
+     * wrong
+     */
+    public boolean createUser(String username, String password, String email) throws SQLException, UnsupportedEncodingException {
+<span class="fc" id="L165">        PreparedStatement stmt = null;</span>
+        try {
+<span class="fc" id="L167">            String passSalt = pass.getSaltString();</span>
+<span class="fc" id="L168">            stmt = dbcon.getConnection().prepareStatement(&quot;INSERT INTO users VALUES (default, ?, ?, ?, ?, ?, null)&quot;);</span>
+<span class="fc" id="L169">            stmt.setString(1, username);</span>
+<span class="fc" id="L170">            stmt.setString(2, email);</span>
+<span class="fc" id="L171">            stmt.setString(3, pass.get_SHA_512_SecurePassword(password, passSalt));</span>
+<span class="fc" id="L172">            stmt.setString(4, passSalt);</span>
+<span class="fc" id="L173">            stmt.setString(5, pass.getSaltString());</span>
+<span class="nc" id="L174">            int i = stmt.executeUpdate();</span>
+        } finally {
+<span class="fc" id="L176">            try {</span>
+<span class="pc bpc" id="L177" title="3 of 4 branches missed.">                if (stmt != null) {</span>
+<span class="pc" id="L178">                    stmt.close();</span>
+<span class="pc" id="L179">                    return true;</span>
+                }
+<span class="nc" id="L181">            } catch (Exception e) {</span>
+<span class="nc" id="L182">            }</span>
+<span class="nc" id="L183">        }</span>
+<span class="nc" id="L184">        return false;</span>
+    }
+
+    /**
+     *
+     * Updates the carport a user has saved to their account
+     *
+     * @param jsonString of the carport
+     * @param userString of the user
+     * @return Boolean determining the state of success of the insertion.
+     * @throws SQLException if the sqlstatement is wrong or, the access to the
+     * database is wrong.
+     */
+    public boolean updateCarport(String jsonString, String userString) throws SQLException { //NEEDS FIXING, NULL POINTER???
+<span class="fc" id="L198">        String sql = &quot;UPDATE users SET carport = ? WHERE userString = ? and uid = ?&quot;;</span>
+<span class="fc" id="L199">        PreparedStatement stmt = null;</span>
+        int UID;
+        try {
+<span class="fc" id="L202">            stmt = dbcon.getConnection().prepareStatement(sql);</span>
+<span class="fc" id="L203">            stmt.setString(1, jsonString);</span>
+<span class="fc" id="L204">            stmt.setString(2, userString);</span>
+            try {
+<span class="fc" id="L206">                UID = getUIDFromUserString(userString);</span>
+<span class="nc" id="L207">            } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L208">                e.printStackTrace();</span>
+<span class="nc" id="L209">                return false;</span>
+<span class="fc" id="L210">            }</span>
+<span class="fc" id="L211">            stmt.setInt(3, UID);</span>
+<span class="fc" id="L212">            stmt.executeUpdate();</span>
+        } finally {
+<span class="nc" id="L214">            try {</span>
+<span class="pc bpc" id="L215" title="5 of 6 branches missed.">                if (stmt != null) {</span>
+<span class="pc" id="L216">                    stmt.close();</span>
+<span class="pc" id="L217">                    return true;</span>
+                }
+<span class="nc" id="L219">            } catch (Exception e) {</span>
+<span class="nc" id="L220">                e.printStackTrace();</span>
+<span class="nc" id="L221">            }</span>
+<span class="nc" id="L222">        }</span>
+<span class="nc" id="L223">        return false;</span>
+    }
+
+    /**
+     * get userID of a user.
+     *
+     * @param userString to get the userID of.
+     * @return the id.
+     */
+    public int getUIDFromUserString(String userString) {
+<span class="fc" id="L233">        String sql = &quot;SELECT UID FROM users WHERE userstring = ?&quot;;</span>
+<span class="fc" id="L234">        PreparedStatement stmt = null;</span>
+<span class="fc" id="L235">        int i = 0;</span>
+        try {
+<span class="fc" id="L237">            stmt = dbcon.getConnection().prepareStatement(sql);</span>
+<span class="fc" id="L238">            stmt.setString(1, userString);</span>
+<span class="fc" id="L239">            ResultSet rs = stmt.executeQuery();</span>
+<span class="pc bpc" id="L240" title="1 of 2 branches missed.">            if (rs.next()) {</span>
+<span class="fc" id="L241">                i = rs.getInt(&quot;uid&quot;);</span>
+            }
+<span class="nc" id="L243">        } catch (Exception e) {</span>
+        } finally {
+<span class="nc" id="L245">            try {</span>
+<span class="pc bpc" id="L246" title="5 of 6 branches missed.">                if (stmt != null) {</span>
+<span class="pc" id="L247">                    stmt.close();</span>
+                }
+<span class="nc" id="L249">            } catch (Exception e) {</span>
+<span class="pc" id="L250">            }</span>
+<span class="nc" id="L251">        }</span>
+<span class="fc" id="L252">        return i;</span>
+    }
+
+    public int getInt(String var, String table, String term, String termName) {
+<span class="nc" id="L256">        String sql = &quot;select ? from ? where ?=?&quot;;</span>
+        try {
+<span class="nc" id="L258">            PreparedStatement stmt = conn.prepareStatement(sql);</span>
+<span class="nc" id="L259">            stmt.setString(1, var);</span>
+<span class="nc" id="L260">            stmt.setString(2, table);</span>
+<span class="nc" id="L261">            stmt.setString(3, term);</span>
+<span class="nc" id="L262">            stmt.setString(4, termName);</span>
+<span class="nc" id="L263">            ResultSet rs = stmt.executeQuery();</span>
+<span class="nc bnc" id="L264" title="All 2 branches missed.">            if (rs.next()) {</span>
+<span class="nc" id="L265">                return rs.getInt(var);</span>
+            }
+<span class="nc" id="L267">        } catch (SQLException ex) {</span>
+<span class="nc" id="L268">            Logger.getLogger(DataAccessObjectImpl.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L269">        }</span>
+
+<span class="nc" id="L271">        return -1;</span>
+    }
+
+    public double getDouble(String var, String table, String term, String termName) {
+<span class="nc" id="L275">        String sql = &quot;select ? from ? where ?=?&quot;;</span>
+        try {
+<span class="nc" id="L277">            PreparedStatement stmt = conn.prepareStatement(sql);</span>
+<span class="nc" id="L278">            stmt.setString(1, var);</span>
+<span class="nc" id="L279">            stmt.setString(2, table);</span>
+<span class="nc" id="L280">            stmt.setString(3, term);</span>
+<span class="nc" id="L281">            stmt.setString(4, termName);</span>
+<span class="nc" id="L282">            ResultSet rs = stmt.executeQuery();</span>
+<span class="nc bnc" id="L283" title="All 2 branches missed.">            if (rs.next()) {</span>
+<span class="nc" id="L284">                return rs.getDouble(var);</span>
+            }
+<span class="nc" id="L286">        } catch (SQLException ex) {</span>
+<span class="nc" id="L287">            Logger.getLogger(DataAccessObjectImpl.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L288">        }</span>
+
+<span class="nc" id="L290">        return -1;</span>
+    }
+
+    public String getString(String var, String table, String term, String termName) {
+<span class="nc" id="L294">        String sql = &quot;select ? from ? where ?=?&quot;;</span>
+        try {
+<span class="nc" id="L296">            PreparedStatement stmt = conn.prepareStatement(sql);</span>
+<span class="nc" id="L297">            stmt.setString(1, var);</span>
+<span class="nc" id="L298">            stmt.setString(2, table);</span>
+<span class="nc" id="L299">            stmt.setString(3, term);</span>
+<span class="nc" id="L300">            stmt.setString(4, termName);</span>
+<span class="nc" id="L301">            ResultSet rs = stmt.executeQuery();</span>
+<span class="nc bnc" id="L302" title="All 2 branches missed.">            if (rs.next()) {</span>
+<span class="nc" id="L303">                return rs.getString(var);</span>
+            }
+<span class="nc" id="L305">        } catch (SQLException ex) {</span>
+<span class="nc" id="L306">            Logger.getLogger(DataAccessObjectImpl.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L307">        }</span>
+
+<span class="nc" id="L309">        return null;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

@@ -22,7 +22,7 @@ public class ImageServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -57,12 +57,12 @@ public class ImageServlet extends HttpServlet {
 
         Draw2D d2d = new Draw2D();
         MaterialList ml = new MaterialList();
-        
+
         ml.calcMaterialList(depthInt, widthInt);
         int roundedPrice = ml.totalPriceRounded();
-        
+
         request.getSession().setAttribute("roundedPrice", roundedPrice);
-        
+
         ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
         ImageIO.write(d2d.drawSide(heightInt, depthInt), "png", baos1);
         baos1.flush();
