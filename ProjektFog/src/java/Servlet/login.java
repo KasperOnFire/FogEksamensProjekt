@@ -1,6 +1,7 @@
 package Servlet;
 
 import User.AdminUser;
+import User.Logic.DatabaseFront;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,6 +40,8 @@ public class login extends HttpServlet {
 
         HttpSession session = request.getSession();
         LoginFront login = new LoginFront();
+        DatabaseFront DBF = new DatabaseFront();
+        
         User user = null;
         AdminUser AdminUser = null;
         
@@ -77,7 +80,7 @@ public class login extends HttpServlet {
             if (!(Boolean) session.getAttribute("loggedIn") && !(Boolean) session.getAttribute("adminLoggedIn")) {
                 if (login.adminPasswordCheck(username, password)) {
                     AdminUser = login.returnAdminUser(username);
-                    ArrayList<Order> orders = login.getOrders();
+                    ArrayList<Order> orders = DBF.getOrders();
                     
                     session.setAttribute("ordersPending", orders);
                     session.setAttribute("adminLoggedIn", true);
