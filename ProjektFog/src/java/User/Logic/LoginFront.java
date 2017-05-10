@@ -7,12 +7,12 @@ import User.User;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 
-public class Login {
+public class LoginFront {
 
     DataAccessObjectImpl DAO;
     Password pass = new Password();
 
-    public Login() throws Exception {
+    public LoginFront() throws Exception {
         this.DAO = new DataAccessObjectImpl();
     }
     

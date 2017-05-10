@@ -209,7 +209,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
         }
         return false;
     }
-    
+
     public int getUIDFromUserString(String userString) {
         String sql = "SELECT UID FROM users WHERE userstring = ?";
         PreparedStatement stmt = null;
@@ -221,8 +221,32 @@ public class DataAccessObjectImpl implements DataAccessObject {
                 return rs.getInt("uid");
             }
         } catch (Exception e) {
-        }finally{
+        } finally {
             throw new IllegalArgumentException("Userstring not found!");
-        } 
+        }
+    }
+
+    public boolean inserOrder(String json, String userString, double price) {
+        String sql = "INSERT INTO orders (uid, ostatus, carport, price) VALUES (?, ?, ?, ?)";
+        PreparedStatement stmt = null;
+        try {
+            stmt = dbcon.getConnection().prepareStatement(sql);
+            stmt.setInt(1, this.getUIDFromUserString(userString));
+            stmt.setInt(2, 0);
+            stmt.setString(3, json);
+            stmt.setDouble(4, price);
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            return false;
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                    return true;
+                }
+            } catch (Exception e) {
+            }
+        }
+        return false;
     }
 }
