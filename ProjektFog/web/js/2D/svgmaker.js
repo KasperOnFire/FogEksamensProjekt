@@ -335,7 +335,6 @@ function SvgMaker() {
     }
 
     this.drawMeasurements = function(length, axis, position) {
-        //
         length *= 100;
         if (length % 1 < 0.5) {
             length = Math.floor(length);

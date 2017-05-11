@@ -8,9 +8,10 @@ function THREECanvas() {
         resetCamera();
     }
 
-    this.add = function(object) {
-        scene.add(object);
+    this.add = function(meshObject) {
+        scene.add(meshObject);
     }
+
     this.removeOld = function() { //temp function just to get it started
         while (scene.getObjectByName('carport') != null) {
             scene.remove(scene.getObjectByName('carport'));

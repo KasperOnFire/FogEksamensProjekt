@@ -27,9 +27,7 @@ function DatGui() {
             this.__ul.removeChild(folder.domElement.parentNode);
             delete this.__folders[name];
             this.onResize();
-            return;
         }
-        return;
     }
 
     guiFunctions = {

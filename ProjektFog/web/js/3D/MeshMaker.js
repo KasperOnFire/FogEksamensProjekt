@@ -1,6 +1,4 @@
 function MeshMaker(loader) {
-    var loader = loader;
-
     //used in svg
     this.paint = function() {}
     this.drawMeasurements = function(length, axis, position) {}

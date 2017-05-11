@@ -1,5 +1,4 @@
 function Loader(canvas) {
-    var threeJS = canvas;
     var meshes = [];
 
     this.add = function(mesh) {
@@ -12,6 +11,4 @@ function Loader(canvas) {
             canvas.add(meshes.pop());
         }
     }
-
-
 }

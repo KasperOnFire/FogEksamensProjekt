@@ -118,7 +118,7 @@ function CarportObjectCalc(objectMaker) {
         var zJump = (carport.depth - legsThickness) /
             (numberOfLegs / 2 - 1); //calculates spaces between each leg
 
-        for (i = 1; i <= 2; i++) { //loop to place the 2 rows of legs
+        for (i = 0; i < 2; i++) { //loop to place the 2 rows of legs
             for (j = 0; j < numberOfLegs / 2; j++) { //make the leg obejcts for one side
                 objectMaker.makeGeometry({
                         x: legsThickness,
@@ -506,8 +506,8 @@ function CarportObjectCalc(objectMaker) {
     }
 
     function calcLegs() {
-        var m2 = (carport.width) * (carport.depth) / 2;
-        numberOfLegs = Math.ceil(m2 / 4) * 2;
+        var m2 = (carport.width + roof.overhang.sides * 2) * (carport.depth + roof.overhang.front + roof.overhang.back);
+        numberOfLegs = Math.ceil(m2 / 2 / 4) * 2;
         if (numberOfLegs <= 3) {
             numberOfLegs = 4;
         }
