@@ -42,6 +42,8 @@ public class Get2D extends HttpServlet {
 
         request.setAttribute("json", carport);
 
+        request.getRequestDispatcher("2D-render.jsp").forward(request, response);
+
     }
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

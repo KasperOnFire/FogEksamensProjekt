@@ -42,6 +42,7 @@ public class Get3D extends HttpServlet {
         String carport = dp.getCarportFromUser(userString);
 
         request.setAttribute("json", carport);
+        request.getRequestDispatcher("3D-render.jsp").forward(request, response);
     }
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

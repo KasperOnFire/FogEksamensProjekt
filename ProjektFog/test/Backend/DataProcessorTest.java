@@ -6,6 +6,8 @@
 package Backend;
 
 import Carport.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -34,7 +36,11 @@ public class DataProcessorTest {
 
     @Before
     public void setUp() {
-        instance = new DataProcessor();
+        try {
+            instance = new DataProcessor();
+        } catch (Exception ex) {
+            Logger.getLogger(DataProcessorTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @After
