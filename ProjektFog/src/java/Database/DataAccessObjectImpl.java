@@ -1,13 +1,16 @@
 package Database;
 
+import User.AdminUser;
+import User.Password;
+import User.User;
+
+import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import User.*;
-import java.io.UnsupportedEncodingException;
 
 public class DataAccessObjectImpl implements DataAccessObject {
 

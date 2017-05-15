@@ -1,7 +1,8 @@
 package User.Logic;
 
-import User.User;
 import Database.DataAccessObjectImpl;
+import User.User;
+
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 
