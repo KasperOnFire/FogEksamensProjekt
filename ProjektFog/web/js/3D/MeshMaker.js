@@ -20,7 +20,7 @@ function MeshMaker(loader) {
 
     });
 
-    this.PrismGeometry = function(vertices, depth, loadside, material, position) { //function made for the gable roof
+    this.prismGeometry = function(vertices, depth, loadside, material, position) { //function made for the gable roof
         var shape = new THREE.Shape();
         var settings;
         shape.moveTo(vertices[0].x, vertices[0].y);
@@ -33,38 +33,38 @@ function MeshMaker(loader) {
             bevelEnabled: false
         };
 
-        var object = new THREE.ExtrudeGeometry(shape, settings);
+        var geometryObj = new THREE.ExtrudeGeometry(shape, settings);
 
         switch (loadside.valueOf()) {
             case "front":
-                object.translate(0, 0, -depth / 2);
+                geometryObj.translate(0, 0, -depth / 2);
                 break;
             case "side":
-                object.translate(0, 0, -depth / 2);
-                object.rotateY(THREE.Math.degToRad(-90));
+                geometryObj.translate(0, 0, -depth / 2);
+                geometryObj.rotateY(THREE.Math.degToRad(-90));
                 break;
             case "top":
-                object.rotateX(THREE.Math.degToRad(90));
-                object.translate(0, depth, 0);
+                geometryObj.rotateX(THREE.Math.degToRad(90));
+                geometryObj.translate(0, depth, 0);
                 break;
         }
-        pushToCanvas(object, material, position);
+        pushToCanvas(geometryObj, material, position);
     };
 
-    this.makeGeometry = function(object, material, position) {
-        var geometry = new THREE.BoxGeometry(object.x, object.y, object.z);
+    this.makeGeometry = function(geometryObj, material, position) {
+        var geometry = new THREE.BoxGeometry(geometryObj.x, geometryObj.y, geometryObj.z);
         //moves cube up half of Y to get a new center at 0,0,0
         //this makes it easier to place later without going under the ground
-        geometry.translate(0, object.y / 2, 0);
+        geometry.translate(0, geometryObj.y / 2, 0);
         pushToCanvas(geometry, material, position);
     }
 
-    function pushToCanvas(geometry, material, position) {
-        var object = new THREE.Mesh(geometry, material);
-        object.castShadow = true;
-        object.position.set(position.x, position.y, position.z);
-        object.name = 'carport'; //needs to be something else later
-        loader.add(object);
+    function pushToCanvas(geometryObj, material, position) {
+        var meshObj = new THREE.Mesh(geometryObj, material);
+        meshObj.castShadow = true;
+        meshObj.position.set(position.x, position.y, position.z);
+        meshObj.name = 'carport'; //needs to be something else later
+        loader.add(meshObj);
     }
 
 
