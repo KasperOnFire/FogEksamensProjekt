@@ -17,7 +17,7 @@ import javax.servlet.http.*;
  *
  * @author Kasper
  */
-@WebServlet(name = "Get2D", urlPatterns = {"/Get2D"})
+@WebServlet(name = "Get3D", urlPatterns = {"/Get3D"})
 public class Get3D extends HttpServlet {
 
     DataProcessor dp;

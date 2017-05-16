@@ -123,7 +123,7 @@ function SvgMaker() {
                 .flip('y', topMid.x);
             var text = drawTop.text((length) + 'cm')
                 .move(topMid.z - 35 + position.z * 100, topMid.x + position.x * 100)
-                .rotate(-90)
+                .rotate(-90);
         }
 
         if (axis == 'z') {
@@ -140,7 +140,7 @@ function SvgMaker() {
                 .move(topMid.z - (length / 2) + position.z * 100, topMid.x + position.x * 100)
                 .flip('y', topMid.x);
             var text = drawTop.text((length) + 'cm')
-                .move(topMid.z + position.z * 100, topMid.x - position.x * 100)
+                .move(topMid.z + position.z * 100, topMid.x - position.x * 100);
         }
 
         //side
@@ -159,7 +159,7 @@ function SvgMaker() {
                 .flip('y', _height / 2);
             var text = drawSide.text((length) + 'cm')
                 .move(sideMid.z + position.z * 100 - 35, _height - sideMid.y + position.y * 100 - (length / 2))
-                .rotate(-90)
+                .rotate(-90);
         }
 
         if (axis == 'z') {
@@ -176,7 +176,7 @@ function SvgMaker() {
                 .move(sideMid.z - (length / 2) + position.z * 100, sideMid.y + position.y * 100)
                 .flip('y', _height / 2);
             var text = drawSide.text((length) + 'cm')
-                .move(sideMid.z + position.z * 100, _height - sideMid.y - position.y * 100)
+                .move(sideMid.z + position.z * 100, _height - sideMid.y - position.y * 100);
         }
 
     }

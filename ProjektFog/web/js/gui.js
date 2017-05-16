@@ -2,22 +2,22 @@ function DatGui() {
 
     this.getObjects = function() {
         return {
-            guiCarport: guiCarport,
-            guiRoof: guiRoof,
-            guiShed: guiShed
+            carport: carport,
+            roof: roof,
+            shed: shed
 
         }
     }
 
-    this.setObjects = function(object) { //not tested yet #DOESN'T WORK
+    this.setObjects = function(JSONObj) {
         gui.destroy();
-        guiCarport = object.guiCarport;
-        guiRoof = object.guiRoof;
-        guiShed = object.guiShed;
+        carport = JSONObj.carport;
+        roof = JSONObj.roof;
+        shed = JSONObj.shed;
         init();
         update();
     }
-    var guiCarport, guiRoof, guiShed, guiFunctions;
+    var carport, roof, shed, guiFunctions;
     var gui;
 
     dat.GUI.prototype.removeFolder = function(name) { //extend with useful function
@@ -39,13 +39,13 @@ function DatGui() {
         }
     };
 
-    guiCarport = {
+    carport = {
         width: 500,
         depth: 500,
         height: 230
     };
 
-    guiRoof = {
+    roof = {
         gableRoof: false,
         overhang: {
             sides: 20,
@@ -54,7 +54,7 @@ function DatGui() {
         }
     };
 
-    guiShed = {
+    shed = {
         shed: false,
         depth: 300,
         doorPlacement: 0.00,
@@ -71,7 +71,7 @@ function DatGui() {
         gui.add(guiFunctions, 'saveData')
             .name('Gem Carport');
 
-        gui.add(guiShed, 'shed')
+        gui.add(shed, 'shed')
             .name('Skur')
             .onChange(function() {
                 shedFolder();
@@ -79,7 +79,7 @@ function DatGui() {
             });
 
         //carportGui
-        gui.add(guiCarport, 'width')
+        gui.add(carport, 'width')
             .min(200)
             .max(750)
             .step(5)
@@ -87,7 +87,7 @@ function DatGui() {
             .onChange(function() {
                 update()
             });
-        gui.add(guiCarport, 'depth')
+        gui.add(carport, 'depth')
             .min(200)
             .max(800)
             .step(5)
@@ -95,7 +95,7 @@ function DatGui() {
             .onChange(function() {
                 update()
             });
-        gui.add(guiCarport, 'height')
+        gui.add(carport, 'height')
             .min(200)
             .max(260)
             .step(5)
@@ -105,14 +105,14 @@ function DatGui() {
             });
 
         //roofGui
-        var roof = gui.addFolder('Tag');
-        roof.add(guiRoof, 'gableRoof')
+        var folderRoof = gui.addFolder('Tag');
+        folderRoof.add(roof, 'gableRoof')
             .name('Spidstag')
             .onChange(function() {
                 update()
             });
-        var overhang = roof.addFolder('overhang');
-        overhang.add(guiRoof.overhang, 'sides')
+        var folderOverhang = folderRoof.addFolder('overhang');
+        folderOverhang.add(roof.overhang, 'sides')
             .min(0)
             .max(30)
             .step(5)
@@ -120,7 +120,7 @@ function DatGui() {
             .onChange(function() {
                 update()
             });
-        overhang.add(guiRoof.overhang, 'front')
+        folderOverhang.add(roof.overhang, 'front')
             .min(0)
             .max(30)
             .step(5)
@@ -128,7 +128,7 @@ function DatGui() {
             .onChange(function() {
                 update()
             });
-        overhang.add(guiRoof.overhang, 'back')
+        folderOverhang.add(roof.overhang, 'back')
             .min(0)
             .max(30)
             .step(5)
@@ -136,17 +136,17 @@ function DatGui() {
             .onChange(function() {
                 update()
             });
-        overhang.open();
-        roof.open();
+        folderOverhang.open();
+        folderRoof.open();
 
         //shedGui
         shedFolder();
     }
 
     function shedFolder() {
-        if (guiShed.shed) {
-            var shed = gui.addFolder('Skur');
-            shed.add(guiShed, 'depth')
+        if (shed.shed) {
+            var folderShed = gui.addFolder('Skur');
+            folderShed.add(shed, 'depth')
                 .min(200)
                 .max(400)
                 .step(5)
@@ -154,25 +154,25 @@ function DatGui() {
                 .onChange(function() {
                     update()
                 });
-            shed.add(guiShed, 'doorPlacement')
+            folderShed.add(shed, 'doorPlacement')
                 .min(-1)
                 .max(1)
                 .step(0.05)
                 .name('Dør placering').onChange(function() {
                     update()
                 });
-            shed.add(guiShed, 'side', ['Foran', 'Bagved', 'Venstre', 'Højre'])
+            folderShed.add(shed, 'side', ['Foran', 'Bagved', 'Venstre', 'Højre'])
                 .name('Side')
                 .onChange(function() {
                     update()
                 });
-            shed.open();
-            shed.add(guiShed, 'rotateDoor')
+            folderShed.open();
+            folderShed.add(shed, 'rotateDoor')
                 .name('Roter dør')
                 .onChange(function() {
                     update()
                 });
-            shed.open();
+            folderShed.open();
         } else {
             gui.removeFolder('Skur');
         }

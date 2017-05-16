@@ -51,12 +51,12 @@ function MeshMaker(loader) {
         pushToCanvas(geometryObj, material, position);
     };
 
-    this.makeGeometry = function(geometryObj, material, position) {
-        var geometry = new THREE.BoxGeometry(geometryObj.x, geometryObj.y, geometryObj.z);
+    this.makeGeometry = function(geometry, material, position) {
+        var geometryObj = new THREE.BoxGeometry(geometry.x, geometry.y, geometry.z);
         //moves cube up half of Y to get a new center at 0,0,0
         //this makes it easier to place later without going under the ground
-        geometry.translate(0, geometryObj.y / 2, 0);
-        pushToCanvas(geometry, material, position);
+        geometryObj.translate(0, geometry.y / 2, 0);
+        pushToCanvas(geometryObj, material, position);
     }
 
     function pushToCanvas(geometryObj, material, position) {
