@@ -5,23 +5,28 @@
 \usepackage{lmodern}
 \usepackage{pslatex} % Giver pænere font
 \usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\linespread{1} % linjeafstand
+%\usepackage[T1]{fontenc}
+\linespread{1.15} % linjeafstand
 \setcounter{secnumdepth}{0}
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[LE,RO]{Gruppe A1}
 \fancyhead[RE,LO]{Semesterprojekt}
 \fancyfoot[LE,RO]{\thepage}
+\usepackage{graphicx}
+\graphicspath{ {img/} }
+
 \begin{document}
 
 \title{Semesterprojekt}
 \date{29.\ maj, 2017}
+\author{CPHBusiness \- Datamatiker, 2.\ semester}
 \author{Tjalfe M\o ller, Kristian Krog, David Carl og Kasper Breindal}
 
 \maketitle
 \tableofcontents
 \include{./tex/introduktion}
+\include{./tex/ui}
 
 
 \end{document}

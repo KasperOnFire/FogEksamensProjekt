@@ -1,2 +1,5 @@
 \select@language {danish}
 \contentsline {section}{Introduktion}{3}
+\contentsline {section}{Brugergr\IeC {\ae }nseflade og design}{4}
+\contentsline {subsection}{Gennemgang af gr\IeC {\ae }nseflade}{4}
+\contentsline {subsection}{Tekniske detajler}{5}
