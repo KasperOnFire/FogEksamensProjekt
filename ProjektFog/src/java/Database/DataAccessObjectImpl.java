@@ -1,5 +1,10 @@
 package Database;
 
+import User.AdminUser;
+import User.Password;
+import User.User;
+
+import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
