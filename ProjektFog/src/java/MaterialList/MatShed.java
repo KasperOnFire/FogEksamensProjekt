@@ -19,7 +19,7 @@ public class MatShed
     private static Map<String, Part> shedMap = new HashMap<>();
     private Part p;
     
-    private Map<String, Part> calcShed(int length, int depth)
+    public Map<String, Part> calcShed(int length, int depth)
     {
         p = new Part(shedBoards(length, depth),dao.getDouble("price", "material", "name", "Skurbræt"));
         shedMap.put("Skurbræt", p);

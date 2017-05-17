@@ -20,7 +20,7 @@ public class MatBase
     private static Map<String, Part> baseMap = new HashMap<>();
     private Part p;
     
-    private Map<String, Part> calcBase(int length, int depth, int height, Shed s)
+    public Map<String, Part> calcBase(int length, int depth, int height, Shed s)
     {
         p = new Part(posts(length,depth,s),dao.getDouble("price", "material", "name", "Stolpe"),height+90);
         baseMap.put("Stolper", p);
