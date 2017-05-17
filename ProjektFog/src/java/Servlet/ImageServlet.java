@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import Draw.Draw2D;
-import Backend.MaterialList;
+import MaterialList.MaterialList;
 import java.io.ByteArrayOutputStream;
 
 @WebServlet(name = "ImageServlet", urlPatterns = {"/ImageServlet"})
