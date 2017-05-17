@@ -2,9 +2,6 @@ package Servlet;
 
 import User.AdminUser;
 import User.Logic.DatabaseFront;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,9 +12,12 @@ import User.Logic.LoginFront;
 import User.Order;
 import User.User;
 import java.util.ArrayList;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
- * 
+ *
  * This servlet handles the login of a user or an admin
  *
  * @author Kasper
@@ -26,7 +26,7 @@ import java.util.ArrayList;
 public class login extends HttpServlet {
 
     /**
-     * 
+     *
      * Handles the login request
      *
      * @param request
@@ -41,10 +41,10 @@ public class login extends HttpServlet {
         HttpSession session = request.getSession();
         LoginFront login = new LoginFront();
         DatabaseFront DBF = new DatabaseFront();
-        
+
         User user = null;
         AdminUser AdminUser = null;
-        
+
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
@@ -59,7 +59,7 @@ public class login extends HttpServlet {
         if (request.getParameter("adminLogin") == null) {
             if (!(Boolean) session.getAttribute("loggedIn")) {
                 if (login.passwordCheck(username, password)) {
-                    
+
                     user = login.returnUser(username);
                     session.setAttribute("loggedIn", true);
                     session.setAttribute("username", user.getUname());
@@ -81,7 +81,7 @@ public class login extends HttpServlet {
                 if (login.adminPasswordCheck(username, password)) {
                     AdminUser = login.returnAdminUser(username);
                     ArrayList<Order> orders = DBF.getOrders();
-                    
+
                     session.setAttribute("ordersPending", orders);
                     session.setAttribute("adminLoggedIn", true);
                     session.setAttribute("username", AdminUser.getUname());

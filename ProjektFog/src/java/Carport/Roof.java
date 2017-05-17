@@ -12,14 +12,14 @@ package Carport;
  */
 public class Roof {
 
-    public Roof(boolean isGable, int sides, int front, int back) {
-        this.isGable = isGable;
+    public Roof(boolean gable, int sides, int front, int back) {
+        this.gable = gable;
         this.sides = sides;
         this.front = front;
         this.back = back;
     }
 
-    private boolean isGable;
+    private boolean gable;
     private int sides;
     private int front;
     private int back;
@@ -46,5 +46,10 @@ public class Roof {
 
     public void setBack(int back) {
         this.back = back;
+    }
+
+    public boolean isGable()
+    {
+        return gable;
     }
 }

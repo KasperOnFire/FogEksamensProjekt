@@ -1,9 +1,13 @@
 package Backend;
 
-import Carport.*;
 import Database.*;
 import java.sql.*;
-import org.json.*;
+
+import Carport.Base;
+import Carport.Carport;
+import Carport.Roof;
+import Carport.Shed;
+import org.json.JSONObject;
 
 /**
  * This class exists to process the json that comes from the 3d render of the
