@@ -18,7 +18,7 @@
                     </div>
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="index.jsp">Hjem</a></li>
-                        <li><a href="3D-render.jsp">Design din carport</a></li>
+                        <li><a href="Get3D">Design din carport</a></li>
                             <c:choose>
                                 <c:when test="${loggedIn!=true}">
                                 <li><a style="" href="login.jsp">Log ind</a></li>

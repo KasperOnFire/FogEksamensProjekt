@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -48,7 +50,7 @@ public class DataReciever extends HttpServlet {
         DataProcessor dp = new DataProcessor();
         String json = (String) request.getParameter("json");
         Carport c = dp.parseJson(json);
-        
+
         if (c != null) { //Hvis det lykkedes
             session.setAttribute("Carport", c);
             if ((boolean) session.getAttribute("loggedIn") == true) {
@@ -59,7 +61,6 @@ public class DataReciever extends HttpServlet {
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
-                getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
             } else {
                 request.getRequestDispatcher("/signup.jsp").forward(request, response); //TODO: i det servlet der handler signup, skal der være et tjek for carport - så den kan gemmes
             }
