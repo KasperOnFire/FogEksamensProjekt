@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -12,23 +13,44 @@
 
     <body>
         <div class="main-div">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="#">Johannes Fog</a>
+                    </div>
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="index.jsp">Hjem</a></li>
+                        <li><a href="3D-render.jsp">Design din carport</a></li>
+                            <c:choose>
+                                <c:when test="${loggedIn!=true}">
+                                <li><a style="" href="login.jsp">Log ind</a></li>
+                                <li><a style="" href="signup.jsp">Registrer</a></li>
+                                </c:when>
+                                <c:otherwise>
+                                <li class="active"><a href="userpanel.jsp">Bruger Panel</a></li>
+                                <li><a href="logout">Logout</a></li>
+                                </c:otherwise>
+                            </c:choose>
+                    </ul>
+                </div>
+            </nav>
             <div class="main-header">
                 <img src="img/fog.png">
                 <h1>Design en Carport</h1>
             </div>
-            <div class="main-contet">
-                <!--<p>Alle mål i cm</p>
-                <form action="ImageServlet" class="form-group">
-                    <input type="number" name="height" placeholder="Højde" step="1" min="100" required="">
-                     <br>
-                     <input type="number" name="depth" placeholder="Længde" step="1" min="100" required="">
-                     <br>
-                     <input type="number" name="width" placeholder="Bredde" step="1" min="100" required="">
-                     <br>
-                     <input type="submit"> 
-                    
-                 </form>-->
-                <a href="Fog_Carport.html" class="link-button">Design din carport!</a>
+            <div class="main-content">
+                <a href="carport.jsp" class="link-button">Design din carport!</a>
+                <c:choose>
+                    <c:when test="${loggedIn!=true}">
+                        <a class="link-button" href="login.jsp">Gå til login!</a>
+                        <a href="signup.jsp">har du ikke en bruger? Registrer her?</a>
+                    </c:when>
+                    <c:otherwise>
+                        <p>Logget in som: <c:out value="${username}"></c:out></p>
+                        <p>userString: <c:out value="${userString}"></c:out></p>
+                        <p>Gemt caport: <c:out value="${carport}"></c:out></p>
+                    </c:otherwise>
+                </c:choose>
                 <div class="img-display">
                     <img src="img/fog.png"/> 
                     <img src="img/fog.png"/>

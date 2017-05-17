@@ -27,19 +27,44 @@
                             <thead>
                                 <tr>
                                     <th>Ordre no.</th>
-                                    <th>Kunde</th>
-                                    <th>Stykliste</th>
+                                    <th>Kunde no.</th>
+                                    <th>Status</th>
                                     <th>Tegning</th>
                                     <th>3D</th>
                                 </tr></thead>
                             <tbody> <!-- c:out her til data fra db -->
                                 <c:forEach items="${ordersPending}" var="a">
                                     <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td><a href="#" class="btn btn-info">2D tegning</a></td>
-                                        <td><a href="#" class="btn btn-info">3D Render</a></td>
+                                        <td>${a.getOno()}</td>
+                                        <td>${a.getUid()}</td>
+                                        <td>
+                                            <c:choose>
+                                                <c:when test="${a.getOstatus() == 0}">
+                                                    <p>Ikke behandlet</p>
+                                                </c:when>
+                                                <c:when test="${a.getOstatus() == 1}">
+                                                    <p>Under behandling</p>
+                                                </c:when>
+                                                <c:when test="${a.getOstatus() == 2}">
+                                                    <p>Færdig behandlet</p>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <p>Error #1337</p>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </td>
+                                        <td>
+                                            <form> <!-- Testing form -->
+                                                <input type="hidden" value="${a.getCarport()}">
+                                                <input type="button" value="2D tegning" class="btn btn-info"> 
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <form> <!-- Testing form -->
+                                                <input type="hidden" value="${a.getCarport()}">
+                                                <input type="button" value="3D tegning" class="btn btn-info"> 
+                                            </form>
+                                        </td>
                                     </tr>
                                 </c:forEach>
                             </tbody>

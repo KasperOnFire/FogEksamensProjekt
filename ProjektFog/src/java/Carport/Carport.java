@@ -6,6 +6,7 @@
 package Carport;
 
 /**
+ * The carpot as an object. Consists of a base, a roof and a shed.
  *
  * @author Kasper
  */

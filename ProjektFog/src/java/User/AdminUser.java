@@ -1,27 +1,25 @@
 package User;
 
+/**
+ *
+ * The class with the datastructure of an admin from the database
+ */
 public class AdminUser {
 
-    int uno;
-    String uname;
-    String empno;
-    String empname;
-    String hashedPW;
-    String salt;
-    String userString;
+    private String uname;
+    private String empno;
+    private String empname;
+    private String hashedPW;
+    private String salt;
+    private String userString;
 
-    public AdminUser(int uno, String uname, String empno, String empname, String hashedPW, String salt, String userString) {
-        this.uno = uno;
+    public AdminUser(String uname, String empno, String empname, String hashedPW, String salt, String userString) {
         this.uname = uname;
         this.empno = empno;
         this.empname = empname;
         this.hashedPW = hashedPW;
         this.salt = salt;
         this.userString = userString;
-    }
-
-    public int getUno() {
-        return uno;
     }
 
     public String getUname() {

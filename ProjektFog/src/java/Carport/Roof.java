@@ -6,6 +6,7 @@
 package Carport;
 
 /**
+ * The roof of the carport.
  *
  * @author Kasper
  */

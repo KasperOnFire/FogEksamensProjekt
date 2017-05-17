@@ -7,7 +7,13 @@ package Servlet;
 
 import Backend.*;
 import Carport.*;
+import User.Logic.DatabaseFront;
+import User.Logic.LoginFront;
+import User.User;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,6 +22,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
+ *
+ * This servlet recieves the carport in JSON format from the 3d-render-gui, and
+ * tries to save it to the user.
  *
  * @author Kasper
  */
@@ -32,24 +41,30 @@ public class DataReciever extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
+            throws ServletException, IOException, Exception {
+
+        DatabaseFront DBF = new DatabaseFront();
         HttpSession session = request.getSession();
         DataProcessor dp = new DataProcessor();
         String json = (String) request.getParameter("json");
         Carport c = dp.parseJson(json);
-        
+
         if (c != null) { //Hvis det lykkedes
             session.setAttribute("Carport", c);
-            if ((boolean) session.getAttribute("loggedIn") != true) {
-                getServletContext().getRequestDispatcher("/signup.jsp").forward(request, response); //TODO: i det servlet der handler signup, skal der være et tjek for carport - så den kan gemmes
+            if ((boolean) session.getAttribute("loggedIn") == true) {
+                String userString = (String) session.getAttribute("userString");
+                dp.saveCarportToUser(userString, json);
+                try {
+                    DBF.saveCarport(userString, json);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+                getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
+            } else {
+                request.getRequestDispatcher("/signup.jsp").forward(request, response); //TODO: i det servlet der handler signup, skal der være et tjek for carport - så den kan gemmes
             }
-        } else {
-            String userstring = (String) session.getAttribute("userString");
-            dp.saveCarportToUser(userstring, c);
-            getServletContext().getRequestDispatcher("wherever").forward(request, response);
         }
-        
+
     }
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -64,7 +79,11 @@ public class DataReciever extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(DataReciever.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -78,8 +97,12 @@ public class DataReciever extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-        
+        try {
+            processRequest(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(DataReciever.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     /**

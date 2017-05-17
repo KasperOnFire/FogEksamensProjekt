@@ -8,6 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+/**
+ * Handles logout of a user.
+ *
+ * @author Kasper
+ */
 @WebServlet(name = "logout", urlPatterns = {"/logout"})
 public class logout extends HttpServlet {
 
@@ -18,7 +23,6 @@ public class logout extends HttpServlet {
 
         try {
             session.invalidate();
-            session.setAttribute("loggedIn", false);
             response.sendRedirect("index.jsp");
         } catch (IllegalStateException e) {
             System.out.println("ERROR Logout:");

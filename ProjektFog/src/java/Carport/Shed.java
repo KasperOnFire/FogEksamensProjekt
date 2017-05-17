@@ -6,6 +6,7 @@
 package Carport;
 
 /**
+ * The shed for a carport
  *
  * @author Kasper
  */

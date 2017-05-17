@@ -1,19 +1,36 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Backend;
 
 import Carport.*;
+import Database.*;
+import java.sql.*;
 import org.json.*;
 
 /**
+ * This class exists to process the json that comes from the 3d render of the
+ * carport, and to save it to the user.
  *
  * @author Kasper
  */
 public class DataProcessor {
 
+    DataAccessObjectImpl dao;
+
+    /**
+     *
+     * @throws Exception
+     */
+    public DataProcessor() throws Exception {
+        dao = new DataAccessObjectImpl();
+    }
+
+    /**
+     * Takes a String of JSON that follows the datastructure in the Carport
+     * class, and converts it to java object. non flexible method - only works
+     * with one datastructure.
+     *
+     * @param json - the string to be converted to java.
+     * @return the Carport with all the data from the JSON String.
+     */
     public Carport parseJson(String json) {
         JSONObject obj = new JSONObject(json);
 
@@ -46,8 +63,28 @@ public class DataProcessor {
             return null;
         }
     }
-    
-    public void saveCarportToUser(String userstring, Carport c){
-        
+
+    /**
+     *
+     * The method that handles saving a carport to a specific user.
+     *
+     * @param username - the username to where the carport should be saved.
+     * @param carport - the carport in json to save
+     * @return status of the operation
+     * @throws java.sql.SQLException if something goes wrong
+     */
+    public boolean saveCarportToUser(String username, String carport) throws SQLException {
+        return dao.updateCarport(carport, username);
+    }
+
+    /**
+     *
+     * Gets the carport as json from the database
+     *
+     * @param userString the user to get it from
+     * @return the carport in json
+     */
+    public String getCarportFromUser(String userString) {
+        return dao.getCarport(userString);
     }
 }

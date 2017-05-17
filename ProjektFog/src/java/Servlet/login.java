@@ -1,5 +1,7 @@
 package Servlet;
 
+import User.AdminUser;
+import User.Logic.DatabaseFront;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -9,41 +11,60 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import User.Logic.Login;
+import User.Logic.LoginFront;
+import User.Order;
+import User.User;
 import java.util.ArrayList;
 
+/**
+ * 
+ * This servlet handles the login of a user or an admin
+ *
+ * @author Kasper
+ */
 @WebServlet(urlPatterns = {"/login"})
 public class login extends HttpServlet {
 
+    /**
+     * 
+     * Handles the login request
+     *
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     * @throws Exception
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
 
         HttpSession session = request.getSession();
-        Login login = new Login();
-
-        ArrayList<Integer> ordersArr = new ArrayList<Integer>();
-        ordersArr.add(25);
-        ordersArr.add(30);
-        ordersArr.get(0);
+        LoginFront login = new LoginFront();
+        DatabaseFront DBF = new DatabaseFront();
         
-        session.setAttribute("ordersPending", ordersArr);
-
+        User user = null;
+        AdminUser AdminUser = null;
+        
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
         if (session.getAttribute("loggedIn") == null) {
             session.setAttribute("loggedIn", false);
         }
-        
-        if(session.getAttribute("adminLoggedIn") == null){
+
+        if (session.getAttribute("adminLoggedIn") == null) {
             session.setAttribute("adminLoggedIn", false);
         }
-        
+
         if (request.getParameter("adminLogin") == null) {
             if (!(Boolean) session.getAttribute("loggedIn")) {
                 if (login.passwordCheck(username, password)) {
+                    
+                    user = login.returnUser(username);
                     session.setAttribute("loggedIn", true);
-                    session.setAttribute("user", login.returnUser(username));
+                    session.setAttribute("username", user.getUname());
+                    session.setAttribute("userString", user.getUserString());
+                    session.setAttribute("carport", user.getCarport());
                     getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
                 } else {
                     String eMessage = "Wrong username / password";
@@ -55,17 +76,22 @@ public class login extends HttpServlet {
                 request.setAttribute("errorCode", eMessage);
                 getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
             }
-        }else{
-            if(!(Boolean) session.getAttribute("loggedIn") && !(Boolean) session.getAttribute("adminLoggedIn")){
-                if(login.adminPasswordCheck(username, password)){
+        } else {
+            if (!(Boolean) session.getAttribute("loggedIn") && !(Boolean) session.getAttribute("adminLoggedIn")) {
+                if (login.adminPasswordCheck(username, password)) {
+                    AdminUser = login.returnAdminUser(username);
+                    ArrayList<Order> orders = DBF.getOrders();
+                    
+                    session.setAttribute("ordersPending", orders);
                     session.setAttribute("adminLoggedIn", true);
-                    session.setAttribute("adminUser", login.returnAdminUser(username));
+                    session.setAttribute("username", AdminUser.getUname());
+                    session.setAttribute("userString", AdminUser.getUserString());
                     getServletContext().getRequestDispatcher("/manage.jsp").forward(request, response);
-                }else{//Wrong password
+                } else {//Wrong password
                     session.setAttribute("adminLoggedIn", false);
                     getServletContext().getRequestDispatcher("/adminpanel.jsp").forward(request, response);
                 }
-            }else{
+            } else {
                 getServletContext().getRequestDispatcher("/adminpanel.jsp").forward(request, response);
             }
         }
