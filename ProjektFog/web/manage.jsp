@@ -12,6 +12,7 @@
         <script src="js/sorttable.js"></script>
         <script src="js/custom.js"></script>
     </head>
+
     <body>
         <c:choose>
             <c:when test="${adminLoggedIn == true}">
@@ -31,39 +32,92 @@
                                     <th>Status</th>
                                     <th>Tegning</th>
                                     <th>3D</th>
-                                </tr></thead>
-                            <tbody> <!-- c:out her til data fra db -->
+                                    <th>Medarbejder</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- c:out her til data fra db -->
                                 <c:forEach items="${ordersPending}" var="a">
                                     <tr>
                                         <td>${a.getOno()}</td>
                                         <td>${a.getUid()}</td>
                                         <td>
                                             <c:choose>
-                                                <c:when test="${a.getOstatus() == 0}">
-                                                    <p>Ikke behandlet</p>
-                                                </c:when>
-                                                <c:when test="${a.getOstatus() == 1}">
-                                                    <p>Under behandling</p>
-                                                </c:when>
-                                                <c:when test="${a.getOstatus() == 2}">
-                                                    <p>Færdig behandlet</p>
+                                                <c:when test="${a.getEMPNo() == empNo}">
+                                                    <form action="userServlet">
+                                                        <input type="hidden" name="updateStatus" value="true">
+                                                        <input type="hidden" name="ono" value="${a.getOno()}">
+                                                        <c:choose>
+                                                            <c:when test="${a.getOstatus() == 0}">
+                                                                <select name="status">
+                                                                    <option value="0" selected>Ikke behandlet</option>
+                                                                    <option value="1">Under behandling</option>
+                                                                    <option value="2">Færdig behandlet</option>
+                                                                </select>
+                                                            </c:when>
+                                                            <c:when test="${a.getOstatus() == 1}">
+                                                                <select name="status">
+                                                                    <option value="0">Ikke behandlet</option>
+                                                                    <option value="1" selected>Under behandling</option>
+                                                                    <option value="2">Færdig behandlet</option>
+                                                                </select>
+                                                            </c:when>
+                                                            <c:when test="${a.getOstatus() == 2}">
+                                                                <select name="status">
+                                                                    <option value="0">Ikke behandlet</option>
+                                                                    <option value="1">Under behandling</option>
+                                                                    <option value="2" selected>Færdig behandlet</option>
+                                                                </select>
+                                                            </c:when>
+                                                        </c:choose>
+                                                        <input type="submit" value="Opdater" class="btn btn-info">
+                                                    </form>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <p>Error #1337</p>
+                                                    <c:choose>
+                                                        <c:when test="${a.getOstatus() == 0}">
+                                                            <p>Ikke behandlet</p>
+                                                        </c:when>
+                                                        <c:when test="${a.getOstatus() == 1}">
+                                                            <p>Under behandling</p>
+                                                        </c:when>
+                                                        <c:when test="${a.getOstatus() == 2}">
+                                                            <p>Færdig behandlet</p>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <p>Error #1337</p>
+                                                        </c:otherwise>
+                                                    </c:choose>
                                                 </c:otherwise>
                                             </c:choose>
                                         </td>
                                         <td>
-                                            <form> <!-- Testing form -->
+                                            <form>
+                                                <!-- Testing form -->
                                                 <input type="hidden" value="${a.getCarport()}">
-                                                <input type="button" value="2D tegning" class="btn btn-info"> 
+                                                <input type="button" value="2D tegning" class="btn btn-info">
                                             </form>
                                         </td>
                                         <td>
-                                            <form> <!-- Testing form -->
+                                            <form>
+                                                <!-- Testing form -->
                                                 <input type="hidden" value="${a.getCarport()}">
-                                                <input type="button" value="3D tegning" class="btn btn-info"> 
+                                                <input type="button" value="3D tegning" class="btn btn-info">
                                             </form>
+                                        </td>
+                                        <td>
+                                            <c:choose>
+                                                <c:when test="${a.getEMPNo() == -1}">
+                                                    <form action="userServlet">
+                                                        <input type="hidden" name="claimOrder" value="${username}">
+                                                        <input type="hidden" name="claimOno" value="${a.getOno()}">
+                                                        <input type="submit" value="Claim" class="btn btn-info">
+                                                    </form>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <p>${a.getEMPNo()}</p>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -75,7 +129,7 @@
                 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
             </c:when>
             <c:otherwise>
-                <c:redirect url="adminpanel.jsp"/>
+                <c:redirect url="adminpanel.jsp" />
             </c:otherwise>
         </c:choose>
     </body>

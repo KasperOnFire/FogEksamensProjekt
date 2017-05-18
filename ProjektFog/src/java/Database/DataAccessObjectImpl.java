@@ -115,6 +115,30 @@ public class DataAccessObjectImpl implements DataAccessObject {
         return user;
     }
 
+    public int getEmpNoByUsername(String empName) throws SQLException {
+        int empNo = -1;
+        PreparedStatement stmt = null;
+        String sql = "SELECT empno FROM adminuser WHERE username = ?";
+        try {
+            stmt = dbcon.getConnection().prepareStatement(sql);
+            stmt.setString(1, empName);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                empNo = rs.getInt("empno");
+            }
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                    return empNo;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return -1;
+    }
+
     /**
      *
      * SQL statement for inserting a new administrator.
@@ -224,6 +248,30 @@ public class DataAccessObjectImpl implements DataAccessObject {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    public boolean updateEMPonOrder(String empName, int ono) {
+        String sql = "UPDATE orders SET empno = ? WHERE ono = ?";
+        PreparedStatement stmt = null;
+        int empNo;
+        try {
+            stmt = dbcon.getConnection().prepareStatement(sql);
+            empNo = this.getEmpNoByUsername(empName);
+            stmt.setInt(1, empNo);
+            stmt.setInt(2, ono);
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                    return true;
+                }
+            } catch (Exception e) {
             }
         }
         return false;
@@ -355,8 +403,9 @@ public class DataAccessObjectImpl implements DataAccessObject {
                 int oStatusRetrieved = rs.getInt("ostatus");
                 String carportRetrieved = rs.getString("carport");
                 double priceRetrieved = rs.getDouble("price");
+                int empNo = rs.getInt("empno");
 
-                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved);
+                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved, empNo);
                 orderArray.add(order);
             }
         } catch (Exception e) {
@@ -371,8 +420,8 @@ public class DataAccessObjectImpl implements DataAccessObject {
         }
         return null;
     }
-    
-        public ArrayList getNewOrders() {
+
+    public ArrayList getNewOrders() {
         ArrayList<Order> orderArray = new ArrayList();
         Order order = null;
         String sql = "SELECT * FROM orders WHERE ostatus = 0";
@@ -387,7 +436,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
                 String carportRetrieved = rs.getString("carport");
                 double priceRetrieved = rs.getDouble("price");
 
-                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved);
+                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved, -1);
                 orderArray.add(order);
             }
         } catch (Exception e) {
@@ -402,7 +451,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
         }
         return null;
     }
-        
+
     public ArrayList getNotDoneOrders() {
         ArrayList<Order> orderArray = new ArrayList();
         Order order = null;
@@ -418,7 +467,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
                 String carportRetrieved = rs.getString("carport");
                 double priceRetrieved = rs.getDouble("price");
 
-                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved);
+                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved, -1);
                 orderArray.add(order);
             }
         } catch (Exception e) {
@@ -434,7 +483,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
         return null;
     }
 
-        public ArrayList getDoneOrders() {
+    public ArrayList getDoneOrders() {
         ArrayList<Order> orderArray = new ArrayList();
         Order order = null;
         String sql = "SELECT * FROM orders WHERE ostatus = 2";
@@ -449,7 +498,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
                 String carportRetrieved = rs.getString("carport");
                 double priceRetrieved = rs.getDouble("price");
 
-                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved);
+                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved, -1);
                 orderArray.add(order);
             }
         } catch (Exception e) {
@@ -464,7 +513,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
         }
         return null;
     }
-    
+
     public ArrayList getOrdersOnONO(int ono) {
         ArrayList<Order> orderArray = new ArrayList();
         Order order = null;
@@ -481,7 +530,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
                 String carportRetrieved = rs.getString("carport");
                 double priceRetrieved = rs.getDouble("price");
 
-                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved);
+                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved, -1);
                 orderArray.add(order);
             }
         } catch (Exception e) {
@@ -518,5 +567,26 @@ public class DataAccessObjectImpl implements DataAccessObject {
             }
         }
         return s;
+    }
+
+    public boolean updateOrderStatus(int ono, int oStatus) {
+        String sql = "UPDATE orders SET ostatus = ? WHERE ono = ?";
+        PreparedStatement stmt = null;
+        try {
+            stmt = dbcon.getConnection().prepareStatement(sql);
+            stmt.setInt(1, oStatus);
+            stmt.setInt(2, ono);
+            stmt.executeUpdate();
+        } catch (Exception e) {
+        } finally {
+            try {
+                if(stmt != null){
+                    stmt.close();
+                    return true;
+                }
+            } catch (Exception e) {
+            }
+        }
+        return false;
     }
 }

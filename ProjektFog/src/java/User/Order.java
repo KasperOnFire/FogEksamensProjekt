@@ -11,15 +11,17 @@ public class Order {
     private int ostatus;
     private String carport;
     private double price;
+    private int EMPNo;
 
-    public Order(int ono, int uid, int ostatus, String carport, double price) {
+    public Order(int ono, int uid, int ostatus, String carport, double price, int EMPNo) {
         this.ono = ono;
         this.uid = uid;
         this.ostatus = ostatus;
         this.carport = carport;
         this.price = price;
+        this.EMPNo = EMPNo;
     }
-
+    
     public int getOno() {
         return ono;
     }
@@ -39,4 +41,9 @@ public class Order {
     public double getPrice() {
         return price;
     }
+
+    public int getEMPNo() {
+        return EMPNo;
+    }
+    
 }

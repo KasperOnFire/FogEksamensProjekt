@@ -1,10 +1,13 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Servlet;
 
-import User.Logic.DatabaseFront;
+import User.Logic.userFront;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,27 +15,38 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet(name = "userpanel", urlPatterns = {"/userpanel"})
-public class userpanel extends HttpServlet {
+/**
+ *
+ * @author T430
+ */
+@WebServlet(name = "userServlet", urlPatterns = {"/userServlet"})
+public class userServlet extends HttpServlet {
+
+    userFront uF = null;
+
+    public userServlet() {
+        this.uF = new userFront();
+    }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
 
-        HttpSession session = request.getSession();
-        DatabaseFront DBF = null;
-        try {
-            DBF = new DatabaseFront();
-        } catch (Exception ex) {
+            HttpSession session = request.getSession();
+
+            if (request.getParameter("claimOrder") != null) {
+                System.out.println("Claiming order for user: " + request.getParameter("claimOrder"));
+                uF.claimUser(request.getParameter("claimOrder"), Integer.parseInt(request.getParameter("claimOno")));
+                session.setAttribute("ordersPending", uF.getAllOrders());
+                getServletContext().getRequestDispatcher("/manage.jsp").forward(request, response);
+            }
+            if (request.getParameter("updateStatus").equals("true")) {
+                uF.updateStatus(Integer.parseInt(request.getParameter("ono")), Integer.parseInt(request.getParameter("status")));
+                session.setAttribute("ordersPending", uF.getAllOrders());
+                getServletContext().getRequestDispatcher("/manage.jsp").forward(request, response);
+            }
         }
-        
-        if(request.getParameter("addOrder") != null){
-            System.out.println("Par: 1: " + request.getParameter("carport"));
-            System.out.println("Par: 2: " + (String) session.getAttribute("userString"));
-            DBF.addOrder((String) request.getParameter("carport"), (String) session.getAttribute("userString"), 0);
-            request.getRequestDispatcher("/index.jsp").forward(request, response);
-        }
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
