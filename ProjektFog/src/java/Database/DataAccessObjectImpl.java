@@ -21,7 +21,7 @@ import java.util.ArrayList;
  *
  * @author Kasper
  */
-public class DataAccessObjectImpl implements DataAccessObject{
+public class DataAccessObjectImpl implements DataAccessObject {
 
     private final DBConnector dbcon;
     private final Connection conn = null;
@@ -339,8 +339,8 @@ public class DataAccessObjectImpl implements DataAccessObject{
                 return rs.getDouble("price");
             }
         } catch (Exception e) {
-                e.printStackTrace(System.out);
-        }finally {
+            e.printStackTrace(System.out);
+        } finally {
             try {
                 if (stmt != null) {
                     stmt.close();
@@ -636,6 +636,34 @@ public class DataAccessObjectImpl implements DataAccessObject{
     }
 
     public ArrayList getNotClaimedOrders() {
-        //Return where empno is -1
+        ArrayList<Order> orderArray = new ArrayList();
+        Order order = null;
+        String sql = "SELECT * FROM orders WHERE empno = -1";
+        PreparedStatement stmt = null;
+        try {
+            stmt = dbcon.getConnection().prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int onoRetrieved = rs.getInt("ono");
+                int uidRetrieved = rs.getInt("uid");
+                int oStatusRetrieved = rs.getInt("ostatus");
+                String carportRetrieved = rs.getString("carport");
+                double priceRetrieved = rs.getDouble("price");
+                int empNo = rs.getInt("empno");
+
+                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved, empNo);
+                orderArray.add(order);
+            }
+        } catch (Exception e) {
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                    return orderArray;
+                }
+            } catch (Exception e) {
+            }
+        }
+        return null;
     }
 }
