@@ -46,10 +46,11 @@ public class DataReciever extends HttpServlet {
         HttpSession session = request.getSession();
         DataProcessor dp = new DataProcessor();
         String json = (String) request.getParameter("json");
+        session.setAttribute("json", json);
         Carport c = dp.parseJson(json);
 
         if (c != null) { //Hvis det lykkedes
-            session.setAttribute("Carport", c);
+            //session.setAttribute("Carport", c);
             if ((boolean) session.getAttribute("loggedIn") == true) {
                 String userString = (String) session.getAttribute("userString");
                 dp.saveCarportToUser(userString, json);
@@ -58,8 +59,6 @@ public class DataReciever extends HttpServlet {
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
-            } else {
-                request.getRequestDispatcher("/signup.jsp").forward(request, response); //TODO: i det servlet der handler signup, skal der være et tjek for carport - så den kan gemmes
             }
         }
 

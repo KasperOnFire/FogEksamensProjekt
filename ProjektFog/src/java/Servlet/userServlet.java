@@ -41,9 +41,34 @@ public class userServlet extends HttpServlet {
                 session.setAttribute("ordersPending", uF.getAllOrders());
                 getServletContext().getRequestDispatcher("/manage.jsp").forward(request, response);
             }
-            if (request.getParameter("updateStatus").equals("true")) {
+
+            if (request.getParameter("updateStatus") != null) {
                 uF.updateStatus(Integer.parseInt(request.getParameter("ono")), Integer.parseInt(request.getParameter("status")));
                 session.setAttribute("ordersPending", uF.getAllOrders());
+
+                getServletContext().getRequestDispatcher("/manage.jsp").forward(request, response);
+            }
+
+            if (request.getParameter("refreshOrders") != null) {
+                session.setAttribute("ordersPending", uF.getAllOrders());
+                getServletContext().getRequestDispatcher("/manage.jsp").forward(request, response);
+            }
+
+            if (request.getParameter("retrieveOrders") != null) {
+                switch (request.getParameter("retrieveOrders")) {
+                    case "allOrders":
+                        session.setAttribute("ordersPending", uF.getAllOrders());
+                        break;
+                    case "claimedOrders":
+                        session.setAttribute("ordersPending", uF.getClaimedOrders(Integer.parseInt((String) session.getAttribute("empNo"))));
+                        break;
+                    case "finishedOrders":
+                        session.setAttribute("ordersPending", uF.getFinishedOrders());
+                        break;
+                    case "searchOrder":
+                        session.setAttribute("ordersPending", uF.getSearchOrder(Integer.parseInt(request.getParameter("orderNumber"))));
+                        break;
+                }
                 getServletContext().getRequestDispatcher("/manage.jsp").forward(request, response);
             }
         }

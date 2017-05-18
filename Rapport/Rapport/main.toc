@@ -1,5 +1,7 @@
 \select@language {danish}
-\contentsline {section}{Introduktion}{3}
-\contentsline {section}{Brugergr\IeC {\ae }nseflade og design}{4}
-\contentsline {subsection}{Gennemgang af gr\IeC {\ae }nseflade}{4}
-\contentsline {subsection}{Tekniske detajler}{5}
+\contentsline {section}{Brugergr\IeC {\ae }nseflade og design}{3}
+\contentsline {subsection}{Gennemgang af gr\IeC {\ae }nseflade}{3}
+\contentsline {subsubsection}{For brugere}{3}
+\contentsline {subsubsection}{for Fogs medarbejdere}{6}
+\contentsline {subsection}{Tekniske detajler}{6}
+\contentsline {section}{SQL Queries}{8}

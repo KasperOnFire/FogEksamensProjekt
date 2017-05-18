@@ -25,9 +25,10 @@
                                 <c:when test="${loggedIn!=true}">
                                 <li><a style="" href="login.jsp">Log ind</a></li>
                                 <li><a style="" href="signup.jsp">Registrer</a></li>
+                                <li><a style="" href="adminpanel.jsp">Medarbejder login</a></li>
                                 </c:when>
                                 <c:otherwise>
-                                <li class="active"><a href="userpanel.jsp">Bruger Panel</a></li>
+                                <li class="" ><a href="userpanel.jsp">Bruger Panel</a></li>
                                 <li><a href="logout">Logout</a></li>
                                 </c:otherwise>
                             </c:choose>

@@ -52,7 +52,9 @@ public class DataProcessorTest {
      */
     @Test
     public void testParseJson() {
-        String json = "{\"guiCarport\":{\"width\":500,\"depth\":700,\"height\":230},\"guiRoof\":{\"gableRoof\":false,\"overhang\":{\"sides\":20,\"front\":20,\"back\":20}},\"guiShed\":{\"shed\":false,\"depth\":300,\"doorPlacement\":0,\"side\":\"Foran\",\"rotateDoor\":false}}";
+        String json = "{\"guiCarport\":{\"width\":500,\"depth\":700,\"height\":230},"
+                + "\"guiRoof\":{\"gableRoof\":false,\"overhang\":{\"sides\":20,\"front\":20,\"back\":20}},"
+                + "\"guiShed\":{\"shed\":false,\"depth\":300,\"doorPlacement\":0,\"side\":\"Foran\",\"rotateDoor\":false}}";
         String expResult = "500x230x700";
         Carport jsonCarport = instance.parseJson(json);
         String result = jsonCarport.getBase().toString();

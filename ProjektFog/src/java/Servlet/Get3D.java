@@ -7,7 +7,6 @@ package Servlet;
 
 import Backend.*;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.logging.*;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -33,15 +32,24 @@ public class Get3D extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
-        response.setContentType("text/html;charset=UTF-8");
+
         HttpSession session = request.getSession();
 
         dp = new DataProcessor();
         String userString = (String) session.getAttribute("userString");
 
-        String carport = dp.getCarportFromUser(userString);
+        String jsonStr;
+        jsonStr = (String) request.getParameter("json");
+        if (jsonStr != null) {
+        } else {
+            jsonStr = (String) session.getAttribute("json");
+        }
+        if (jsonStr != null) {
+        } else {
+            jsonStr = dp.getCarportFromUser(userString);
+        }
 
-        request.setAttribute("json", carport);
+        request.setAttribute("json", jsonStr);
         request.getRequestDispatcher("3D-render.jsp").forward(request, response);
     }
 

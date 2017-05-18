@@ -23,58 +23,42 @@ h1 {
 
 .el_report {
   padding-left:18px;
-  background-image:url(report.gif);
-  background-position:left center;
-  background-repeat:no-repeat;
+    background: url(report.gif) no-repeat left center;
 }
 
 .el_group {
   padding-left:18px;
-  background-image:url(group.gif);
-  background-position:left center;
-  background-repeat:no-repeat;
+    background: url(group.gif) no-repeat left center;
 }
 
 .el_bundle {
   padding-left:18px;
-  background-image:url(bundle.gif);
-  background-position:left center;
-  background-repeat:no-repeat;
+    background: url(bundle.gif) no-repeat left center;
 }
 
 .el_package {
   padding-left:18px;
-  background-image:url(package.gif);
-  background-position:left center;
-  background-repeat:no-repeat;
+    background: url(package.gif) no-repeat left center;
 }
 
 .el_class {
   padding-left:18px;
-  background-image:url(class.gif);
-  background-position:left center;
-  background-repeat:no-repeat;
+    background: url(class.gif) no-repeat left center;
 }
 
 .el_source {
   padding-left:18px;
-  background-image:url(source.gif);
-  background-position:left center;
-  background-repeat:no-repeat;
+    background: url(source.gif) no-repeat left center;
 }
 
 .el_method {
   padding-left:18px;
-  background-image:url(method.gif);
-  background-position:left center;
-  background-repeat:no-repeat;
+    background: url(method.gif) no-repeat left center;
 }
 
 .el_session {
   padding-left:18px;
-  background-image:url(session.gif);
-  background-position:left center;
-  background-repeat:no-repeat;
+    background: url(session.gif) no-repeat left center;
 }
 
 pre.source {
@@ -106,9 +90,7 @@ pre.source span.pc {
 }
 
 pre.source span.bfc {
-  background-image: url(branchfc.gif);
-  background-repeat: no-repeat;
-  background-position: 2px center;
+    background: url(branchfc.gif) no-repeat 2px center;
 }
 
 pre.source span.bfc:hover {
@@ -116,9 +98,7 @@ pre.source span.bfc:hover {
 }
 
 pre.source span.bnc {
-  background-image: url(branchnc.gif);
-  background-repeat: no-repeat;
-  background-position: 2px center;
+    background: url(branchnc.gif) no-repeat 2px center;
 }
 
 pre.source span.bnc:hover {
@@ -126,9 +106,7 @@ pre.source span.bnc:hover {
 }
 
 pre.source span.bpc {
-  background-image: url(branchpc.gif);
-  background-repeat: no-repeat;
-  background-position: 2px center;
+    background: url(branchpc.gif) no-repeat 2px center;
 }
 
 pre.source span.bpc:hover {
@@ -166,9 +144,7 @@ table.coverage thead td.ctr2 {
 
 table.coverage thead td.sortable {
   cursor:pointer;
-  background-image:url(sort.gif);
-  background-position:right center;
-  background-repeat:no-repeat;
+    background: url(sort.gif) no-repeat right center;
 }
 
 table.coverage thead td.up {

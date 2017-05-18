@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6300 64-bit) (preloaded format=pdflatex 2017.5.16)  17 MAY 2017 10:50
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6300 64-bit) (preloaded format=pdflatex 2017.5.16)  18 MAY 2017 13:09
 entering extended mode
 **d:/Biblioteker/Dokumenter/Dropbox/FogEksamensProjekt/Rapport/Rapport/main.tex
 
@@ -502,27 +502,29 @@ Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
 \Gin@req@height=\dimen112
 \Gin@req@width=\dimen113
 ) (main.aux
-(tex/introduktion.aux) (tex/ui.aux))
+(tex/businesscase.aux) (tex/Arkitektur.aux) (tex/ui.aux) (tex/SQL.aux)
+(tex/features.aux) (tex/testing.aux) (tex/errors.aux)
+(tex/futureimplementations.aux) (tex/conclusion.aux))
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for OMS/pzccm/m/n on input line 19.
-LaTeX Font Info:    Try loading font information for OMS+pzccm on input line 19
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OMS/pzccm/m/n on input line 20.
+LaTeX Font Info:    Try loading font information for OMS+pzccm on input line 20
 .
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\omspzccm.fd"
 File: omspzccm.fd 2000/01/03 Fontinst v1.801 font definitions for OMS/pzccm.
 )
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -656,12 +658,57 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
  [2
 
 ]
-\openout2 = `./tex/introduktion.aux'.
+\openout2 = `./tex/businesscase.aux'.
 
- (tex/introduktion.tex
+
+No file ./tex/businesscase.tex.
+\openout2 = `./tex/Arkitektur.aux'.
+
+No file ./tex/Arkitektur.tex.
+\openout2 = `./tex/ui.aux'.
+
+(tex/ui.tex
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <17.28> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1.
-)
+
+Underfull \hbox (badness 10000) in paragraph at lines 2--5
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2--5
+
+ []
+
+<img/indexui.png, id=10, 976.39781pt x 691.08188pt>
+File: img/indexui.png Graphic file (type png)
+ <use img/indexui.png>
+Package pdftex.def Info: img/indexui.png used on input line 7.
+(pdftex.def)             Requested size: 500.484pt x 354.23975pt.
+
+<img/3d.png, id=12, 1142.01656pt x 615.0478pt>
+File: img/3d.png Graphic file (type png)
+ <use img/3d.png>
+Package pdftex.def Info: img/3d.png used on input line 12.
+(pdftex.def)             Requested size: 500.484pt x 269.54262pt.
+
+<img/2d.png, id=13, 1163.84813pt x 698.61pt>
+File: img/2d.png Graphic file (type png)
+ <use img/2d.png>
+Package pdftex.def Info: img/2d.png used on input line 14.
+(pdftex.def)             Requested size: 500.484pt x 300.41776pt.
+
+<img/brugerpanel.png, id=14, 996.72375pt x 403.5075pt>
+File: img/brugerpanel.png Graphic file (type png)
+
+<use img/brugerpanel.png>
+Package pdftex.def Info: img/brugerpanel.png used on input line 16.
+(pdftex.def)             Requested size: 500.484pt x 202.60907pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 7--18
+
+ []
+
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 14.49998pt.
@@ -670,63 +717,83 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [3
 
-]
-\openout2 = `./tex/ui.aux'.
 
- (tex/ui.tex
-Underfull \hbox (badness 10000) in paragraph at lines 2--7
+
+
+
+ <./img/indexui.png>]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [4 <./img/3d.png>] <img/adminpanel.png, id=23, 960.58875pt x 648.92438pt>
+File: img/adminpanel.png Graphic file (type png)
+
+<use img/adminpanel.png>
+Package pdftex.def Info: img/adminpanel.png used on input line 20.
+(pdftex.def)             Requested size: 500.484pt x 338.10603pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [5 <./img/2d.png> <./img/brugerpanel.png>]) [6 <./img/adminpanel.png>] [7]
+\openout2 = `./tex/SQL.aux'.
+
+ (tex/SQL.tex
+<img/sqlstatement.png, id=37, 891.33pt x 477.28313pt>
+File: img/sqlstatement.png Graphic file (type png)
+
+<use img/sqlstatement.png>
+Package pdftex.def Info: img/sqlstatement.png used on input line 4.
+(pdftex.def)             Requested size: 500.484pt x 267.99771pt.
+
+<img/partssql.png, id=38, 824.32968pt x 617.30624pt>
+File: img/partssql.png Graphic file (type png)
+ <use img/partssql.png>
+Package pdftex.def Info: img/partssql.png used on input line 7.
+(pdftex.def)             Requested size: 500.484pt x 374.79485pt.
+)
+Underfull \hbox (badness 10000) in paragraph at lines 2--31
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2--7
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
- []
-
-<img/indexui.png, id=13, 976.39781pt x 691.08188pt>
-File: img/indexui.png Graphic file (type png)
- <use img/indexui.png>
-Package pdftex.def Info: img/indexui.png used on input line 8.
-(pdftex.def)             Requested size: 500.484pt x 354.23975pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 8--17
-
- []
+ [8
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 8--17
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 8--17
-
- []
+ <./img/sqlstatement.png>] [9 <./img/partssql.png>]
+\openout2 = `./tex/features.aux'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 8--17
+No file ./tex/features.tex.
+\openout2 = `./tex/testing.aux'.
 
- []
+No file ./tex/testing.tex.
+\openout2 = `./tex/errors.aux'.
 
-[4
+No file ./tex/errors.tex.
+\openout2 = `./tex/futureimplementations.aux'.
 
+No file ./tex/futureimplementations.tex.
+\openout2 = `./tex/conclusion.aux'.
 
- <./img/indexui.png>]) [5] (main.aux (tex/introduktion.aux) (tex/ui.aux)) ) 
+No file ./tex/conclusion.tex.
+(main.aux (tex/businesscase.aux) (tex/Arkitektur.aux) (tex/ui.aux) (tex/SQL.aux
+) (tex/features.aux) (tex/testing.aux) (tex/errors.aux)
+(tex/futureimplementations.aux) (tex/conclusion.aux)) ) 
 Here is how much of TeX's memory you used:
- 3161 strings out of 493328
- 42417 string characters out of 3139124
- 113006 words of memory out of 3000000
- 6612 multiletter control sequences out of 15000+200000
- 30110 words of font info for 64 fonts, out of 3000000 for 9000
+ 3242 strings out of 493328
+ 43742 string characters out of 3139124
+ 116755 words of memory out of 3000000
+ 6651 multiletter control sequences out of 15000+200000
+ 31217 words of font info for 65 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 39i,10n,43p,776b,208s stack positions out of 5000i,500n,10000p,200000b,50000s
-{C:/
-Program Files/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc}<C:/Program Files/MiKTeX 2
-.9/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/ur
-w/times/utmr8a.pfb>
-Output written on main.pdf (5 pages, 62818 bytes).
+ 39i,10n,43p,778b,208s stack positions out of 5000i,500n,10000p,200000b,50000s
+{C:/Program Files/MiKTeX
+ 2.9/fonts/enc/dvips/base/8r.enc}<C:/Program Files/MiKTeX 2.9/fonts/type1/urw/t
+imes/utmb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb>
+Output written on main.pdf (9 pages, 374737 bytes).
 PDF statistics:
- 30 PDF objects out of 1000 (max. 8388607)
+ 56 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 36 words of extra memory for PDF output out of 10000 (max. 10000000)
 
