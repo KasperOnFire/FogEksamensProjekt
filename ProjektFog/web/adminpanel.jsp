@@ -56,7 +56,7 @@
                         <a href="logout">logout</a>
                     </c:when>
                     <c:when test="${AdminloggedIn == null or adminLoggedIn == false}">
-                        <form action="login">
+                        <form action="login" method="post">
                             <input type="hidden" name="adminLogin" value="true">
                             <p>username:</p>
                             <input type="text" name="username" placeholder="Username">
