@@ -55,4 +55,8 @@ public class DatabaseFront {
     public ArrayList getClaimedOrders(int empno) {
         return DAO.getClaimedOrders(empno);
     }
+
+    public ArrayList getNotClaimed() {
+        return DAO.getNotClaimedOrders();
+    }
 }

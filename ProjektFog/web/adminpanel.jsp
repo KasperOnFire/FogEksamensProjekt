@@ -35,6 +35,10 @@
                             <input type="submit" value="Mine ordrer">
                         </form>
                         <form action="userServlet">
+                            <input type="hidden" value="notClaimed" name="retrieveOrders">
+                            <input type="submit" value="Ikke claimed ordrer">
+                        </form>
+                        <form action="userServlet">
                             <input type="hidden" value="finishedOrders" name="retrieveOrders">
                             <input type="submit" value="Færdige ordrer">
                         </form>

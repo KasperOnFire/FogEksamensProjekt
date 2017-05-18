@@ -40,4 +40,8 @@ public class userFront {
         return DBF.getOrdersOnONO(ono);
     }
 
+    public ArrayList getNotClaimed() {
+        return DBF.getNotClaimed();
+    }
+
 }
