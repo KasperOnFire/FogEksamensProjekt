@@ -41,14 +41,18 @@ public class userServlet extends HttpServlet {
                 session.setAttribute("ordersPending", uF.getAllOrders());
                 getServletContext().getRequestDispatcher("/manage.jsp").forward(request, response);
             }
-            
-            if (request.getParameter("updateStatus").equals("true")) {
+
+            if (request.getParameter("updateStatus") != null) {
                 uF.updateStatus(Integer.parseInt(request.getParameter("ono")), Integer.parseInt(request.getParameter("status")));
+                session.setAttribute("ordersPending", uF.getAllOrders());
+                
+                getServletContext().getRequestDispatcher("/manage.jsp").forward(request, response);
+            }
+
+            if (request.getParameter("refreshOrders") != null) {
                 session.setAttribute("ordersPending", uF.getAllOrders());
                 getServletContext().getRequestDispatcher("/manage.jsp").forward(request, response);
             }
-            
-            
         }
     }
 

@@ -23,7 +23,12 @@
                     </div>
                     <div class="main-content">
                         <h1>Alle Ordrer</h1>
-
+                        <div class="refreshButton">
+                            <form action="userServlet">
+                                <input type="hidden" name="refreshOrders" value="true">
+                                <input type="image" src="img/refresh.png" width="24" height="24">
+                            </form>
+                        </div>
                         <table class="table table-bordered table-hover sortable">
                             <thead>
                                 <tr>

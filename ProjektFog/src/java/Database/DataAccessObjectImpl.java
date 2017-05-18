@@ -364,7 +364,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
     }
 
     public boolean insertOrder(String json, String userString, double price) {
-        String sql = "INSERT INTO orders (uid, ostatus, carport, price) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO orders (uid, ostatus, carport, price, empno) VALUES (?, ?, ?, ?, ?)";
         PreparedStatement stmt = null;
         try {
             stmt = dbcon.getConnection().prepareStatement(sql);
@@ -372,6 +372,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
             stmt.setInt(2, 0);
             stmt.setString(3, json);
             stmt.setDouble(4, price);
+            stmt.setInt(5, -1);
             stmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
