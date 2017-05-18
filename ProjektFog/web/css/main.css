@@ -70,5 +70,8 @@ form {
     margin: 10px;
 }
 
+.refreshButton{
+    float: right;
+}
 
 /* end main boxes */
