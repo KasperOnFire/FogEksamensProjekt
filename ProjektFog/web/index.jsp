@@ -39,7 +39,7 @@
                 <h1>Design en Carport</h1>
             </div>
             <div class="main-content">
-                <a href="carport.jsp" class="link-button">Design din carport!</a>
+                <a href="Get3D" class="link-button">Design din carport!</a>
                 <c:choose>
                     <c:when test="${loggedIn!=true}">
                         <a class="link-button" href="login.jsp">Gå til login!</a>

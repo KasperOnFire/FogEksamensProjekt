@@ -39,24 +39,24 @@ public class DataProcessor {
         JSONObject obj = new JSONObject(json);
 
         //base
-        int width = obj.getJSONObject("guiCarport").getInt("width");
-        int height = obj.getJSONObject("guiCarport").getInt("height");
-        int depth = obj.getJSONObject("guiCarport").getInt("depth");
+        int width = obj.getJSONObject("carport").getInt("width");
+        int height = obj.getJSONObject("carport").getInt("height");
+        int depth = obj.getJSONObject("carport").getInt("depth");
         Base b = new Base(width, depth, height);
 
         //roof
-        boolean isGable = obj.getJSONObject("guiRoof").getBoolean("gableRoof");
-        int sides = obj.getJSONObject("guiRoof").getJSONObject("overhang").getInt("sides");
-        int front = obj.getJSONObject("guiRoof").getJSONObject("overhang").getInt("front");
-        int back = obj.getJSONObject("guiRoof").getJSONObject("overhang").getInt("back");
+        boolean isGable = obj.getJSONObject("roof").getBoolean("gableRoof");
+        int sides = obj.getJSONObject("roof").getJSONObject("overhang").getInt("sides");
+        int front = obj.getJSONObject("roof").getJSONObject("overhang").getInt("front");
+        int back = obj.getJSONObject("roof").getJSONObject("overhang").getInt("back");
         Roof r = new Roof(isGable, sides, front, back);
 
         //shed
-        boolean hasShed = obj.getJSONObject("guiShed").getBoolean("shed");
-        int depthShed = obj.getJSONObject("guiShed").getInt("depth");
-        int doorPlacement = obj.getJSONObject("guiShed").getInt("doorPlacement");
-        String side = obj.getJSONObject("guiShed").getString("side");
-        boolean rotateDoor = obj.getJSONObject("guiShed").getBoolean("rotateDoor");
+        boolean hasShed = obj.getJSONObject("shed").getBoolean("shed");
+        int depthShed = obj.getJSONObject("shed").getInt("depth");
+        int doorPlacement = obj.getJSONObject("shed").getInt("doorPlacement");
+        String side = obj.getJSONObject("shed").getString("side");
+        boolean rotateDoor = obj.getJSONObject("shed").getBoolean("rotateDoor");
         Shed s = new Shed(hasShed, depthShed, doorPlacement, side, rotateDoor);
 
         //Carport
