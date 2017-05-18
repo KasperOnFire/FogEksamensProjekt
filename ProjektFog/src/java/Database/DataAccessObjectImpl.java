@@ -21,7 +21,7 @@ import java.util.ArrayList;
  *
  * @author Kasper
  */
-public class DataAccessObjectImpl implements DataAccessObject {
+public class DataAccessObjectImpl implements DataAccessObject{
 
     private final DBConnector dbcon;
     private final Connection conn = null;
@@ -277,23 +277,31 @@ public class DataAccessObjectImpl implements DataAccessObject {
         return -1;
     }
 
-    public double getDouble(String var, String table, String term, String termName) {
-        String sql = "select ? from ? where ?=?";
-        try {
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, var);
-            stmt.setString(2, table);
-            stmt.setString(3, term);
-            stmt.setString(4, termName);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return rs.getDouble(var);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(DataAccessObjectImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return -1;
+    public double getDouble(String name) {
+//        System.out.println("start");
+//        String sql = "select price from material where name='" + name + "'";
+//        PreparedStatement stmt = null;
+//        try {
+//            stmt = dbcon.getConnection().prepareStatement(sql);
+//            //stmt.setString(1, name);
+//            System.out.println("preexecute");
+//            ResultSet rs = stmt.executeQuery();
+//            System.out.println("post execute");
+//            if (rs.next()) {
+//                return rs.getDouble("price");
+//            }
+//        } catch (Exception e) {
+//                e.printStackTrace(System.out);
+//        }finally {
+//            try {
+//                if (stmt != null) {
+//                    stmt.close();
+//                }
+//            } catch (Exception e) {
+//            }
+//        }
+//        return -1;
+        return 5;
     }
 
     public String getString(String var, String table, String term, String termName) {
