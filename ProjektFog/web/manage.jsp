@@ -94,14 +94,14 @@
                                         <td>
                                             <form action="Get2D">
                                                 <!-- Testing form -->
-                                                <input type="hidden" name="json" value="${a.getCarport()}">
+                                                <input type="hidden" name="json" value='${a.getCarport()}'>
                                                 <input type="submit" value="2D tegning" class="btn btn-info">
                                             </form>
                                         </td>
                                         <td>
                                             <form action="Get3D">
                                                 <!-- Testing form -->
-                                                <input type="hidden" name="json" value="${a.getCarport()}">
+                                                <input type="hidden" name="json" value='${a.getCarport()}'>
                                                 <input type="submit" value="3D tegning" class="btn btn-info">
                                             </form>
                                         </td>
