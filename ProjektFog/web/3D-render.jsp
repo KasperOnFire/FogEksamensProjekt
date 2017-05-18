@@ -26,7 +26,6 @@
                        value=''
                    </c:otherwise>
                </c:choose>
-
                id="json" name="json">
 
         <script src="https://ajax.googleapis.com/ajax/libs/threejs/r84/three.min.js"></script>
@@ -35,7 +34,6 @@
 
         <script src="js/gui.js"></script>
         <script src="js/3D/canvas.js"></script>
-
 
         <script src="js/3D/Loader.js"></script>
         <script src="js/3D/MeshMaker.js"></script>
