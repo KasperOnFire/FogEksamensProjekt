@@ -9,7 +9,6 @@ package Servlet;
 import User.Logic.DatabaseFront;
 import Backend.DataProcessor;
 import Carport.Carport;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -59,7 +58,6 @@ public class DataReciever extends HttpServlet {
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
-                getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
             } else {
                 request.getRequestDispatcher("/signup.jsp").forward(request, response); //TODO: i det servlet der handler signup, skal der være et tjek for carport - så den kan gemmes
             }

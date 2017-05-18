@@ -42,278 +42,42 @@ function SvgMaker() {
         makeCanvas(width * 100, height * 100, depth * 100);
         drawTop.clear();
         drawSide.clear();
-
-        //temp
-        //midt  (0,0)
-        /*
-        var midt = drawTop.ellipse(6, 6)
-            .fill('pink')
-            .stroke({ width: 1 })
-            .move(topMid.z - (6 / 2), topMid.x - (6 / 2));
-        //.move((_depth - 6) / 2, (_width - 6) / 2);
-
-        var midt = drawSide.ellipse(6, 6)
-            .fill('pink')
-            .stroke({ width: 1 })
-            .move((_depth - 6) / 2, 0)
-            .flip('y', _height / 2);
-        */
     }
 
     this.done = function() {
-        //work in progress needs to scale to fixed width
+        //#fix scale to fit in a box
         drawTop.scale(1);
         drawSide.scale(1);
 
     }
 
-    this.PrismGeometry = function(vertices, depth, loadside, material, position) {
+    this.prismGeometry = function(vertices, depth, loadside, material, position) {
         switch (loadside.valueOf()) {
             case "front":
                 //top
-                var pos = {
-                    x: position.x * 100,
-                    z: position.z * 100
-                };
-                var points = [];
-                var pointsTemp = [];
-                var _x;
-
-                for (var i = 0; i < vertices.length; i++) {
-                    _x = vertices[i].x * 100;
-                    if (!pointsTemp.includes(_x)) {
-                        pointsTemp.push(_x);
-                    }
-                }
-
-                for (i = 0; i < pointsTemp.length; i++) {
-                    points.push([0, pointsTemp[i]]);
-                }
-
-                for (i = pointsTemp.length - 1; i >= 0; i--) {
-                    points.push([depth * 100, pointsTemp[i]]);
-                }
-
-                for (var i = 0; i < points.length; i++) {
-                    if (points[i][1] < 0) {
-                        var amount = -points[i][1];
-                        for (var j = 0; j < points.length; j++) {
-                            points[j][1] += amount;
-                        }
-                        pos.x -= amount;
-                    }
-                }
-
-                var poly = drawTop.polygon(points);
-                poly.fill("none")
-                    .stroke({ width: 1 })
-                    .move(topMid.z - (depth * 100 / 2) + pos.z, topMid.x + pos.x)
-                    .flip('y', topMid.x);
+                prismGeomFrontViewTop(vertices, depth, position);
 
                 //side
-                var pos = {
-                    y: position.y * 100,
-                    z: position.z * 100
-                };
-                var points = [];
-                var pointsTemp = [];
-                var _y;
-
-                for (var i = 0; i < vertices.length; i++) {
-                    _y = vertices[i].y * 100;
-                    if (!pointsTemp.includes(_y)) {
-                        pointsTemp.push(_y);
-                    }
-                }
-
-                for (i = 0; i < pointsTemp.length; i++) {
-                    points.push([0, pointsTemp[i]]);
-                }
-
-                for (i = pointsTemp.length - 1; i >= 0; i--) {
-                    points.push([depth * 100, pointsTemp[i]]);
-                }
-
-                for (var i = 0; i < points.length; i++) {
-                    if (points[i][1] < 0) {
-                        var amount = -points[i][1];
-                        for (var j = 0; j < points.length; j++) {
-                            points[j][1] += amount;
-                        }
-                        pos.y -= amount;
-                    }
-                }
-
-                var poly = drawSide.polygon(points);
-                poly.fill(material.color)
-                    .stroke({ width: 1 })
-                    .move(sideMid.z - (depth * 100 / 2) + pos.z, sideMid.y + pos.y)
-                    .flip('y', _height / 2);
+                prismGeomFrontViewSide(vertices, depth, position);
                 break;
 
             case "side":
                 //top
-                var pos = {
-                    x: position.x * 100,
-                    z: position.z * 100
-                };
-                var points = [];
-                var pointsTemp = [];
-                var _x;
-
-                for (var i = 0; i < vertices.length; i++) {
-                    _x = vertices[i].x * 100;
-                    if (!pointsTemp.includes(_x)) {
-                        pointsTemp.push(_x);
-                    }
-                }
-
-                for (i = 0; i < pointsTemp.length; i++) {
-                    points.push([pointsTemp[i], 0]);
-                }
-
-                for (i = pointsTemp.length - 1; i >= 0; i--) {
-                    points.push([pointsTemp[i], depth * 100]);
-                }
-
-                for (var i = 0; i < points.length; i++) {
-                    if (points[i][0] < 0) {
-                        var amount = -points[i][0];
-                        for (var j = 0; j < points.length; j++) {
-                            points[j][0] += amount;
-                        }
-                        pos.z -= amount;
-                    }
-                }
-
-                var poly = drawTop.polygon(points);
-                poly.fill("none")
-                    .stroke({ width: 1 })
-                    .move(topMid.z + pos.z, topMid.x - (depth * 100 / 2) + pos.x)
-                    .flip('y', topMid.x);
+                prismGeomSideViewTop(vertices, depth, position);
 
                 //side
-                var pos = {
-                    z: position.z * 100,
-                    y: position.y * 100
-                };
-                var points = [];
-
-                for (var i = 0; i < vertices.length; i++) {
-                    points.push([vertices[i].x * 100, vertices[i].y * 100]);
-                }
-
-                for (var i = 0; i < points.length; i++) {
-                    if (points[i][0] < 0) {
-                        var amount = -points[i][0];
-                        for (var j = 0; j < points.length; j++) {
-                            points[j][0] += amount;
-                        }
-                        pos.z -= amount;
-                    }
-                }
-
-                for (var i = 0; i < points.length; i++) {
-                    if (points[i][1] < 0) {
-                        var amount = -points[i][1];
-                        for (var j = 0; j < points.length; j++) {
-                            points[j][1] += amount;
-                        }
-                        pos.y -= amount;
-                    }
-                }
-
-                var poly = drawSide.polygon(points);
-                poly.fill(material.color)
-                    .stroke({ width: 1 })
-                    .move(sideMid.z + pos.z, sideMid.y + pos.y)
-                    .flip('y', _height / 2)
+                prismGeomSideViewSide(vertices, depth, position);
                 break;
 
             case "top":
                 //top
-                var pos = {
-                    x: position.x * 100,
-                    z: position.z * 100
-                };
-                var points = [];
-
-                for (var i = 0; i < vertices.length; i++) {
-                    points.push([vertices[i].x * 100, vertices[i].y * 100]);
-                }
-
-                for (var i = 0; i < points.length; i++) {
-                    if (points[i][0] < 0) {
-                        var amount = -points[i][0];
-                        for (var j = 0; j < points.length; j++) {
-                            points[j][0] += amount;
-                        }
-                        pos.x -= amount;
-                    }
-                }
-
-                for (var i = 0; i < points.length; i++) {
-                    if (points[i][1] < 0) {
-                        var amount = -points[i][1];
-                        for (var j = 0; j < points.length; j++) {
-                            points[j][1] += amount;
-                        }
-                        pos.z -= amount;
-                    }
-                }
-
-                var poly = drawTop.polygon(points);
-                poly.fill(material.color)
-                    .stroke({ width: 1 })
-                    .move(topMid.z + pos.z, topMid.x + pos.x)
-                    .flip('y', topMid.x);
-
+                prismGeomTopViewTop(vertices, depth, position);
                 //side
-                var pos = {
-                    y: position.y * 100,
-                    z: position.z * 100
-                };
-                var points = [];
-                var pointsTemp = [];
-                var _z;
-
-                for (var i = 0; i < vertices.length; i++) {
-                    _z = vertices[i].y * 100;
-                    if (!pointsTemp.includes(_z)) {
-                        pointsTemp.push(_z);
-                    }
-                }
-
-                for (i = 0; i < pointsTemp.length; i++) {
-                    points.push([pointsTemp[i], 0]);
-                }
-
-                for (i = pointsTemp.length - 1; i >= 0; i--) {
-                    points.push([pointsTemp[i], depth * 100]);
-                }
-
-                for (var i = 0; i < points.length; i++) {
-                    if (points[i][0] < 0) {
-                        var amount = -points[i][0];
-                        for (var j = 0; j < points.length; j++) {
-                            points[j][0] += amount;
-                        }
-                        pos.z -= amount;
-                    }
-                }
-
-                var poly = drawSide.polygon(points);
-                poly.fill(material.color)
-                    .stroke({ width: 1 })
-                    .move(sideMid.z + pos.z, sideMid.y + pos.y)
-                    .flip('y', _height / 2);
-
+                prismGeomTopViewSide(vertices, depth, position);
                 break;
         }
-
-
-
     }
+
     this.makeGeometry = function(object, material, position) {
         var _x = object.x * 100;
         var _y = object.y * 100;
@@ -328,7 +92,7 @@ function SvgMaker() {
 
         //side
         var poly = drawSide.rect(_z, _y)
-            .fill(material.color)
+            .fill('white')
             .stroke({ width: 1 })
             .move(sideMid.z - _z / 2 + position.z * 100, sideMid.y + position.y * 100)
             .flip('y', _height / 2);
@@ -359,7 +123,7 @@ function SvgMaker() {
                 .flip('y', topMid.x);
             var text = drawTop.text((length) + 'cm')
                 .move(topMid.z - 35 + position.z * 100, topMid.x + position.x * 100)
-                .rotate(-90)
+                .rotate(-90);
         }
 
         if (axis == 'z') {
@@ -376,7 +140,7 @@ function SvgMaker() {
                 .move(topMid.z - (length / 2) + position.z * 100, topMid.x + position.x * 100)
                 .flip('y', topMid.x);
             var text = drawTop.text((length) + 'cm')
-                .move(topMid.z + position.z * 100, topMid.x - position.x * 100)
+                .move(topMid.z + position.z * 100, topMid.x - position.x * 100);
         }
 
         //side
@@ -395,7 +159,7 @@ function SvgMaker() {
                 .flip('y', _height / 2);
             var text = drawSide.text((length) + 'cm')
                 .move(sideMid.z + position.z * 100 - 35, _height - sideMid.y + position.y * 100 - (length / 2))
-                .rotate(-90)
+                .rotate(-90);
         }
 
         if (axis == 'z') {
@@ -412,8 +176,249 @@ function SvgMaker() {
                 .move(sideMid.z - (length / 2) + position.z * 100, sideMid.y + position.y * 100)
                 .flip('y', _height / 2);
             var text = drawSide.text((length) + 'cm')
-                .move(sideMid.z + position.z * 100, _height - sideMid.y - position.y * 100)
+                .move(sideMid.z + position.z * 100, _height - sideMid.y - position.y * 100);
         }
+
+    }
+
+    function prismGeomFrontViewTop(vertices, depth, position) {
+        var pos = {
+            x: position.x * 100,
+            z: position.z * 100
+        };
+        var points = [];
+        var pointsTemp = [];
+        var _x;
+
+        for (var i = 0; i < vertices.length; i++) {
+            _x = vertices[i].x * 100;
+            if (!pointsTemp.includes(_x)) {
+                pointsTemp.push(_x);
+            }
+        }
+
+        for (i = 0; i < pointsTemp.length; i++) {
+            points.push([0, pointsTemp[i]]);
+        }
+
+        for (i = pointsTemp.length - 1; i >= 0; i--) {
+            points.push([depth * 100, pointsTemp[i]]);
+        }
+
+        for (var i = 0; i < points.length; i++) {
+            if (points[i][1] < 0) {
+                var amount = -points[i][1];
+                for (var j = 0; j < points.length; j++) {
+                    points[j][1] += amount;
+                }
+                pos.x -= amount;
+            }
+        }
+
+        var poly = drawTop.polygon(points);
+        poly.fill("none")
+            .stroke({ width: 1 })
+            .move(topMid.z - (depth * 100 / 2) + pos.z, topMid.x + pos.x)
+            .flip('y', topMid.x);
+    }
+
+    function prismGeomFrontViewSide(vertices, depth, position) {
+        var pos = {
+            y: position.y * 100,
+            z: position.z * 100
+        };
+        var points = [];
+        var pointsTemp = [];
+        var _y;
+
+        for (var i = 0; i < vertices.length; i++) {
+            _y = vertices[i].y * 100;
+            if (!pointsTemp.includes(_y)) {
+                pointsTemp.push(_y);
+            }
+        }
+
+        for (i = 0; i < pointsTemp.length; i++) {
+            points.push([0, pointsTemp[i]]);
+        }
+
+        for (i = pointsTemp.length - 1; i >= 0; i--) {
+            points.push([depth * 100, pointsTemp[i]]);
+        }
+
+        for (var i = 0; i < points.length; i++) {
+            if (points[i][1] < 0) {
+                var amount = -points[i][1];
+                for (var j = 0; j < points.length; j++) {
+                    points[j][1] += amount;
+                }
+                pos.y -= amount;
+            }
+        }
+
+        var poly = drawSide.polygon(points);
+        poly.fill('white')
+            .stroke({ width: 1 })
+            .move(sideMid.z - (depth * 100 / 2) + pos.z, sideMid.y + pos.y)
+            .flip('y', _height / 2);
+    }
+
+    function prismGeomSideViewTop(vertices, depth, position) {
+        var pos = {
+            x: position.x * 100,
+            z: position.z * 100
+        };
+        var points = [];
+        var pointsTemp = [];
+        var _x;
+
+        for (var i = 0; i < vertices.length; i++) {
+            _x = vertices[i].x * 100;
+            if (!pointsTemp.includes(_x)) {
+                pointsTemp.push(_x);
+            }
+        }
+
+        for (i = 0; i < pointsTemp.length; i++) {
+            points.push([pointsTemp[i], 0]);
+        }
+
+        for (i = pointsTemp.length - 1; i >= 0; i--) {
+            points.push([pointsTemp[i], depth * 100]);
+        }
+
+        for (var i = 0; i < points.length; i++) {
+            if (points[i][0] < 0) {
+                var amount = -points[i][0];
+                for (var j = 0; j < points.length; j++) {
+                    points[j][0] += amount;
+                }
+                pos.z -= amount;
+            }
+        }
+
+        var poly = drawTop.polygon(points);
+        poly.fill("none")
+            .stroke({ width: 1 })
+            .move(topMid.z + pos.z, topMid.x - (depth * 100 / 2) + pos.x)
+            .flip('y', topMid.x);
+    }
+
+    function prismGeomSideViewSide(vertices, depth, position) {
+        var pos = {
+            z: position.z * 100,
+            y: position.y * 100
+        };
+        var points = [];
+
+        for (var i = 0; i < vertices.length; i++) {
+            points.push([vertices[i].x * 100, vertices[i].y * 100]);
+        }
+
+        for (var i = 0; i < points.length; i++) {
+            if (points[i][0] < 0) {
+                var amount = -points[i][0];
+                for (var j = 0; j < points.length; j++) {
+                    points[j][0] += amount;
+                }
+                pos.z -= amount;
+            }
+        }
+
+        for (var i = 0; i < points.length; i++) {
+            if (points[i][1] < 0) {
+                var amount = -points[i][1];
+                for (var j = 0; j < points.length; j++) {
+                    points[j][1] += amount;
+                }
+                pos.y -= amount;
+            }
+        }
+
+        var poly = drawSide.polygon(points);
+        poly.fill('white')
+            .stroke({ width: 1 })
+            .move(sideMid.z + pos.z, sideMid.y + pos.y)
+            .flip('y', _height / 2);
+    }
+
+    function prismGeomTopViewTop(vertices, depth, position) {
+        var pos = {
+            x: position.x * 100,
+            z: position.z * 100
+        };
+        var points = [];
+
+        for (var i = 0; i < vertices.length; i++) {
+            points.push([vertices[i].x * 100, vertices[i].y * 100]);
+        }
+
+        for (var i = 0; i < points.length; i++) {
+            if (points[i][0] < 0) {
+                var amount = -points[i][0];
+                for (var j = 0; j < points.length; j++) {
+                    points[j][0] += amount;
+                }
+                pos.x -= amount;
+            }
+        }
+
+        for (var i = 0; i < points.length; i++) {
+            if (points[i][1] < 0) {
+                var amount = -points[i][1];
+                for (var j = 0; j < points.length; j++) {
+                    points[j][1] += amount;
+                }
+                pos.z -= amount;
+            }
+        }
+
+        var poly = drawTop.polygon(points);
+        poly.fill('white')
+            .stroke({ width: 1 })
+            .move(topMid.z + pos.z, topMid.x + pos.x)
+            .flip('y', topMid.x);
+    }
+
+    function prismGeomTopViewSide(vertices, depth, position) {
+        var pos = {
+            y: position.y * 100,
+            z: position.z * 100
+        };
+        var points = [];
+        var pointsTemp = [];
+        var _z;
+
+        for (var i = 0; i < vertices.length; i++) {
+            _z = vertices[i].y * 100;
+            if (!pointsTemp.includes(_z)) {
+                pointsTemp.push(_z);
+            }
+        }
+
+        for (i = 0; i < pointsTemp.length; i++) {
+            points.push([pointsTemp[i], 0]);
+        }
+
+        for (i = pointsTemp.length - 1; i >= 0; i--) {
+            points.push([pointsTemp[i], depth * 100]);
+        }
+
+        for (var i = 0; i < points.length; i++) {
+            if (points[i][0] < 0) {
+                var amount = -points[i][0];
+                for (var j = 0; j < points.length; j++) {
+                    points[j][0] += amount;
+                }
+                pos.z -= amount;
+            }
+        }
+
+        var poly = drawSide.polygon(points);
+        poly.fill('white')
+            .stroke({ width: 1 })
+            .move(sideMid.z + pos.z, sideMid.y + pos.y)
+            .flip('y', _height / 2);
 
     }
 }

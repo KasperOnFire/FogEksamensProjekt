@@ -1,8 +1,9 @@
 function Loader(canvas) {
     var meshes = [];
+    // #fix group and push as group
 
-    this.add = function(mesh) {
-        meshes.push(mesh);
+    this.add = function(meshObj) {
+        meshes.push(meshObj);
     }
 
     this.paint = function() {

@@ -18,6 +18,8 @@ function sendJson() {
     http.open("POST", url, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
     http.send('json=' + encodeURIComponent(jsonData));
+    //redirect to 2D
+    setTimeout(function() { window.location.href = 'Get2D'; }, 1000);
 }
 
 function getJson() {
