@@ -28,7 +28,7 @@
                                 <li><a style="" href="adminpanel.jsp">Medarbejder login</a></li>
                                 </c:when>
                                 <c:otherwise>
-                                <li class="active"><a href="userpanel.jsp">Bruger Panel</a></li>
+                                <li class="" ><a href="userpanel.jsp">Bruger Panel</a></li>
                                 <li><a href="logout">Logout</a></li>
                                 </c:otherwise>
                             </c:choose>
