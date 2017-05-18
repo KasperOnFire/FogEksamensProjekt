@@ -436,8 +436,9 @@ public class DataAccessObjectImpl implements DataAccessObject {
                 int oStatusRetrieved = rs.getInt("ostatus");
                 String carportRetrieved = rs.getString("carport");
                 double priceRetrieved = rs.getDouble("price");
+                int empNo = rs.getInt("empno");
 
-                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved, -1);
+                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved, empNo);
                 orderArray.add(order);
             }
         } catch (Exception e) {
@@ -467,8 +468,9 @@ public class DataAccessObjectImpl implements DataAccessObject {
                 int oStatusRetrieved = rs.getInt("ostatus");
                 String carportRetrieved = rs.getString("carport");
                 double priceRetrieved = rs.getDouble("price");
+                int empNo = rs.getInt("empno");
 
-                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved, -1);
+                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved, empNo);
                 orderArray.add(order);
             }
         } catch (Exception e) {
@@ -498,8 +500,9 @@ public class DataAccessObjectImpl implements DataAccessObject {
                 int oStatusRetrieved = rs.getInt("ostatus");
                 String carportRetrieved = rs.getString("carport");
                 double priceRetrieved = rs.getDouble("price");
+                int empNo = rs.getInt("empno");
 
-                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved, -1);
+                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved, empNo);
                 orderArray.add(order);
             }
         } catch (Exception e) {
@@ -530,8 +533,9 @@ public class DataAccessObjectImpl implements DataAccessObject {
                 int oStatusRetrieved = rs.getInt("ostatus");
                 String carportRetrieved = rs.getString("carport");
                 double priceRetrieved = rs.getDouble("price");
+                int empNo = rs.getInt("empno");
 
-                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved, -1);
+                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved, empNo);
                 orderArray.add(order);
             }
         } catch (Exception e) {
@@ -581,7 +585,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
         } catch (Exception e) {
         } finally {
             try {
-                if(stmt != null){
+                if (stmt != null) {
                     stmt.close();
                     return true;
                 }
@@ -589,5 +593,38 @@ public class DataAccessObjectImpl implements DataAccessObject {
             }
         }
         return false;
+    }
+
+    public ArrayList getClaimedOrders(int empno) {
+        ArrayList<Order> orderArray = new ArrayList();
+        Order order = null;
+        String sql = "SELECT * FROM orders WHERE empno = ?";
+        PreparedStatement stmt = null;
+        try {
+            stmt = dbcon.getConnection().prepareStatement(sql);
+            stmt.setInt(1, empno);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int onoRetrieved = rs.getInt("ono");
+                int uidRetrieved = rs.getInt("uid");
+                int oStatusRetrieved = rs.getInt("ostatus");
+                String carportRetrieved = rs.getString("carport");
+                double priceRetrieved = rs.getDouble("price");
+                int empNo = rs.getInt("empno");
+
+                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved, empNo);
+                orderArray.add(order);
+            }
+        } catch (Exception e) {
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                    return orderArray;
+                }
+            } catch (Exception e) {
+            }
+        }
+        return null;
     }
 }

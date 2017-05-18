@@ -26,6 +26,23 @@
                     <c:when test="${adminLoggedIn == true}">
                         Welcome ${username}
                         <a href="manage.jsp">pending orders (${ordersPending.size()})</a>
+                        <form action="userServlet">
+                            <input type="hidden" value="allOrders" name="retrieveOrders">
+                            <input type="submit" value="Alle ordrer">
+                        </form>
+                        <form action="userServlet">
+                            <input type="hidden" value="claimedOrders" name="retrieveOrders">
+                            <input type="submit" value="Mine ordrer">
+                        </form>
+                        <form action="userServlet">
+                            <input type="hidden" value="finishedOrders" name="retrieveOrders">
+                            <input type="submit" value="Færdige ordrer">
+                        </form>
+                        <form action="userServlet">
+                            <input type="number" name="orderNumber">
+                            <input type="hidden" value="searchOrder" name="retrieveOrders">
+                            <input type="submit" value="Søg på ordrer">
+                        </form>
                         <br>
                         <a href=""></a>
                         <a href="logout">logout</a>
