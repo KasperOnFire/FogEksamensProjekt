@@ -18,6 +18,7 @@
     </head>
 
     <body>
+        <p>Price: ${price}</p>
         <p>top:</p>
         <div id="topView"></div>
         <p>side:</p>
