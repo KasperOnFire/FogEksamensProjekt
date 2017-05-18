@@ -43,4 +43,12 @@ public class DatabaseFront {
     public ArrayList getOrdersOnONO(int ONO) {
         return DAO.getOrdersOnONO(ONO);
     }
+    
+    public boolean empClaimOrder(String empName, int ono){
+        return DAO.updateEMPonOrder(empName, ono);
+    }
+
+    boolean updateStatus(int ono, int oStatus) {
+        return DAO.updateOrderStatus(ono, oStatus);
+    }
 }
