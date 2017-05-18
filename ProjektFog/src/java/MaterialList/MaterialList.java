@@ -3,7 +3,6 @@ package MaterialList;
 import Carport.Carport;
 import Carport.Roof;
 import Carport.Shed;
-import Database.DataAccessObjectImpl;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,7 +10,6 @@ public class MaterialList {
 
     private int mountingBands = 2;
     private Map<String, Part> matList = new HashMap<>();
-    private DataAccessObjectImpl dao;
     private Part p;
     private MatRoof matRoof;
     private MatBase matBase;
@@ -21,11 +19,10 @@ public class MaterialList {
     private Map<String, Part> baseMap = new HashMap<>();
     private Map<String, Part> shedMap = new HashMap<>();
     
-    public static void main(String[] args)
+    private double getPrice(String name) throws Exception
     {
-        MaterialList materialList = new MaterialList();
-        Roof r = new Roof(true, 20, 20, 20);
-        materialList.calcRoof(500, 500, r);
+        DatabaseBack DBB = new DatabaseBack();
+        return DBB.getDouble(name);
     }
 
 
@@ -41,7 +38,7 @@ public class MaterialList {
         return (int) totalAdjustedPrice;
     }
     
-    public Map<String, Part> calcMaterialList(Carport c) {
+    public Map<String, Part> calcMaterialList(Carport c) throws Exception {
         int length;
         
         if(c.getShed().isHasShed())
@@ -66,7 +63,7 @@ public class MaterialList {
         return matList;
     }
     
-    public Map<String, Part> calcRoof(int length, int depth, Roof r)
+    public Map<String, Part> calcRoof(int length, int depth, Roof r) throws Exception
     {
         System.out.println("start");
         m2 = (double) (length / 100) * (double) (depth / 100);
@@ -74,55 +71,55 @@ public class MaterialList {
         if(r.isGable())
         {
             System.out.println("tagpap start");
-            p = new Part(gabledRoof(length, depth),dao.getDouble("Tagpap"));
+            p = new Part(gabledRoof(length, depth),getPrice("Tagpap"));
             roofMap.put("Tagpap", p);
             System.out.println("tagpap ok");
             
-            p = new Part(gabledBoards(length, depth),dao.getDouble("Spærtræ"));
+            p = new Part(gabledBoards(length, depth),getPrice("Spærtræ"));
             roofMap.put("Tagspær", p);
             System.out.println("tagspær");
             
-            p = new Part(roofBoardScrews(roofBoards(length)),dao.getDouble("Spærskrue"));
+            p = new Part(roofBoardScrews(roofBoards(length)),getPrice("Spærskrue"));
             roofMap.put("Spærskrue", p);
             System.out.println("spærskrue");
             
-            p = new Part(1,dao.getDouble("Danspær"));
+            p = new Part(1,getPrice("Danspær"));
             roofMap.put("Danspær", p);
             System.out.println("danspær");
         }
         else
         {
-            p = new Part(flatRoof(length, depth),dao.getDouble("Plastmo Trapez"));
+            p = new Part(flatRoof(length, depth),getPrice("Plastmo Trapez"));
             roofMap.put("Plastmo Trapez", p);
             
-            p = new Part(roofScrews(flatRoof(length,depth)),dao.getDouble("Plastmo Tagskrue"));
+            p = new Part(roofScrews(flatRoof(length,depth)),getPrice("Plastmo Tagskrue"));
             roofMap.put("Plastmo Tagskrue", p);
             
-            p = new Part(2,dao.getDouble("Hulbånd"));
+            p = new Part(2,getPrice("Hulbånd"));
             roofMap.put("Hulbånd", p);
             
-            p = new Part(roofBoards(length),dao.getDouble("Spærtræ"));
+            p = new Part(roofBoards(length),getPrice("Spærtræ"));
             roofMap.put("Tagspær", p);
             
-            p = new Part(roofBoardScrews(roofBoards(length)),dao.getDouble("Spærskrue"));
+            p = new Part(roofBoardScrews(roofBoards(length)),getPrice("Spærskrue"));
             roofMap.put("Spærskrue", p);
             
-            p = new Part(roofBoardBrackets(roofBoards(length)),dao.getDouble("Tagspærbeslag"));
+            p = new Part(roofBoardBrackets(roofBoards(length)),getPrice("Tagspærbeslag"));
             roofMap.put("Spærbeslag", p);
             
-            p = new Part(mountingBandScrews(roofBoards(length),mountingBands),dao.getDouble("Spærskrue"));
+            p = new Part(mountingBandScrews(roofBoards(length),mountingBands),getPrice("Spærskrue"));
             roofMap.put("Hulbåndsskrue", p);
             
-            p = new Part(2,dao.getDouble("Sternbræt"),depth);
+            p = new Part(2,getPrice("Sternbræt"),depth);
             roofMap.put("Understernbræt, side", p);
             
-            p = new Part(2,dao.getDouble("Sternbræt"),depth);
+            p = new Part(2,getPrice("Sternbræt"),depth);
             roofMap.put("Oversternbræt, side", p);
             
-            p = new Part(1,dao.getDouble("Sternbræt"),length);
+            p = new Part(1,getPrice("Sternbræt"),length);
             roofMap.put("Understernbræt, forende", p);
             
-            p = new Part(1,dao.getDouble("Sternbræt"),length);
+            p = new Part(1,getPrice("Sternbræt"),length);
             roofMap.put("Oversternbræt, forende", p);
         }
         System.out.println("ending");
@@ -184,18 +181,18 @@ public class MaterialList {
         return (int)amount;
     }
     
-    public Map<String, Part> calcBase(int length, int depth, int height, Shed s)
+    public Map<String, Part> calcBase(int length, int depth, int height, Shed s) throws Exception
     {
-        p = new Part(posts(length,depth,s),dao.getDouble("Stolpe"),height+90);
+        p = new Part(posts(length,depth,s),getPrice("Stolpe"),height+90);
         baseMap.put("Stolper", p);
         
-        p = new Part(postScrews(posts(length,depth,s)),dao.getDouble("Stolpeskrue"));
+        p = new Part(postScrews(posts(length,depth,s)),getPrice("Stolpeskrue"));
         baseMap.put("Stolper", p);
         
-        p = new Part(postBolts(posts(length,depth,s)),dao.getDouble("Stolpebolt"));
+        p = new Part(postBolts(posts(length,depth,s)),getPrice("Stolpebolt"));
         baseMap.put("Stolper", p);
         
-        p = new Part(2,dao.getDouble("Tagrem"),depth);
+        p = new Part(2,getPrice("Tagrem"),depth);
         baseMap.put("Tagrem", p);
         
         return baseMap;
@@ -222,18 +219,18 @@ public class MaterialList {
         return posts * 2;
     }
     
-    public Map<String, Part> calcShed(int length, int depth)
+    public Map<String, Part> calcShed(int length, int depth) throws Exception
     {
-        p = new Part(shedBoards(length, depth),dao.getDouble("Skurbræt"));
+        p = new Part(shedBoards(length, depth),getPrice("Skurbræt"));
         shedMap.put("Skurbræt", p);
         
-        p = new Part(shedNails(shedBoards(length, depth)),dao.getDouble("Skursøm"));
+        p = new Part(shedNails(shedBoards(length, depth)),getPrice("Skursøm"));
         shedMap.put("Skursøm", p);
         
-        p = new Part(4,dao.getDouble("Løsholte"),length);
+        p = new Part(4,getPrice("Løsholte"),length);
         shedMap.put("Løsholte, side", p);
         
-        p = new Part(6,dao.getDouble("Løsholte"),depth);
+        p = new Part(6,getPrice("Løsholte"),depth);
         shedMap.put("Løsholte, gavl", p);
         
         return shedMap;

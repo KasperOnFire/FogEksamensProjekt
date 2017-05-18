@@ -278,29 +278,28 @@ public class DataAccessObjectImpl implements DataAccessObject{
     }
 
     public double getDouble(String name) {
-//        System.out.println("start");
-//        String sql = "select price from material where name='" + name + "'";
-//        PreparedStatement stmt = null;
-//        try {
-//            stmt = dbcon.getConnection().prepareStatement(sql);
-//            //stmt.setString(1, name);
-//            System.out.println("preexecute");
-//            ResultSet rs = stmt.executeQuery();
-//            System.out.println("post execute");
-//            if (rs.next()) {
-//                return rs.getDouble("price");
-//            }
-//        } catch (Exception e) {
-//                e.printStackTrace(System.out);
-//        }finally {
-//            try {
-//                if (stmt != null) {
-//                    stmt.close();
-//                }
-//            } catch (Exception e) {
-//            }
-//        }
-//        return -1;
+        System.out.println("start");
+        String sql = "select price from material where name=?";
+        PreparedStatement stmt = null;
+        try {
+            stmt = dbcon.getConnection().prepareStatement(sql);
+            stmt.setString(1, name);
+            System.out.println("preexecute");
+            ResultSet rs = stmt.executeQuery();
+            System.out.println("post execute");
+            if (rs.next()) {
+                return rs.getDouble("price");
+            }
+        } catch (Exception e) {
+                e.printStackTrace(System.out);
+        }finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (Exception e) {
+            }
+        }
         return 5;
     }
 
