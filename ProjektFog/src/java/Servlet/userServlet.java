@@ -68,6 +68,9 @@ public class userServlet extends HttpServlet {
                     case "searchOrder":
                         session.setAttribute("ordersPending", uF.getSearchOrder(Integer.parseInt(request.getParameter("orderNumber"))));
                         break;
+                    case "notClaimed":
+                        session.setAttribute("ordersPending", uF.getNotClaimed());
+                        break;
                 }
                 getServletContext().getRequestDispatcher("/manage.jsp").forward(request, response);
             }

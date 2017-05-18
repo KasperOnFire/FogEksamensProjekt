@@ -627,4 +627,8 @@ public class DataAccessObjectImpl implements DataAccessObject {
         }
         return null;
     }
+
+    public ArrayList getNotClaimedOrders() {
+        //Return where empno is -1
+    }
 }
