@@ -55,6 +55,10 @@ public class Get2D extends HttpServlet {
         MaterialList priceCalc = new MaterialList();
         
         Carport carport = dp.parseJson(jsonStr);
+        
+        //carport not null check
+        System.out.println(carport.getRoof().isGable());
+        
         int price = priceCalc.calcPrice(carport);
         request.setAttribute("price", price);
         */

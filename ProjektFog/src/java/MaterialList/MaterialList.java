@@ -7,9 +7,7 @@ import java.util.Map;
 
 public class MaterialList {
 
-    private int mountingBands = 2;
-    private Map<String, Part> matList = new HashMap<>();
-    private Part p;
+    private Map<String, Part> matList = new HashMap();
     private MatRoof matRoof;
     private MatBase matBase;
     private MatShed matShed;
@@ -17,14 +15,12 @@ public class MaterialList {
     private Map<String, Part> roofMap = new HashMap<>();
     private Map<String, Part> baseMap = new HashMap<>();
     private Map<String, Part> shedMap = new HashMap<>();
-    
-    
-    private double getPrice(String name) throws Exception
-    {
-        DatabaseBack DBB = new DatabaseBack();
-        return DBB.getDouble(name);
+
+    public int calcPrice(Carport c) throws Exception {
+        calcMaterialList(c);
+        return totalPriceRounded();
     }
-    
+
     public int totalPriceRounded() {
         double totalPrice = 0;
 
@@ -36,8 +32,9 @@ public class MaterialList {
 
         return (int) totalAdjustedPrice;
     }
-    
+
     public Map<String, Part> calcMaterialList(Carport c) throws Exception {
+        //matList = new HashMap();
         int length;
         ArrayList<Material> materials = new ArrayList();
         DatabaseBack DBB = new DatabaseBack();
@@ -53,14 +50,12 @@ public class MaterialList {
         matList.putAll(matRoof.calcRoof(length, width, c.getRoof(), materials));
         
         matList.putAll(matBase.calcBase(length, width, c.getBase().getHeight(), c.getShed(), materials));
-        
-        if(c.getShed()!=null){
+
+
+        if (c.getShed() != null) {
             matList.putAll(matShed.calcShed(length, width, materials));
-        }
 
         return matList;
     }
-    
-    
-}
 
+}

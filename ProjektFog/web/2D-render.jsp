@@ -18,13 +18,13 @@
     </head>
 
     <body>
+        <a href="userpanel.jsp">Tilbage til brugerpanel</a>
         <p>Price: ${price}</p>
         <p>top:</p>
         <div id="topView"></div>
         <p>side:</p>
         <div id="sideView"></div>
-        <p> </p>
-        <!-- spacer to see bottom of sideview-->
+        <p> </p> <!-- spacer to see bottom of sideview-->
         <input type="hidden" 
                <c:choose>
                    <c:when test="${json != null}">
@@ -35,7 +35,6 @@
                    </c:otherwise>
                </c:choose>
                id="json" name="json">
-
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.4/dat.gui.min.js"></script>
         <script src="js/gui.js"></script>
