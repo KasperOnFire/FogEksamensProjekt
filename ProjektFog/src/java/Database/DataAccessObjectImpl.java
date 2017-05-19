@@ -1,5 +1,6 @@
 package Database;
 
+import MaterialList.Material;
 import User.AdminUser;
 import User.Password;
 import User.User;
@@ -660,6 +661,37 @@ public class DataAccessObjectImpl implements DataAccessObject {
                 if (stmt != null) {
                     stmt.close();
                     return orderArray;
+                }
+            } catch (Exception e) {
+            }
+        }
+        return null;
+    }
+
+    public ArrayList getAllMaterials() {
+        ArrayList<Material> materialArray = new ArrayList();
+        Material material = null;
+        String sql = "SELECT * FROM material";
+        PreparedStatement stmt = null;
+        try {
+            stmt = dbcon.getConnection().prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int mno = rs.getInt("mno");
+                String type = rs.getString("type");
+                int price = rs.getInt("price");
+                String name = rs.getString("name");
+                int qoh = rs.getInt("qoh");
+                int size = rs.getInt("size");
+                material = new Material(mno, type, price, name, qoh, size);
+                materialArray.add(material);
+            }
+        } catch (Exception e) {
+        } finally {
+            try {
+                if(stmt != null){
+                    stmt.close();
+                    return materialArray;
                 }
             } catch (Exception e) {
             }
