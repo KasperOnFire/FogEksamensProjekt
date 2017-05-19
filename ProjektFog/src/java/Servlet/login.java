@@ -87,7 +87,7 @@ public class login extends HttpServlet {
                     session.setAttribute("username", AdminUser.getUname());
                     session.setAttribute("userString", AdminUser.getUserString());
                     session.setAttribute("empNo", AdminUser.getEmpno());
-                    getServletContext().getRequestDispatcher("/manage.jsp").forward(request, response);
+                    getServletContext().getRequestDispatcher("/adminpanel.jsp").forward(request, response);
                 } else {//Wrong password
                     session.setAttribute("adminLoggedIn", false);
                     getServletContext().getRequestDispatcher("/adminpanel.jsp").forward(request, response);

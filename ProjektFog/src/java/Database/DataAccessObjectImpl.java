@@ -325,23 +325,30 @@ public class DataAccessObjectImpl implements DataAccessObject {
         return -1;
     }
 
-    public double getDouble(String var, String table, String term, String termName) {
-        String sql = "select ? from ? where ?=?";
+    public double getDouble(String name) {
+        System.out.println("start");
+        String sql = "select price from material where name=?";
+        PreparedStatement stmt = null;
         try {
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, var);
-            stmt.setString(2, table);
-            stmt.setString(3, term);
-            stmt.setString(4, termName);
+            stmt = dbcon.getConnection().prepareStatement(sql);
+            stmt.setString(1, name);
+            System.out.println("preexecute");
             ResultSet rs = stmt.executeQuery();
+            System.out.println("post execute");
             if (rs.next()) {
-                return rs.getDouble(var);
+                return rs.getDouble("price");
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(DataAccessObjectImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (Exception e) {
+            }
         }
-
-        return -1;
+        return 5;
     }
 
     public String getString(String var, String table, String term, String termName) {
@@ -436,8 +443,9 @@ public class DataAccessObjectImpl implements DataAccessObject {
                 int oStatusRetrieved = rs.getInt("ostatus");
                 String carportRetrieved = rs.getString("carport");
                 double priceRetrieved = rs.getDouble("price");
+                int empNo = rs.getInt("empno");
 
-                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved, -1);
+                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved, empNo);
                 orderArray.add(order);
             }
         } catch (Exception e) {
@@ -467,8 +475,9 @@ public class DataAccessObjectImpl implements DataAccessObject {
                 int oStatusRetrieved = rs.getInt("ostatus");
                 String carportRetrieved = rs.getString("carport");
                 double priceRetrieved = rs.getDouble("price");
+                int empNo = rs.getInt("empno");
 
-                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved, -1);
+                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved, empNo);
                 orderArray.add(order);
             }
         } catch (Exception e) {
@@ -498,8 +507,9 @@ public class DataAccessObjectImpl implements DataAccessObject {
                 int oStatusRetrieved = rs.getInt("ostatus");
                 String carportRetrieved = rs.getString("carport");
                 double priceRetrieved = rs.getDouble("price");
+                int empNo = rs.getInt("empno");
 
-                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved, -1);
+                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved, empNo);
                 orderArray.add(order);
             }
         } catch (Exception e) {
@@ -530,8 +540,9 @@ public class DataAccessObjectImpl implements DataAccessObject {
                 int oStatusRetrieved = rs.getInt("ostatus");
                 String carportRetrieved = rs.getString("carport");
                 double priceRetrieved = rs.getDouble("price");
+                int empNo = rs.getInt("empno");
 
-                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved, -1);
+                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved, empNo);
                 orderArray.add(order);
             }
         } catch (Exception e) {
@@ -581,7 +592,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
         } catch (Exception e) {
         } finally {
             try {
-                if(stmt != null){
+                if (stmt != null) {
                     stmt.close();
                     return true;
                 }
@@ -589,5 +600,70 @@ public class DataAccessObjectImpl implements DataAccessObject {
             }
         }
         return false;
+    }
+
+    public ArrayList getClaimedOrders(int empno) {
+        ArrayList<Order> orderArray = new ArrayList();
+        Order order = null;
+        String sql = "SELECT * FROM orders WHERE empno = ?";
+        PreparedStatement stmt = null;
+        try {
+            stmt = dbcon.getConnection().prepareStatement(sql);
+            stmt.setInt(1, empno);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int onoRetrieved = rs.getInt("ono");
+                int uidRetrieved = rs.getInt("uid");
+                int oStatusRetrieved = rs.getInt("ostatus");
+                String carportRetrieved = rs.getString("carport");
+                double priceRetrieved = rs.getDouble("price");
+                int empNo = rs.getInt("empno");
+
+                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved, empNo);
+                orderArray.add(order);
+            }
+        } catch (Exception e) {
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                    return orderArray;
+                }
+            } catch (Exception e) {
+            }
+        }
+        return null;
+    }
+
+    public ArrayList getNotClaimedOrders() {
+        ArrayList<Order> orderArray = new ArrayList();
+        Order order = null;
+        String sql = "SELECT * FROM orders WHERE empno = -1";
+        PreparedStatement stmt = null;
+        try {
+            stmt = dbcon.getConnection().prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int onoRetrieved = rs.getInt("ono");
+                int uidRetrieved = rs.getInt("uid");
+                int oStatusRetrieved = rs.getInt("ostatus");
+                String carportRetrieved = rs.getString("carport");
+                double priceRetrieved = rs.getDouble("price");
+                int empNo = rs.getInt("empno");
+
+                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved, empNo);
+                orderArray.add(order);
+            }
+        } catch (Exception e) {
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                    return orderArray;
+                }
+            } catch (Exception e) {
+            }
+        }
+        return null;
     }
 }

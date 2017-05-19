@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class userFront {
 
     DatabaseFront DBF = null;
+    public Object getSearchOrder;
 
     public userFront() {
         try {
@@ -26,4 +27,21 @@ public class userFront {
     public ArrayList getAllOrders() {
         return DBF.getOrders();
     }
+
+    public ArrayList getClaimedOrders(int empno) {
+        return DBF.getClaimedOrders(empno);
+    }
+
+    public ArrayList getFinishedOrders() {
+        return DBF.getDoneOrders();
+    }
+
+    public ArrayList getSearchOrder(int ono) {
+        return DBF.getOrdersOnONO(ono);
+    }
+
+    public ArrayList getNotClaimed() {
+        return DBF.getNotClaimed();
+    }
+
 }
