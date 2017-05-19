@@ -10,18 +10,24 @@ public class MatBase {
     private DataAccessObject dao;
     private static Map<String, Part> baseMap = new HashMap<>();
     private Part p;
+    
+    private double getPrice(String name) throws Exception
+    {
+        DatabaseBack DBB = new DatabaseBack();
+        return DBB.getDouble(name);
+    }
 
-    public Map<String, Part> calcBase(int length, int depth, int height, Shed s) {
-        p = new Part(posts(length, depth, s), dao.getDouble("price", "material", "name", "Stolpe"), height + 90);
+    public Map<String, Part> calcBase(int length, int depth, int height, Shed s) throws Exception {
+        p = new Part(posts(length, depth, s), getPrice("Stolpe"), height + 90);
         baseMap.put("Stolper", p);
 
-        p = new Part(postScrews(posts(length, depth, s)), dao.getDouble("price", "material", "name", "Stolpeskrue"));
+        p = new Part(postScrews(posts(length, depth, s)), getPrice("Stolpeskrue"));
         baseMap.put("Stolper", p);
 
-        p = new Part(postBolts(posts(length, depth, s)), dao.getDouble("price", "material", "name", "Stolpebolt"));
+        p = new Part(postBolts(posts(length, depth, s)), getPrice("Stolpebolt"));
         baseMap.put("Stolper", p);
 
-        p = new Part(2, dao.getDouble("price", "material", "name", "Tagrem"), depth);
+        p = new Part(2, getPrice("Tagrem"), depth);
         baseMap.put("Tagrem", p);
 
         return baseMap;
