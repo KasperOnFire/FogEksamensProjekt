@@ -19,10 +19,10 @@
 
     <body>
         <a href="userpanel.jsp">Tilbage til brugerpanel</a>
-        <p>Price: ${price}</p>
-        <p>top:</p>
+        <p>Pris: ${price}</p>
+        <p>Top:</p>
         <div id="topView"></div>
-        <p>side:</p>
+        <p>Side:</p>
         <div id="sideView"></div>
         <p> </p> <!-- spacer to see bottom of sideview-->
         <input type="hidden" 

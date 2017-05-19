@@ -51,7 +51,7 @@ public class Get2D extends HttpServlet {
             jsonStr = dp.getCarportFromUser(userString);
         }
         
-        /*
+        
         MaterialList priceCalc = new MaterialList();
         
         Carport carport = dp.parseJson(jsonStr);
@@ -61,7 +61,8 @@ public class Get2D extends HttpServlet {
         
         int price = priceCalc.calcPrice(carport);
         request.setAttribute("price", price);
-        */
+        
+        
         request.setAttribute("json", jsonStr);
 
         request.getRequestDispatcher("2D-render.jsp").forward(request, response);
