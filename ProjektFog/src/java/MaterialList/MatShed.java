@@ -9,20 +9,27 @@ public class MatShed {
     private DataAccessObject dao;
     private static Map<String, Part> shedMap = new HashMap<>();
     private Part p;
+    
+    private double getPrice(String name) throws Exception
+    {
+        DatabaseBack DBB = new DatabaseBack();
+        return DBB.getDouble(name);
+    }
 
-    public Map<String, Part> calcShed(int length, int depth) {
-        p = new Part(shedBoards(length, depth), dao.getDouble("price", "material", "name", "Skurbræt"));
+    public Map<String, Part> calcShed(int length, int depth) throws Exception
+    {
+        p = new Part(shedBoards(length, depth),getPrice("Skurbræt"));
         shedMap.put("Skurbræt", p);
-
-        p = new Part(shedNails(shedBoards(length, depth)), dao.getDouble("price", "material", "name", "Skursøm"));
+        
+        p = new Part(shedNails(shedBoards(length, depth)),getPrice("Skursøm"));
         shedMap.put("Skursøm", p);
-
-        p = new Part(4, dao.getDouble("price", "material", "name", "Løsholte"), length);
+        
+        p = new Part(4,getPrice("Løsholte"),length);
         shedMap.put("Løsholte, side", p);
-
-        p = new Part(6, dao.getDouble("price", "material", "name", "Løsholte"), depth);
+        
+        p = new Part(6,getPrice("Løsholte"),depth);
         shedMap.put("Løsholte, gavl", p);
-
+        
         return shedMap;
     }
 
