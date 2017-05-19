@@ -719,4 +719,9 @@ public class DataAccessObjectImpl implements DataAccessObject {
         }
         return false;
     }
+
+    public boolean newMaterial(String type, int price, String name, int qoh, int size) {
+        String sql = "INSERT INTO material(type, price, name, qoh, size) VALUES (?, ?, ?, ?, ?)";
+        return false;
+    }
 }

@@ -50,8 +50,12 @@
                                 <input type="submit" value="Søg på ordrer">
                             </form>
                             <form action="userServlet">
-                                <input type="hidden" value="material" name="material">
+                                <input type="hidden" name="material">
                                 <input type="submit" value="Material">
+                            </form>
+                            <form action="userServlet">
+                                <input type="hidden" name="newMaterial">
+                                <input type="submit" value="nyt materiale">
                             </form>
                             <br>
                             <a href=""></a>

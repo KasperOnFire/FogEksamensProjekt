@@ -64,7 +64,11 @@ public class DatabaseFront {
         return DAO.getAllMaterials();
     }
 
-    boolean updatePrice(int mno, int price) {
+    public boolean updatePrice(int mno, int price) {
         return DAO.updatePriceOnMaterial(mno, price);
+    }
+
+    public boolean newMaterial(String type, int price, String name, int qoh, int size) {
+        return DAO.newMaterial(type, price, name, qoh, size);
     }
 }

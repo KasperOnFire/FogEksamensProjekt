@@ -74,17 +74,21 @@ public class userServlet extends HttpServlet {
                 }
                 getServletContext().getRequestDispatcher("/manage.jsp").forward(request, response);
             }
-            
-            if(request.getParameter("material") != null){
+
+            if (request.getParameter("material") != null) {
                 //Hent ALLE materialer med henblik på at ændre pris / slette / tilføje nye
                 session.setAttribute("materials", uF.getAllMaterials());
-                getServletContext().getRequestDispatcher("/material.jsp").forward(request, response);           
+                getServletContext().getRequestDispatcher("/material.jsp").forward(request, response);
             }
-            
-            if(request.getParameter("updatePrice") != null){
+
+            if (request.getParameter("updatePrice") != null) {
                 uF.updatePrice(Integer.parseInt(request.getParameter("mno")), Integer.parseInt(request.getParameter("price")));
                 session.setAttribute("materials", uF.getAllMaterials());
                 getServletContext().getRequestDispatcher("/material.jsp").forward(request, response);
+            }
+
+            if (request.getParameter("newMaterial") != null) {
+                uF.newMaterial(request.getParameter("type"), Integer.parseInt(request.getParameter("price")), request.getParameter("name"), Integer.parseInt(request.getParameter("qoh")), Integer.parseInt(request.getParameter("size")));
             }
         }
     }
