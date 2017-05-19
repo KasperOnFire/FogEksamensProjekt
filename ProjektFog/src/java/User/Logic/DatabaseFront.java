@@ -59,4 +59,8 @@ public class DatabaseFront {
     public ArrayList getNotClaimed() {
         return DAO.getNotClaimedOrders();
     }
+
+    public  ArrayList GetAllMaterials() {
+        return DAO.getAllMaterials();
+    }
 }
