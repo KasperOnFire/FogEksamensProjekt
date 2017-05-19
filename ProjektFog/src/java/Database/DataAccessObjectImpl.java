@@ -687,6 +687,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
                 materialArray.add(material);
             }
         } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             try {
                 if(stmt != null){

@@ -77,6 +77,7 @@ public class userServlet extends HttpServlet {
             
             if(request.getParameter("material") != null){
                 //Hent ALLE materialer med henblik på at ændre pris / slette / tilføje nye
+                session.setAttribute("materials", uF.getAllMaterials());
                 getServletContext().getRequestDispatcher("/material.jsp").forward(request, response);           
             }
         }

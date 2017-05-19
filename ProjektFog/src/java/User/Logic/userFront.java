@@ -44,4 +44,8 @@ public class userFront {
         return DBF.getNotClaimed();
     }
 
+    public ArrayList getAllMaterials() {
+        return DBF.GetAllMaterials();
+    }
+
 }
