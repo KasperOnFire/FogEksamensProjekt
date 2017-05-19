@@ -1,33 +1,39 @@
 package MaterialList;
 
 import Database.DataAccessObject;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class MatShed {
 
-    private DataAccessObject dao;
     private static Map<String, Part> shedMap = new HashMap<>();
     private Part p;
     
-    private double getPrice(String name) throws Exception
+    private int findPrice(ArrayList<Material> a, String s)
     {
-        DatabaseBack DBB = new DatabaseBack();
-        return DBB.getDouble(name);
+        for (Material m:a)
+        {
+            if(m.getName().equals(s))
+            {
+                return m.getPrice();
+            }
+        }
+        return 2;
     }
 
-    public Map<String, Part> calcShed(int length, int depth) throws Exception
+    public Map<String, Part> calcShed(int length, int depth, ArrayList a) throws Exception
     {
-        p = new Part(shedBoards(length, depth),getPrice("Skurbræt"));
+        p = new Part(shedBoards(length, depth),findPrice(a, "Skurbræt"));
         shedMap.put("Skurbræt", p);
         
-        p = new Part(shedNails(shedBoards(length, depth)),getPrice("Skursøm"));
+        p = new Part(shedNails(shedBoards(length, depth)),findPrice(a, "Skursøm"));
         shedMap.put("Skursøm", p);
         
-        p = new Part(4,getPrice("Løsholte"),length);
+        p = new Part(4,findPrice(a, "Løsholte"),length);
         shedMap.put("Løsholte, side", p);
         
-        p = new Part(6,getPrice("Løsholte"),depth);
+        p = new Part(6,findPrice(a, "Løsholte"),depth);
         shedMap.put("Løsholte, gavl", p);
         
         return shedMap;

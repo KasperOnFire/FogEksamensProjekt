@@ -6,6 +6,7 @@
 package MaterialList;
 
 import Database.DataAccessObjectImpl;
+import java.util.ArrayList;
 
 /**
  *
@@ -22,5 +23,10 @@ public class DatabaseBack
     public double getDouble(String name)
     {
         return DAO.getDouble(name);
+    }
+    
+    public ArrayList getAll()
+    {
+        return DAO.getAllMaterials();
     }
 }

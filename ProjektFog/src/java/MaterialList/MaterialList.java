@@ -1,6 +1,7 @@
 package MaterialList;
 
 import Carport.Carport;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,6 +17,7 @@ public class MaterialList {
     private Map<String, Part> roofMap = new HashMap<>();
     private Map<String, Part> baseMap = new HashMap<>();
     private Map<String, Part> shedMap = new HashMap<>();
+    
     
     private double getPrice(String name) throws Exception
     {
@@ -37,7 +39,9 @@ public class MaterialList {
     
     public Map<String, Part> calcMaterialList(Carport c) throws Exception {
         int length;
-
+        ArrayList<Material> materials = new ArrayList();
+        DatabaseBack DBB = new DatabaseBack();
+        materials = DBB.getAll();
         if (c.getShed().isHasShed()) {
             length = c.getBase().getDepth() + c.getShed().getDepth() + c.getRoof().getFront() + c.getRoof().getBack();
         } else {
@@ -46,12 +50,12 @@ public class MaterialList {
         
         int width = c.getBase().getWidth()+c.getRoof().getSides()+c.getRoof().getSides();
         
-        matList.putAll(matRoof.calcRoof(length, width, c.getRoof()));
+        matList.putAll(matRoof.calcRoof(length, width, c.getRoof(), materials));
         
-        matList.putAll(matBase.calcBase(length, width, c.getBase().getHeight(), c.getShed()));
+        matList.putAll(matBase.calcBase(length, width, c.getBase().getHeight(), c.getShed(), materials));
         
         if(c.getShed()!=null){
-            matList.putAll(matShed.calcShed(length, width));
+            matList.putAll(matShed.calcShed(length, width, materials));
         }
 
         return matList;
