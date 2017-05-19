@@ -74,6 +74,11 @@ public class userServlet extends HttpServlet {
                 }
                 getServletContext().getRequestDispatcher("/manage.jsp").forward(request, response);
             }
+            
+            if(request.getParameter("material") != null){
+                //Hent ALLE materialer med henblik på at ændre pris / slette / tilføje nye
+                getServletContext().getRequestDispatcher("/material.jsp").forward(request, response);           
+            }
         }
     }
 
