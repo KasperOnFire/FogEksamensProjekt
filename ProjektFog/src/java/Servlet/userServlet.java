@@ -80,6 +80,12 @@ public class userServlet extends HttpServlet {
                 session.setAttribute("materials", uF.getAllMaterials());
                 getServletContext().getRequestDispatcher("/material.jsp").forward(request, response);           
             }
+            
+            if(request.getParameter("updatePrice") != null){
+                uF.updatePrice(Integer.parseInt(request.getParameter("mno")), Integer.parseInt(request.getParameter("price")));
+                session.setAttribute("materials", uF.getAllMaterials());
+                getServletContext().getRequestDispatcher("/material.jsp").forward(request, response);
+            }
         }
     }
 

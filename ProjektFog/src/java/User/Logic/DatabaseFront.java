@@ -63,4 +63,8 @@ public class DatabaseFront {
     public  ArrayList GetAllMaterials() {
         return DAO.getAllMaterials();
     }
+
+    boolean updatePrice(int mno, int price) {
+        return DAO.updatePriceOnMaterial(mno, price);
+    }
 }

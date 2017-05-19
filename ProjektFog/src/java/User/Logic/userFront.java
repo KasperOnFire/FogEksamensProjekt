@@ -48,4 +48,8 @@ public class userFront {
         return DBF.GetAllMaterials();
     }
 
+    public boolean updatePrice(int mno, int price) {
+        return DBF.updatePrice(mno, price);
+    }
+
 }

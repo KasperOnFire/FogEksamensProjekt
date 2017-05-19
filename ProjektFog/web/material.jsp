@@ -31,17 +31,24 @@
                 </tr>
             </thead>
             <tbody>
-            <c:forEach items="${materials}" var="a">
-                <tr>
-                    <td>${a.getMno()}</td>
-                    <td>${a.getType()}</td>
-                    <td>${a.getPrice()}</td>
-                    <td>${a.getName()}</td>
-                    <td>${a.getQoh()}</td>
-                    <td>${a.getSize()}</td>
-                </tr>
-            </c:forEach>
-        </tbody>
-    </table>
-</body>
+                <c:forEach items="${materials}" var="a">
+                    <tr>
+                        <td>${a.getMno()}</td>
+                        <td>${a.getType()}</td>
+                        <td>
+                            <form action="userServlet">
+                                <input type="hidden" name="updatePrice">
+                                <input type="hidden" name="mno" value="${a.getMno()}">
+                                <input type="number" value="${a.getPrice()}" name="price">
+                                <input type="submit" value="opdater">
+                            </form>
+                        </td>
+                        <td>${a.getName()}</td>
+                        <td>${a.getQoh()}</td>
+                        <td>${a.getSize()}</td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+    </body>
 </html>

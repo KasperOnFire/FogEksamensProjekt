@@ -5,7 +5,6 @@ import User.AdminUser;
 import User.Password;
 import User.User;
 
-import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -698,5 +697,26 @@ public class DataAccessObjectImpl implements DataAccessObject {
             }
         }
         return null;
+    }
+
+    public boolean updatePriceOnMaterial(int mno, int price) {
+        String sql = "UPDATE material SET price = ? WHERE mno = ?";
+        PreparedStatement stmt = null;
+        try {
+            stmt = dbcon.getConnection().prepareStatement(sql);
+            stmt.setInt(1, price);
+            stmt.setInt(2, mno);
+            stmt.executeUpdate();
+        } catch (Exception e) {
+        }finally{
+            try {
+                if(stmt != null){
+                    stmt.close();
+                    return true;
+                }
+            } catch (Exception e) {
+            }
+        }
+        return false;
     }
 }
