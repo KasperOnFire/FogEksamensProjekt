@@ -42,6 +42,8 @@ public class MaterialList {
         }
 
         int width = c.getBase().getWidth() + c.getRoof().getSides() + c.getRoof().getSides();
+        length = length/100;
+        width = width/100;
 
         matList.putAll(matRoof.calcRoof(length, width, c.getRoof(), materials));
 
