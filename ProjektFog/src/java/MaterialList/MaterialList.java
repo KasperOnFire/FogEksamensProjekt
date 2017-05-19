@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MaterialList {
+public class MaterialList
+{
 
     private Map<String, Part> matList = new HashMap();
     private MatRoof matRoof;
@@ -16,15 +17,18 @@ public class MaterialList {
     private Map<String, Part> baseMap = new HashMap<>();
     private Map<String, Part> shedMap = new HashMap<>();
 
-    public int calcPrice(Carport c) throws Exception {
+    public int calcPrice(Carport c) throws Exception
+    {
         calcMaterialList(c);
         return totalPriceRounded();
     }
 
-    public int totalPriceRounded() {
+    public int totalPriceRounded()
+    {
         double totalPrice = 0;
 
-        for (Map.Entry<String, Part> part : matList.entrySet()) {
+        for (Map.Entry<String, Part> part : matList.entrySet())
+        {
             totalPrice += part.getValue().getAmount() * part.getValue().getPrice();
         }
 
@@ -33,29 +37,34 @@ public class MaterialList {
         return (int) totalAdjustedPrice;
     }
 
-    public Map<String, Part> calcMaterialList(Carport c) throws Exception {
+    public Map<String, Part> calcMaterialList(Carport c) throws Exception
+    {
         //matList = new HashMap();
         int length;
         ArrayList<Material> materials = new ArrayList();
         DatabaseBack DBB = new DatabaseBack();
         materials = DBB.getAll();
-        if (c.getShed().isHasShed()) {
+        if (c.getShed().isHasShed())
+        {
             length = c.getBase().getDepth() + c.getShed().getDepth() + c.getRoof().getFront() + c.getRoof().getBack();
-        } else {
+        }
+        else
+        {
             length = c.getBase().getDepth() + c.getRoof().getFront() + c.getRoof().getBack();
         }
-        
-        int width = c.getBase().getWidth()+c.getRoof().getSides()+c.getRoof().getSides();
-        
+
+        int width = c.getBase().getWidth() + c.getRoof().getSides() + c.getRoof().getSides();
+
         matList.putAll(matRoof.calcRoof(length, width, c.getRoof(), materials));
-        
+
         matList.putAll(matBase.calcBase(length, width, c.getBase().getHeight(), c.getShed(), materials));
 
-
-        if (c.getShed() != null) {
+        if (c.getShed() != null)
+        {
             matList.putAll(matShed.calcShed(length, width, materials));
 
+            return matList;
+        }
         return matList;
     }
-
-}
+    }
