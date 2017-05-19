@@ -43,16 +43,16 @@
                 <table>
                     <tr>
                         <td>        
-                            <form> <!-- Testing form -->
+                            <form action="Get2D" method="post">
                                 <input type="hidden" value="${carport}">
-                                <input type="button" value="2D tegning" class="btn btn-info"> 
+                                <input type="submit" value="2D tegning" class="btn btn-info"> 
                             </form>
                         </td>
 
                         <td>
-                            <form> <!-- Testing form -->
+                            <form action="Get3D" method="post">
                                 <input type="hidden" value="${carport}">
-                                <input type="button" value="3D tegning" class="btn btn-info"> 
+                                <input type="submit" value="3D tegning" class="btn btn-info"> 
                             </form>
                         </td>
                         <td>

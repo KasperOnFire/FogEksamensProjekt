@@ -2,24 +2,32 @@ package MaterialList;
 
 import Carport.Roof;
 import Database.DataAccessObject;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class MatRoof {
 
     private static double m2;
-    private DataAccessObject dao;
     private Map<String, Part> roofMap = new HashMap<>();
     private Part p;
     private static int mountingBands = 2;
     
-    private double getPrice(String name) throws Exception
+    private int findPrice(ArrayList<Material> a, String s)
     {
-        DatabaseBack DBB = new DatabaseBack();
-        return DBB.getDouble(name);
+        for (Material m:a)
+        {
+            if(m.getName().equals(s))
+            {
+                return m.getPrice();
+            }
+        }
+        return 2;
     }
+
     
-    public Map<String, Part> calcRoof(int length, int depth, Roof r) throws Exception
+    public Map<String, Part> calcRoof(int length, int depth, Roof r, ArrayList a) throws Exception
     {
         System.out.println("start");
         m2 = (double) (length / 100) * (double) (depth / 100);
@@ -27,55 +35,55 @@ public class MatRoof {
         if(r.isGable())
         {
             System.out.println("tagpap start");
-            p = new Part(gabledRoof(length, depth),getPrice("Tagpap"));
+            p = new Part(gabledRoof(length, depth),findPrice(a, "Tagpap"));
             roofMap.put("Tagpap", p);
             System.out.println("tagpap ok");
             
-            p = new Part(gabledBoards(length, depth),getPrice("Spærtræ"));
+            p = new Part(gabledBoards(length, depth),findPrice(a, "Spærtræ"));
             roofMap.put("Tagspær", p);
             System.out.println("tagspær");
             
-            p = new Part(roofBoardScrews(roofBoards(length)),getPrice("Spærskrue"));
+            p = new Part(roofBoardScrews(roofBoards(length)),findPrice(a, "Spærskrue"));
             roofMap.put("Spærskrue", p);
             System.out.println("spærskrue");
             
-            p = new Part(1,getPrice("Danspær"));
+            p = new Part(1,findPrice(a, "Danspær"));
             roofMap.put("Danspær", p);
             System.out.println("danspær");
         }
         else
         {
-            p = new Part(flatRoof(length, depth),getPrice("Plastmo Trapez"));
+            p = new Part(flatRoof(length, depth),findPrice(a, "Plastmo Trapez"));
             roofMap.put("Plastmo Trapez", p);
             
-            p = new Part(roofScrews(flatRoof(length,depth)),getPrice("Plastmo Tagskrue"));
+            p = new Part(roofScrews(flatRoof(length,depth)),findPrice(a, "Plastmo Tagskrue"));
             roofMap.put("Plastmo Tagskrue", p);
             
-            p = new Part(2,getPrice("Hulbånd"));
+            p = new Part(2,findPrice(a, "Hulbånd"));
             roofMap.put("Hulbånd", p);
             
-            p = new Part(roofBoards(length),getPrice("Spærtræ"));
+            p = new Part(roofBoards(length),findPrice(a, "Spærtræ"));
             roofMap.put("Tagspær", p);
             
-            p = new Part(roofBoardScrews(roofBoards(length)),getPrice("Spærskrue"));
+            p = new Part(roofBoardScrews(roofBoards(length)),findPrice(a, "Spærskrue"));
             roofMap.put("Spærskrue", p);
             
-            p = new Part(roofBoardBrackets(roofBoards(length)),getPrice("Tagspærbeslag"));
+            p = new Part(roofBoardBrackets(roofBoards(length)),findPrice(a, "Tagspærbeslag"));
             roofMap.put("Spærbeslag", p);
             
-            p = new Part(mountingBandScrews(roofBoards(length),mountingBands),getPrice("Spærskrue"));
+            p = new Part(mountingBandScrews(roofBoards(length),mountingBands),findPrice(a, "Spærskrue"));
             roofMap.put("Hulbåndsskrue", p);
             
-            p = new Part(2,getPrice("Sternbræt"),depth);
+            p = new Part(2,findPrice(a, "Sternbræt"),depth);
             roofMap.put("Understernbræt, side", p);
             
-            p = new Part(2,getPrice("Sternbræt"),depth);
+            p = new Part(2,findPrice(a, "Sternbræt"),depth);
             roofMap.put("Oversternbræt, side", p);
             
-            p = new Part(1,getPrice("Sternbræt"),length);
+            p = new Part(1,findPrice(a, "Sternbræt"),length);
             roofMap.put("Understernbræt, forende", p);
             
-            p = new Part(1,getPrice("Sternbræt"),length);
+            p = new Part(1,findPrice(a, "Sternbræt"),length);
             roofMap.put("Oversternbræt, forende", p);
         }
         System.out.println("ending");

@@ -2,32 +2,38 @@ package MaterialList;
 
 import Carport.Shed;
 import Database.DataAccessObject;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class MatBase {
 
-    private DataAccessObject dao;
     private static Map<String, Part> baseMap = new HashMap<>();
     private Part p;
     
-    private double getPrice(String name) throws Exception
+    private int findPrice(ArrayList<Material> a, String s)
     {
-        DatabaseBack DBB = new DatabaseBack();
-        return DBB.getDouble(name);
-    }
+        for (Material m:a)
+        {
+            if(m.getName().equals(s))
+            {
+                return m.getPrice();
+            }
+        }
+        return 2;
+    }    
 
-    public Map<String, Part> calcBase(int length, int depth, int height, Shed s) throws Exception {
-        p = new Part(posts(length, depth, s), getPrice("Stolpe"), height + 90);
+    public Map<String, Part> calcBase(int length, int depth, int height, Shed s, ArrayList a) throws Exception {
+        p = new Part(posts(length, depth, s), findPrice(a, "Stolpe"), height + 90);
         baseMap.put("Stolper", p);
 
-        p = new Part(postScrews(posts(length, depth, s)), getPrice("Stolpeskrue"));
+        p = new Part(postScrews(posts(length, depth, s)), findPrice(a, "Stolpeskrue"));
         baseMap.put("Stolper", p);
 
-        p = new Part(postBolts(posts(length, depth, s)), getPrice("Stolpebolt"));
+        p = new Part(postBolts(posts(length, depth, s)), findPrice(a, "Stolpebolt"));
         baseMap.put("Stolper", p);
 
-        p = new Part(2, getPrice("Tagrem"), depth);
+        p = new Part(2, findPrice(a, "Tagrem"), depth);
         baseMap.put("Tagrem", p);
 
         return baseMap;
