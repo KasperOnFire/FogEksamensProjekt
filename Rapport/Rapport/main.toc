@@ -5,3 +5,7 @@
 \contentsline {subsubsection}{for Fogs medarbejdere}{6}
 \contentsline {subsection}{Tekniske detajler}{6}
 \contentsline {section}{SQL Queries}{8}
+\contentsline {section}{Arbejdsmetoder}{10}
+\contentsline {subsection}{V\IeC {\ae }rkt\IeC {\o }jer}{10}
+\contentsline {subsection}{Scrum}{10}
+\contentsline {subsection}{Agile development}{10}

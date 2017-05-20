@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6300 64-bit) (preloaded format=pdflatex 2017.5.16)  18 MAY 2017 13:09
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6300 64-bit) (preloaded format=pdflatex 2017.5.16)  20 MAY 2017 12:56
 entering extended mode
 **d:/Biblioteker/Dokumenter/Dropbox/FogEksamensProjekt/Rapport/Rapport/main.tex
 
@@ -54,7 +54,7 @@ Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 \Gm@dimlist=\toks15
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\geometry\geometry.cfg"))
-("C:\Program Files\MiKTeX 2.9\tex\latex\fancyhdr\fancyhdr.sty"
+(C:\Users\Kasper\AppData\Roaming\MiKTeX\2.9\tex\latex\fancyhdr\fancyhdr.sty
 Package: fancyhdr 2016/09/06 3.8 Extensive control of page headers and footers
 \fancy@headwidth=\skip43
 \f@ncyO@elh=\skip44
@@ -72,11 +72,11 @@ Package: babel 2016/04/23 3.9r The Babel package
 *************************************
 * Local config file bblopts.cfg used
 *
-("C:\Program Files\MiKTeX 2.9\tex\latex\arabi\bblopts.cfg"
+(C:\Users\Kasper\AppData\Roaming\MiKTeX\2.9\tex\latex\arabi\bblopts.cfg
 File: bblopts.cfg 2005/09/08 v0.1 add Arabic and Farsi to "declared" options of
  babel
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\babel-danish\danish.ldf"
+(C:\Users\Kasper\AppData\Roaming\MiKTeX\2.9\tex\latex\babel-danish\danish.ldf
 Language: danish 2009/09/19 v1.3r Danish support from the babel system
 
 ("C:\Program Files\MiKTeX 2.9\tex\generic\babel\babel.def"
@@ -501,10 +501,7 @@ Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
 ))
 \Gin@req@height=\dimen112
 \Gin@req@width=\dimen113
-) (main.aux
-(tex/businesscase.aux) (tex/Arkitektur.aux) (tex/ui.aux) (tex/SQL.aux)
-(tex/features.aux) (tex/testing.aux) (tex/errors.aux)
-(tex/futureimplementations.aux) (tex/conclusion.aux))
+) (main.aux)
 \openout1 = `main.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 20.
@@ -560,7 +557,7 @@ LaTeX Font Info:    ... okay on input line 20.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-("C:\Program Files\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
+(C:\Users\Kasper\AppData\Roaming\MiKTeX\2.9\tex\context\base\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count93
 \scratchdimen=\dimen114
@@ -641,17 +638,10 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 26.
  [1
 
-{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}]
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <24.88> not available
+{C:/Users/Kasper/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <24.8 > not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 27.
- (main.toc
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 2.
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 2.
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 2.
-)
+ (main.toc)
 \tf@toc=\write3
 \openout3 = `main.toc'.
 
@@ -680,6 +670,8 @@ Underfull \hbox (badness 10000) in paragraph at lines 2--5
 
  []
 
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 6.
 <img/indexui.png, id=10, 976.39781pt x 691.08188pt>
 File: img/indexui.png Graphic file (type png)
  <use img/indexui.png>
@@ -731,6 +723,11 @@ File: img/adminpanel.png Graphic file (type png)
 Package pdftex.def Info: img/adminpanel.png used on input line 20.
 (pdftex.def)             Requested size: 500.484pt x 338.10603pt.
 
+Underfull \hbox (badness 10000) in paragraph at lines 19--21
+
+ []
+
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [5 <./img/2d.png> <./img/brugerpanel.png>]) [6 <./img/adminpanel.png>] [7]
@@ -774,26 +771,78 @@ No file ./tex/errors.tex.
 \openout2 = `./tex/futureimplementations.aux'.
 
 No file ./tex/futureimplementations.tex.
+\openout2 = `./tex/arbejdsmetoder.aux'.
+
+(tex/arbejdsmetoder.tex
+Underfull \hbox (badness 10000) in paragraph at lines 2--7
+
+ []
+
+<img/branches.jpg, id=47, 817.55438pt x 199.49532pt>
+File: img/branches.jpg Graphic file (type jpg)
+ <use img/branches.jpg>
+Package pdftex.def Info: img/branches.jpg used on input line 10.
+(pdftex.def)             Requested size: 500.484pt x 122.12724pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 9--11
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 9--11
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 9--11
+
+ []
+
+) [10
+
+
+
+
+
+
+
+
+
+
+ <./img/branches.jpg>]
 \openout2 = `./tex/conclusion.aux'.
+
 
 No file ./tex/conclusion.tex.
 (main.aux (tex/businesscase.aux) (tex/Arkitektur.aux) (tex/ui.aux) (tex/SQL.aux
 ) (tex/features.aux) (tex/testing.aux) (tex/errors.aux)
-(tex/futureimplementations.aux) (tex/conclusion.aux)) ) 
+(tex/futureimplementations.aux) (tex/arbejdsmetoder.aux) (tex/conclusion.aux)) 
+) 
 Here is how much of TeX's memory you used:
- 3242 strings out of 493328
- 43742 string characters out of 3139124
- 116755 words of memory out of 3000000
- 6651 multiletter control sequences out of 15000+200000
- 31217 words of font info for 65 fonts, out of 3000000 for 9000
+ 3207 strings out of 493328
+ 43369 string characters out of 3139121
+ 114508 words of memory out of 3000000
+ 6627 multiletter control sequences out of 15000+200000
+ 23714 words of font info for 48 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  39i,10n,43p,778b,208s stack positions out of 5000i,500n,10000p,200000b,50000s
-{C:/Program Files/MiKTeX
- 2.9/fonts/enc/dvips/base/8r.enc}<C:/Program Files/MiKTeX 2.9/fonts/type1/urw/t
-imes/utmb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb>
-Output written on main.pdf (9 pages, 374737 bytes).
+{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc}<C:/Program Files/MiK
+TeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/typ
+e1/urw/times/utmr8a.pfb>
+Output written on main.pdf (10 pages, 414017 bytes).
 PDF statistics:
- 56 PDF objects out of 1000 (max. 8388607)
+ 60 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 36 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 41 words of extra memory for PDF output out of 10000 (max. 10000000)
+
+91
+ 39i,10n,43p,778b,208s stack positions out of 5000i,500n,10000p,200000b,50000s
+{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc}<C:/Program Files/MiK
+TeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/typ
+e1/urw/times/utmr8a.pfb>
+Output written on main.pdf (10 pages, 414276 bytes).
+PDF statistics:
+ 60 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 41 words of extra memory for PDF output out of 10000 (max. 10000000)
 
