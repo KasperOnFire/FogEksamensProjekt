@@ -27,7 +27,7 @@
                     <th>price</th>
                     <th>name</th>
                     <th>qoh</th>
-                    <th>size</th>
+                    <th>size</th>   
                 </tr>
             </thead>
             <tbody>
