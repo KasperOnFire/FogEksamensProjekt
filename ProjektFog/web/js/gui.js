@@ -5,7 +5,6 @@ function DatGui() {
             carport: carport,
             roof: roof,
             shed: shed
-
         }
     }
 
@@ -17,6 +16,7 @@ function DatGui() {
         init();
         update();
     }
+
     var carport, roof, shed, guiFunctions;
     var gui;
 
