@@ -1,8 +1,7 @@
 var canvas = new THREECanvas(); //uses three.js
 var datGui = new DatGui(); //uses dat.gui
 
-var loader = new Loader(canvas); //uses three.js
-var objectMaker = new MeshMaker(loader); //uses three.js
+var objectMaker = new MeshMaker(canvas); //uses three.js
 
 var objectCalc = new CarportObjectCalc(objectMaker);
 

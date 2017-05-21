@@ -1,10 +1,16 @@
-function MeshMaker(loader) {
+function MeshMaker(canvas) {
     //used in svg
     this.paint = function() {}
     this.drawMeasurements = function(length, axis, position) {}
 
+    var grpMesh = new THREE.Object3D();
+    var grpMeshOld;
+
     this.done = function() {
-        loader.paint();
+        canvas.remove(grpMeshOld);
+        canvas.add(grpMesh);
+        grpMeshOld = grpMesh;
+        grpMesh = new THREE.Object3D();
     }
 
     this.wood = new THREE.MeshPhongMaterial({
@@ -63,8 +69,7 @@ function MeshMaker(loader) {
         var meshObj = new THREE.Mesh(geometryObj, material);
         meshObj.castShadow = true;
         meshObj.position.set(position.x, position.y, position.z);
-        loader.add(meshObj);
+        grpMesh.add(meshObj);
     }
-
 
 }
