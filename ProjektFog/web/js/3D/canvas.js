@@ -8,15 +8,12 @@ function THREECanvas() {
         resetCamera();
     }
 
-    this.add = function(meshObj) {
-        scene.add(meshObj);
+    this.remove = function(grpMesh) {
+        scene.remove(grpMesh);
     }
 
-    //#fix
-    this.removeOld = function() { //temp function just to get it started
-        while (scene.getObjectByName('carport') != null) {
-            scene.remove(scene.getObjectByName('carport'));
-        }
+    this.add = function(meshObj) {
+        scene.add(meshObj);
     }
 
     var camera, scene, renderer, controls; //three.js

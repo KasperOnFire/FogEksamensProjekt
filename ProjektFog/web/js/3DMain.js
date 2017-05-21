@@ -1,10 +1,10 @@
-canvas = new THREECanvas(); //uses three.js
-datGui = new DatGui(); //uses dat.gui
+var canvas = new THREECanvas(); //uses three.js
+var datGui = new DatGui(); //uses dat.gui
 
-loader = new Loader(canvas); //uses three.js
-objectMaker = new MeshMaker(loader); //uses three.js
+var loader = new Loader(canvas); //uses three.js
+var objectMaker = new MeshMaker(loader); //uses three.js
 
-objectCalc = new CarportObjectCalc(objectMaker);
+var objectCalc = new CarportObjectCalc(objectMaker);
 
 function update() {
     objectCalc.calcCarport(datGui.getObjects());
@@ -12,7 +12,6 @@ function update() {
 
 function sendJson() {
     var jsonData = JSON.stringify(datGui.getObjects());
-    console.log(jsonData);
     var http = new XMLHttpRequest();
     var url = 'DataReciever';
     http.open("POST", url, true);

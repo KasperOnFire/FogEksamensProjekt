@@ -24,7 +24,8 @@
         <div id="topView"></div>
         <p>Side:</p>
         <div id="sideView"></div>
-        <p> </p> <!-- spacer to see bottom of sideview-->
+        <p> </p>
+        <!-- spacer to see bottom of sideview-->
         <input type="hidden" 
                <c:choose>
                    <c:when test="${json != null}">
@@ -34,10 +35,7 @@
                        value=''
                    </c:otherwise>
                </c:choose>
-               id="json" name="json">
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.4/dat.gui.min.js"></script>
-        <script src="js/gui.js"></script>
+            id="json" name="json">
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/svg.js/2.6.1/svg.js"></script>
         <script src="js/2D/svgmaker.js"></script>

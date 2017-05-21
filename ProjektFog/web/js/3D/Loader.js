@@ -1,15 +1,15 @@
 function Loader(canvas) {
-    var meshes = [];
-    // #fix group and push as group
+    var grpMesh = new THREE.Object3D();
+    var grpMeshOld;
 
     this.add = function(meshObj) {
-        meshes.push(meshObj);
+        grpMesh.add(meshObj);
     }
 
     this.paint = function() {
-        canvas.removeOld();
-        while (meshes.length > 0) {
-            canvas.add(meshes.pop());
-        }
+        canvas.remove(grpMeshOld);
+        canvas.add(grpMesh);
+        grpMeshOld = grpMesh;
+        grpMesh = new THREE.Object3D();
     }
 }

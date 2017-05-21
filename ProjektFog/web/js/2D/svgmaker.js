@@ -56,7 +56,6 @@ function SvgMaker() {
             case "front":
                 //top
                 prismGeomFrontViewTop(vertices, depth, position);
-
                 //side
                 prismGeomFrontViewSide(vertices, depth, position);
                 break;
@@ -64,7 +63,6 @@ function SvgMaker() {
             case "side":
                 //top
                 prismGeomSideViewTop(vertices, depth, position);
-
                 //side
                 prismGeomSideViewSide(vertices, depth, position);
                 break;

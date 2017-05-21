@@ -47,10 +47,9 @@ public class DataReciever extends HttpServlet {
         DataProcessor dp = new DataProcessor();
         String json = (String) request.getParameter("json");
         session.setAttribute("json", json);
+        
         Carport c = dp.parseJson(json);
-
-        if (c != null) { //Hvis det lykkedes
-            //session.setAttribute("Carport", c);
+        if (c != null) { //Validering af json string
             if ((boolean) session.getAttribute("loggedIn") == true) {
                 String userString = (String) session.getAttribute("userString");
                 dp.saveCarportToUser(userString, json);

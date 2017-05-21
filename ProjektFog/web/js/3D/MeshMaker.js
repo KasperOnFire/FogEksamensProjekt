@@ -63,7 +63,6 @@ function MeshMaker(loader) {
         var meshObj = new THREE.Mesh(geometryObj, material);
         meshObj.castShadow = true;
         meshObj.position.set(position.x, position.y, position.z);
-        meshObj.name = 'carport'; //needs to be something else later
         loader.add(meshObj);
     }
 
