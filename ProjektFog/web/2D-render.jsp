@@ -32,7 +32,7 @@
                        value='${json}'
                    </c:when>
                    <c:otherwise>
-                       value=''
+                       <c:redirect url= "userpanel.jsp"/>
                    </c:otherwise>
                </c:choose>
             id="json" name="json">
