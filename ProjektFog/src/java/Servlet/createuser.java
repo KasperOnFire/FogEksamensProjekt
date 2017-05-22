@@ -1,6 +1,7 @@
 package Servlet;
 
 import User.Logic.CreateUser;
+import User.Logic.DatabaseFront;
 import User.User;
 
 import javax.servlet.ServletException;
@@ -37,16 +38,13 @@ public class createuser extends HttpServlet {
 
         HttpSession session = request.getSession();
         CreateUser CU = new CreateUser();
+        DatabaseFront DBF = new DatabaseFront();
 
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String email = request.getParameter("email");
 
-        System.out.println("username: " + username);
-        System.out.println("password: " + password);
-        System.out.println("email: " + email);
-
-        if (username.length() <= 0  || password.length() <= 0 || email.length() <= 0) {
+        if (username.length() <= 0 || password.length() <= 0 || email.length() <= 0) {
             String eMessage = "Username / Password / Email må ikke være tomme!";
             request.setAttribute("errorCode", eMessage);
             request.getRequestDispatcher("/signup.jsp").forward(request, response);
@@ -59,7 +57,13 @@ public class createuser extends HttpServlet {
                     session.setAttribute("loggedIn", true);
                     session.setAttribute("username", user.getUname());
                     session.setAttribute("userString", user.getUserString());
-                    session.setAttribute("carport", user.getCarport());
+                    if (session.getAttribute("json") != null) {
+                        String getCarportSession = (String) session.getAttribute("json");
+
+                        DBF.saveCarport(user.getUserString(), getCarportSession);
+                        session.setAttribute("carport", getCarportSession);
+
+                    }
                     request.getRequestDispatcher("/index.jsp").forward(request, response);
                 } else {
                     String eMessage = "Something went wrong!";
