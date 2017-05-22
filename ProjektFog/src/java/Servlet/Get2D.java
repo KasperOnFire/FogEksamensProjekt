@@ -37,10 +37,12 @@ public class Get2D extends HttpServlet {
 
         HttpSession session = request.getSession();
         dp = new DataProcessor();
+        MaterialList priceCalc = new MaterialList();
 
         String userString = (String) session.getAttribute("userString");
 
         String jsonStr;
+        int price = 0;
         jsonStr = (String) request.getParameter("json");
         if (jsonStr != null) {
         } else {
@@ -50,16 +52,13 @@ public class Get2D extends HttpServlet {
         } else {
             jsonStr = dp.getCarportFromUser(userString);
         }
-        
-        
-        MaterialList priceCalc = new MaterialList();
-        
-        Carport carport = dp.parseJson(jsonStr);
-                
-        int price = priceCalc.calcPrice(carport);
+        if (jsonStr != null) {
+            Carport carport = dp.parseJson(jsonStr);
+            price = priceCalc.calcPrice(carport);
+        } else {
+
+        }
         request.setAttribute("price", price);
-        
-        
         request.setAttribute("json", jsonStr);
 
         request.getRequestDispatcher("2D-render.jsp").forward(request, response);
