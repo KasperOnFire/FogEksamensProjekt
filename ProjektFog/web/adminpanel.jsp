@@ -21,13 +21,13 @@
                 </nav>
                 <div class="main-header">
                     <img src="img/fog.png">
-                    <h1>Design en Carport</h1>
+                    <h1>Admin panel</h1>
                 </div>
                 <div class="main-content">
                     <c:choose>
                         <c:when test="${adminLoggedIn == true}">
                             Welcome ${username}
-                            <a href="manage.jsp">pending orders (${ordersPending.size()})</a>
+                            <p>Afventede ordrer (${ordersPending.size()})</p>
                             <form action="userServlet">
                                 <input type="hidden" value="allOrders" name="retrieveOrders">
                                 <input type="submit" value="Alle ordrer">
@@ -52,10 +52,6 @@
                             <form action="userServlet">
                                 <input type="hidden" name="material">
                                 <input type="submit" value="Material">
-                            </form>
-                            <form action="userServlet">
-                                <input type="hidden" name="newMaterial">
-                                <input type="submit" value="nyt materiale">
                             </form>
                             <br>
                             <a href=""></a>

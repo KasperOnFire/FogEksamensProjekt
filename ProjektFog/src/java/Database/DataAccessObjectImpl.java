@@ -64,7 +64,6 @@ public class DataAccessObjectImpl implements DataAccessObject {
                 String carportRetrieved = rs.getString("carport");
 
                 user = new User(UID, usernameRetrieved, passwordRetrieved, saltRetrieved, emailRetrieved, userString, carportRetrieved);
-                System.out.println(user.getUname());
             }
         } finally {
             try {
@@ -326,15 +325,12 @@ public class DataAccessObjectImpl implements DataAccessObject {
     }
 
     public double getDouble(String name) {
-        System.out.println("start");
         String sql = "select price from material where name=?";
         PreparedStatement stmt = null;
         try {
             stmt = dbcon.getConnection().prepareStatement(sql);
             stmt.setString(1, name);
-            System.out.println("preexecute");
             ResultSet rs = stmt.executeQuery();
-            System.out.println("post execute");
             if (rs.next()) {
                 return rs.getDouble("price");
             }

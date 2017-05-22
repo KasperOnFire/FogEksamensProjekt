@@ -14,7 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * 
+ *
  * This servlet handles the signup of a new user.
  *
  * @author Kasper
@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 public class createuser extends HttpServlet {
 
     /**
-     * 
+     *
      * Processes the request
      *
      * @param request
@@ -41,27 +41,36 @@ public class createuser extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String email = request.getParameter("email");
-        System.out.println(username);
-        System.out.println(password);
-        System.out.println(email);
 
-        if (CU.checkIfAvaible(username)) {
-            CU.insertUser(username, password, email);
-            User u = CU.returnUser(username);
-            if (u.getUname() != null) {
-                session.setAttribute("loggedIn", true);
-                session.setAttribute("user", u);
-                session.setAttribute("currentUser", u.getUname());
-                request.getRequestDispatcher("/index.jsp").forward(request, response);
+        System.out.println("username: " + username);
+        System.out.println("password: " + password);
+        System.out.println("email: " + email);
+
+        if (username.length() <= 0  || password.length() <= 0 || email.length() <= 0) {
+            String eMessage = "Username / Password / Email må ikke være tomme!";
+            request.setAttribute("errorCode", eMessage);
+            request.getRequestDispatcher("/signup.jsp").forward(request, response);
+        } else {
+            if (CU.checkIfAvaible(username)) {
+                CU.insertUser(username, password, email);
+                User user = CU.returnUser(username);
+                if (user.getUname() != null) {
+                    session.setAttribute("loggedIn", true);
+                    session.setAttribute("loggedIn", true);
+                    session.setAttribute("username", user.getUname());
+                    session.setAttribute("userString", user.getUserString());
+                    session.setAttribute("carport", user.getCarport());
+                    request.getRequestDispatcher("/index.jsp").forward(request, response);
+                } else {
+                    String eMessage = "Something went wrong!";
+                    request.setAttribute("errorCode", eMessage);
+                    request.getRequestDispatcher("/signup.jsp").forward(request, response);
+                }
             } else {
-                String eMessage = "Something went wrong!";
+                String eMessage = "Username already in use!";
                 request.setAttribute("errorCode", eMessage);
                 request.getRequestDispatcher("/signup.jsp").forward(request, response);
             }
-        } else {
-            String eMessage = "Username already in use!";
-            request.setAttribute("errorCode", eMessage);
-            request.getRequestDispatcher("/signup.jsp").forward(request, response);
         }
     }
 

@@ -55,6 +55,7 @@ public class DataReciever extends HttpServlet {
                 dp.saveCarportToUser(userString, json);
                 try {
                     DBF.saveCarport(userString, json);
+                    session.setAttribute("carport", json);
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }

@@ -35,7 +35,6 @@
         <script src="js/gui.js"></script>
         <script src="js/3D/canvas.js"></script>
 
-        <script src="js/3D/Loader.js"></script>
         <script src="js/3D/MeshMaker.js"></script>
         <script src="js/CarportObjectCalc.js"></script>
         <script src="js/3DMain.js"></script>

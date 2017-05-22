@@ -111,7 +111,7 @@ function DatGui() {
             .onChange(function() {
                 update()
             });
-        var folderOverhang = folderRoof.addFolder('overhang');
+        var folderOverhang = folderRoof.addFolder('Overhæng');
         folderOverhang.add(roof.overhang, 'sides')
             .min(0)
             .max(30)

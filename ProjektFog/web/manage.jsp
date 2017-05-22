@@ -22,7 +22,8 @@
                         <h1>Design en Carport</h1>
                     </div>
                     <div class="main-content">
-                        <h1>Alle Ordrer</h1>
+                        <h1>${nameType}</h1>
+                        <a href="adminpanel.jsp" class="btn">Tilbage til Adminpanelet</a>
                         <div class="refreshButton">
                             <form action="userServlet">
                                 <input type="hidden" name="refreshOrders" value="true">

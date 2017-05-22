@@ -9,7 +9,12 @@
         <link rel="stylesheet" href="css/index.css">
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     </head>
-    <body>
+    <body>>
+        <c:choose>
+            <c:when test="${loggedIn != true}">
+                <c:redirect url="login.jsp"/>
+            </c:when>
+        </c:choose>
         <div class="main-div">
             <nav class="navbar navbar-default">
                 <div class="container-fluid">
@@ -20,7 +25,7 @@
                         <li class=""><a href="index.jsp">Hjem</a></li>
                         <li><a href="Get3D">Design din carport</a></li>
                             <c:choose>
-                                <c:when test="${loggedIn!=true}">
+                                <c:when test="${loggedIn != true}">
                                 <li><a style="" href="login.jsp">Log ind</a></li>
                                 <li><a style="" href="signup.jsp">Registrer</a></li>
                                 </c:when>
@@ -39,31 +44,36 @@
             <div class="main-content">
                 <p>Hej ${username}</p>
                 <p>Din gemte carport er herunder, vil du kontaktes af fog?</p>
-
-                <table>
-                    <tr>
-                        <td>        
-                            <form action="Get2D" method="post">
-                                <input type="hidden" value="${carport}">
-                                <input type="submit" value="2D tegning" class="btn btn-info"> 
-                            </form>
-                        </td>
-
-                        <td>
-                            <form action="Get3D" method="post">
-                                <input type="hidden" value="${carport}">
-                                <input type="submit" value="3D tegning" class="btn btn-info"> 
-                            </form>
-                        </td>
-                        <td>
-                            <form action="userpanel" method="post">
-                                <input type="hidden" value="true" name="addOrder">
-                                <input type="hidden" value='${carport}' name="carport">
-                                <input type="submit" value="Kontakt mig" class="btn btn-info"> 
-                            </form>
-                        </td>
-                    </tr>
-                </table>
+                <c:choose>
+                    <c:when test="${carport != null or carport.length() <= 0}">
+                        <table>
+                            <tr>
+                                <td>        
+                                    <form action="Get2D" method="post">
+                                        <input type="hidden" value="${carport}">
+                                        <input type="submit" value="2D tegning" class="btn btn-info"> 
+                                    </form>
+                                </td>
+                                <td>
+                                    <form action="Get3D" method="post">
+                                        <input type="hidden" value="${carport}">
+                                        <input type="submit" value="3D tegning" class="btn btn-info"> 
+                                    </form>
+                                </td>
+                                <td>
+                                    <form action="userpanel" method="post">
+                                        <input type="hidden" value="true" name="addOrder">
+                                        <input type="hidden" value='${carport}' name="carport">
+                                        <input type="submit" value="Kontakt mig" class="btn btn-info"> 
+                                    </form>
+                                </td>                                
+                            </tr>
+                        </table>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="Get3D" class="link-button">Design din carport!</a>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </div>
     </body>

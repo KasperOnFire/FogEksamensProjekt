@@ -36,7 +36,6 @@ public class userServlet extends HttpServlet {
             HttpSession session = request.getSession();
 
             if (request.getParameter("claimOrder") != null) {
-                System.out.println("Claiming order for user: " + request.getParameter("claimOrder"));
                 uF.claimUser(request.getParameter("claimOrder"), Integer.parseInt(request.getParameter("claimOno")));
                 session.setAttribute("ordersPending", uF.getAllOrders());
                 getServletContext().getRequestDispatcher("/manage.jsp").forward(request, response);
@@ -58,18 +57,23 @@ public class userServlet extends HttpServlet {
                 switch (request.getParameter("retrieveOrders")) {
                     case "allOrders":
                         session.setAttribute("ordersPending", uF.getAllOrders());
+                        session.setAttribute("nameType", "Alle ordrer");
                         break;
                     case "claimedOrders":
                         session.setAttribute("ordersPending", uF.getClaimedOrders(Integer.parseInt((String) session.getAttribute("empNo"))));
+                        session.setAttribute("nameType", "Mine ordrer");
                         break;
                     case "finishedOrders":
                         session.setAttribute("ordersPending", uF.getFinishedOrders());
+                        session.setAttribute("nameType", "Færdige ordrer");
                         break;
                     case "searchOrder":
                         session.setAttribute("ordersPending", uF.getSearchOrder(Integer.parseInt(request.getParameter("orderNumber"))));
+                        session.setAttribute("nameType", "Søgning i ordrer");
                         break;
                     case "notClaimed":
                         session.setAttribute("ordersPending", uF.getNotClaimed());
+                        session.setAttribute("nameType", "Afventede ordrer");
                         break;
                 }
                 getServletContext().getRequestDispatcher("/manage.jsp").forward(request, response);

@@ -27,10 +27,8 @@ public class userpanel extends HttpServlet {
         }
         
         if(request.getParameter("addOrder") != null){
-            System.out.println("Par: 1: " + request.getParameter("carport"));
-            System.out.println("Par: 2: " + (String) session.getAttribute("userString"));
             DBF.addOrder((String) request.getParameter("carport"), (String) session.getAttribute("userString"), 0);
-            request.getRequestDispatcher("/index.jsp").forward(request, response);
+            request.getRequestDispatcher("index.jsp").forward(request, response);
         }
         
     }

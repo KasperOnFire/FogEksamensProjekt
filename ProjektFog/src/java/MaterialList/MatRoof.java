@@ -13,88 +13,70 @@ public class MatRoof {
     private Map<String, Part> roofMap = new HashMap<>();
     private Part p;
     private static int mountingBands = 2;
-    
-    private int findPrice(ArrayList<Material> a, String s)
-    {
-        for (Material m:a)
-        {
-            if(m.getName().equals(s))
-            {
+
+    private int findPrice(ArrayList<Material> a, String s) {
+        for (Material m : a) {
+            if (m.getName().equals(s)) {
                 return m.getPrice();
             }
         }
         return 2;
     }
 
-    
-    public Map<String, Part> calcRoof(int length, int depth, Roof r, ArrayList a) throws Exception
-    {
-        System.out.println("start");
+    public Map<String, Part> calcRoof(int length, int depth, Roof r, ArrayList a) throws Exception {
         m2 = (double) (length / 100) * (double) (depth / 100);
         System.out.println(r.isGable());
-        if(r.isGable())
-        {
-            System.out.println("tagpap start");
-            p = new Part(gabledRoof(length, depth),findPrice(a, "Tagpap"));
+        if (r.isGable()) {
+            p = new Part(gabledRoof(length, depth), findPrice(a, "Tagpap"));
             roofMap.put("Tagpap", p);
-            System.out.println("tagpap ok");
-            
-            p = new Part(gabledBoards(length, depth),findPrice(a, "Spærtræ"));
+
+            p = new Part(gabledBoards(length, depth), findPrice(a, "Spærtræ"));
             roofMap.put("Tagspær", p);
-            System.out.println("tagspær");
-            
-            p = new Part(roofBoardScrews(roofBoards(length)),findPrice(a, "Spærskrue"));
+
+            p = new Part(roofBoardScrews(roofBoards(length)), findPrice(a, "Spærskrue"));
             roofMap.put("Spærskrue", p);
-            System.out.println("spærskrue");
-            
-            p = new Part(1,findPrice(a, "Danspær"));
+
+            p = new Part(1, findPrice(a, "Danspær"));
             roofMap.put("Danspær", p);
-            System.out.println("danspær");
-        }
-        else
-        {
-            p = new Part(flatRoof(length, depth),findPrice(a, "Plastmo Trapez"));
+        } else {
+            p = new Part(flatRoof(length, depth), findPrice(a, "Plastmo Trapez"));
             roofMap.put("Plastmo Trapez", p);
-            
-            p = new Part(roofScrews(flatRoof(length,depth)),findPrice(a, "Plastmo Tagskrue"));
+
+            p = new Part(roofScrews(flatRoof(length, depth)), findPrice(a, "Plastmo Tagskrue"));
             roofMap.put("Plastmo Tagskrue", p);
-            
-            p = new Part(2,findPrice(a, "Hulbånd"));
+
+            p = new Part(2, findPrice(a, "Hulbånd"));
             roofMap.put("Hulbånd", p);
-            
-            p = new Part(roofBoards(length),findPrice(a, "Spærtræ"));
+
+            p = new Part(roofBoards(length), findPrice(a, "Spærtræ"));
             roofMap.put("Tagspær", p);
-            
-            p = new Part(roofBoardScrews(roofBoards(length)),findPrice(a, "Spærskrue"));
+
+            p = new Part(roofBoardScrews(roofBoards(length)), findPrice(a, "Spærskrue"));
             roofMap.put("Spærskrue", p);
-            
-            p = new Part(roofBoardBrackets(roofBoards(length)),findPrice(a, "Tagspærbeslag"));
+
+            p = new Part(roofBoardBrackets(roofBoards(length)), findPrice(a, "Tagspærbeslag"));
             roofMap.put("Spærbeslag", p);
-            
-            p = new Part(mountingBandScrews(roofBoards(length),mountingBands),findPrice(a, "Spærskrue"));
+
+            p = new Part(mountingBandScrews(roofBoards(length), mountingBands), findPrice(a, "Spærskrue"));
             roofMap.put("Hulbåndsskrue", p);
-            
-            p = new Part(2,findPrice(a, "Sternbræt"),depth);
+
+            p = new Part(2, findPrice(a, "Sternbræt"), depth);
             roofMap.put("Understernbræt, side", p);
-            
-            p = new Part(2,findPrice(a, "Sternbræt"),depth);
+
+            p = new Part(2, findPrice(a, "Sternbræt"), depth);
             roofMap.put("Oversternbræt, side", p);
-            
-            p = new Part(1,findPrice(a, "Sternbræt"),length);
+
+            p = new Part(1, findPrice(a, "Sternbræt"), length);
             roofMap.put("Understernbræt, forende", p);
-            
-            p = new Part(1,findPrice(a, "Sternbræt"),length);
+
+            p = new Part(1, findPrice(a, "Sternbræt"), length);
             roofMap.put("Oversternbræt, forende", p);
         }
-        System.out.println("ending");
         return roofMap;
-    }    
-    
-    
-    
+    }
+
     private int flatRoof(int length, int width) {
-        int fr=(int) Math.ceil(m2) + 1;
-        System.out.println(fr);
+        int fr = (int) Math.ceil(m2) + 1;
         return fr;
     }
 
@@ -103,22 +85,22 @@ public class MatRoof {
     }
 
     private int roofScrews(double m2) {
-        int rs=(int) m2 * 12;
+        int rs = (int) m2 * 12;
         return rs;
     }
 
     private int roofBoards(int length) {
-        int rb=(length / 60) + 1;
+        int rb = (length / 60) + 1;
         return rb;
     }
 
     private int roofBoardScrews(int roofBoards) {
-        int rbs=roofBoards * 18;
+        int rbs = roofBoards * 18;
         return rbs;
     }
 
     private int roofBoardBrackets(int roofBoards) {
-        int rbb=roofBoards * 2;
+        int rbb = roofBoards * 2;
         return rbb;
     }
 
@@ -130,10 +112,9 @@ public class MatRoof {
         double a = (double) length / 2;
         double a2 = a * a;
         double b = Math.log(depth);
-        double b2 = b*b;
-        double size = Math.sqrt(a2+b2)*length;
-        System.out.println(size);
-        return (int)size;
+        double b2 = b * b;
+        double size = Math.sqrt(a2 + b2) * length;
+        return (int) size;
     }
 
     private int gabledBoards(int length, int depth) {

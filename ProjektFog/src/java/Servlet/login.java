@@ -80,7 +80,7 @@ public class login extends HttpServlet {
             if (!(Boolean) session.getAttribute("loggedIn") && !(Boolean) session.getAttribute("adminLoggedIn")) {
                 if (login.adminPasswordCheck(username, password)) {
                     AdminUser = login.returnAdminUser(username);
-                    ArrayList<Order> orders = DBF.getOrders();
+                    ArrayList<Order> orders = DBF.getNotClaimed();
 
                     session.setAttribute("ordersPending", orders);
                     session.setAttribute("adminLoggedIn", true);
