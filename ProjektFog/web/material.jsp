@@ -41,7 +41,7 @@
                                         <td>${a.getMno()}</td>
                                         <td>${a.getType()}</td>
                                         <td>
-                                            <form action="userServlet">
+                                            <form action="userServlet" method="post">
                                                 <input type="hidden" name="updatePrice">
                                                 <input type="hidden" name="mno" value="${a.getMno()}">
                                                 <input type="number" value="${a.getPrice()}" name="price">
