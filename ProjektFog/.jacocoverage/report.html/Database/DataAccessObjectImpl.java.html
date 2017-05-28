@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="da"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>DataAccessObjectImpl.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;ProjektFog&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">Database</a> &gt; <span class="el_source">DataAccessObjectImpl.java</span></div><h1>DataAccessObjectImpl.java</h1><pre class="source lang-java linenums">package Database;
 
+import MaterialList.Material;
+import User.AdminUser;
+import User.Password;
+import User.User;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import User.*;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 
 /**
  * Implentation of DataBaseObject. Handles all methods that has direct contact
@@ -18,8 +24,8 @@ import java.io.UnsupportedEncodingException;
 public class DataAccessObjectImpl implements DataAccessObject {
 
     private final DBConnector dbcon;
-<span class="fc" id="L21">    private final Connection conn = null;</span>
-<span class="fc" id="L22">    Password pass = new Password();</span>
+<span class="fc" id="L27">    private final Connection conn = null;</span>
+<span class="fc" id="L28">    Password pass = new Password();</span>
 
     /**
      * established connection to the database when instantiated.
@@ -27,9 +33,9 @@ public class DataAccessObjectImpl implements DataAccessObject {
      * @throws Exception if anything goes wrong - see DBConnector object for
      * details.
      */
-<span class="fc" id="L30">    public DataAccessObjectImpl() throws Exception {</span>
-<span class="fc" id="L31">        this.dbcon = new DBConnector();</span>
-<span class="fc" id="L32">    }</span>
+<span class="fc" id="L36">    public DataAccessObjectImpl() throws Exception {</span>
+<span class="fc" id="L37">        this.dbcon = new DBConnector();</span>
+<span class="fc" id="L38">    }</span>
 
     /**
      *
@@ -42,33 +48,32 @@ public class DataAccessObjectImpl implements DataAccessObject {
      * database is wrong.
      */
     public User getUserByUsername(String username) throws SQLException {
-<span class="fc" id="L45">        User user = null;</span>
-<span class="fc" id="L46">        PreparedStatement stmt = null;</span>
+<span class="fc" id="L51">        User user = null;</span>
+<span class="fc" id="L52">        PreparedStatement stmt = null;</span>
         try {
-<span class="fc" id="L48">            stmt = dbcon.getConnection().prepareStatement(&quot;SELECT * FROM users WHERE uname = ?;&quot;);</span>
-<span class="fc" id="L49">            stmt.setString(1, username);</span>
-<span class="fc" id="L50">            ResultSet rs = stmt.executeQuery();</span>
-<span class="pc bpc" id="L51" title="1 of 2 branches missed.">            if (rs.next()) {</span>
-<span class="fc" id="L52">                int UID = rs.getInt(&quot;uid&quot;);</span>
-<span class="fc" id="L53">                String usernameRetrieved = rs.getString(&quot;uname&quot;);</span>
-<span class="fc" id="L54">                String passwordRetrieved = rs.getString(&quot;password&quot;);</span>
-<span class="fc" id="L55">                String saltRetrieved = rs.getString(&quot;salt&quot;);</span>
-<span class="fc" id="L56">                String emailRetrieved = rs.getString(&quot;email&quot;);</span>
-<span class="fc" id="L57">                String userString = rs.getString(&quot;userstring&quot;);</span>
-<span class="fc" id="L58">                String carportRetrieved = rs.getString(&quot;carport&quot;);</span>
+<span class="fc" id="L54">            stmt = dbcon.getConnection().prepareStatement(&quot;SELECT * FROM users WHERE uname = ?;&quot;);</span>
+<span class="fc" id="L55">            stmt.setString(1, username);</span>
+<span class="fc" id="L56">            ResultSet rs = stmt.executeQuery();</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">            if (rs.next()) {</span>
+<span class="fc" id="L58">                int UID = rs.getInt(&quot;uid&quot;);</span>
+<span class="fc" id="L59">                String usernameRetrieved = rs.getString(&quot;uname&quot;);</span>
+<span class="fc" id="L60">                String passwordRetrieved = rs.getString(&quot;password&quot;);</span>
+<span class="fc" id="L61">                String saltRetrieved = rs.getString(&quot;salt&quot;);</span>
+<span class="fc" id="L62">                String emailRetrieved = rs.getString(&quot;email&quot;);</span>
+<span class="fc" id="L63">                String userString = rs.getString(&quot;userstring&quot;);</span>
+<span class="fc" id="L64">                String carportRetrieved = rs.getString(&quot;carport&quot;);</span>
 
-<span class="fc" id="L60">                user = new User(UID, usernameRetrieved, passwordRetrieved, saltRetrieved, emailRetrieved, userString, carportRetrieved);</span>
-<span class="fc" id="L61">                System.out.println(user.getUname());</span>
+<span class="fc" id="L66">                user = new User(UID, usernameRetrieved, passwordRetrieved, saltRetrieved, emailRetrieved, userString, carportRetrieved);</span>
             }
         } finally {
-<span class="nc" id="L64">            try {</span>
-<span class="pc bpc" id="L65" title="3 of 4 branches missed.">                if (stmt != null) {</span>
-<span class="pc" id="L66">                    stmt.close();</span>
+<span class="nc" id="L69">            try {</span>
+<span class="pc bpc" id="L70" title="3 of 4 branches missed.">                if (stmt != null) {</span>
+<span class="pc" id="L71">                    stmt.close();</span>
                 }
-<span class="nc" id="L68">            } catch (Exception e) {</span>
-<span class="pc" id="L69">            }</span>
-<span class="nc" id="L70">        }</span>
-<span class="fc" id="L71">        return user;</span>
+<span class="nc" id="L73">            } catch (Exception e) {</span>
+<span class="pc" id="L74">            }</span>
+<span class="nc" id="L75">        }</span>
+<span class="fc" id="L76">        return user;</span>
     }
 
     /**
@@ -82,31 +87,55 @@ public class DataAccessObjectImpl implements DataAccessObject {
      * database is wrong.
      */
     public AdminUser getAdminByUsername(String username) throws SQLException {
-<span class="fc" id="L85">        AdminUser user = null;</span>
-<span class="fc" id="L86">        PreparedStatement stmt = null;</span>
+<span class="fc" id="L90">        AdminUser user = null;</span>
+<span class="fc" id="L91">        PreparedStatement stmt = null;</span>
         try {
-<span class="fc" id="L88">            stmt = dbcon.getConnection().prepareStatement(&quot;SELECT * FROM adminuser WHERE username = ?&quot;);</span>
-<span class="fc" id="L89">            stmt.setString(1, username);</span>
-<span class="fc" id="L90">            ResultSet rs = stmt.executeQuery();</span>
-<span class="pc bpc" id="L91" title="1 of 2 branches missed.">            if (rs.next()) {</span>
-<span class="fc" id="L92">                String usernameRetrieved = rs.getString(&quot;username&quot;);</span>
-<span class="fc" id="L93">                String passwordRetrieved = rs.getString(&quot;password&quot;);</span>
-<span class="fc" id="L94">                String empnoRetrieved = rs.getString(&quot;empno&quot;);</span>
-<span class="fc" id="L95">                String empnameRetrieved = rs.getString(&quot;empname&quot;);</span>
-<span class="fc" id="L96">                String saltRetrieved = rs.getString(&quot;salt&quot;);</span>
-<span class="fc" id="L97">                String userString = rs.getString(&quot;userstring&quot;);</span>
+<span class="fc" id="L93">            stmt = dbcon.getConnection().prepareStatement(&quot;SELECT * FROM adminuser WHERE username = ?&quot;);</span>
+<span class="fc" id="L94">            stmt.setString(1, username);</span>
+<span class="fc" id="L95">            ResultSet rs = stmt.executeQuery();</span>
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">            if (rs.next()) {</span>
+<span class="fc" id="L97">                String usernameRetrieved = rs.getString(&quot;username&quot;);</span>
+<span class="fc" id="L98">                String passwordRetrieved = rs.getString(&quot;password&quot;);</span>
+<span class="fc" id="L99">                String empnoRetrieved = rs.getString(&quot;empno&quot;);</span>
+<span class="fc" id="L100">                String empnameRetrieved = rs.getString(&quot;empname&quot;);</span>
+<span class="fc" id="L101">                String saltRetrieved = rs.getString(&quot;salt&quot;);</span>
+<span class="fc" id="L102">                String userString = rs.getString(&quot;userstring&quot;);</span>
 
-<span class="fc" id="L99">                user = new AdminUser(usernameRetrieved, empnoRetrieved, empnameRetrieved, passwordRetrieved, saltRetrieved, userString);</span>
+<span class="fc" id="L104">                user = new AdminUser(usernameRetrieved, empnoRetrieved, empnameRetrieved, passwordRetrieved, saltRetrieved, userString);</span>
             }
         } finally {
-<span class="nc" id="L102">            try {</span>
-<span class="pc bpc" id="L103" title="3 of 4 branches missed.">                if (stmt != null) {</span>
-<span class="pc" id="L104">                    stmt.close();</span>
+<span class="nc" id="L107">            try {</span>
+<span class="pc bpc" id="L108" title="3 of 4 branches missed.">                if (stmt != null) {</span>
+<span class="pc" id="L109">                    stmt.close();</span>
                 }
-<span class="nc" id="L106">            } catch (Exception e) {</span>
-<span class="pc" id="L107">            }</span>
-<span class="nc" id="L108">        }</span>
-<span class="fc" id="L109">        return user;</span>
+<span class="nc" id="L111">            } catch (Exception e) {</span>
+<span class="pc" id="L112">            }</span>
+<span class="nc" id="L113">        }</span>
+<span class="fc" id="L114">        return user;</span>
+    }
+
+    public int getEmpNoByUsername(String empName) throws SQLException {
+<span class="nc" id="L118">        int empNo = -1;</span>
+<span class="nc" id="L119">        PreparedStatement stmt = null;</span>
+<span class="nc" id="L120">        String sql = &quot;SELECT empno FROM adminuser WHERE username = ?&quot;;</span>
+        try {
+<span class="nc" id="L122">            stmt = dbcon.getConnection().prepareStatement(sql);</span>
+<span class="nc" id="L123">            stmt.setString(1, empName);</span>
+<span class="nc" id="L124">            ResultSet rs = stmt.executeQuery();</span>
+<span class="nc bnc" id="L125" title="All 2 branches missed.">            if (rs.next()) {</span>
+<span class="nc" id="L126">                empNo = rs.getInt(&quot;empno&quot;);</span>
+            }
+        } finally {
+<span class="nc" id="L129">            try {</span>
+<span class="nc bnc" id="L130" title="All 4 branches missed.">                if (stmt != null) {</span>
+<span class="nc" id="L131">                    stmt.close();</span>
+<span class="nc" id="L132">                    return empNo;</span>
+                }
+<span class="nc" id="L134">            } catch (Exception e) {</span>
+<span class="nc" id="L135">                e.printStackTrace();</span>
+<span class="nc" id="L136">            }</span>
+<span class="nc" id="L137">        }</span>
+<span class="nc" id="L138">        return -1;</span>
     }
 
     /**
@@ -124,27 +153,27 @@ public class DataAccessObjectImpl implements DataAccessObject {
      * wrong
      */
     public boolean createAdmin(String username, String password, String empno, String empname) throws SQLException, UnsupportedEncodingException {
-<span class="nc" id="L127">        PreparedStatement stmt = null;</span>
+<span class="nc" id="L156">        PreparedStatement stmt = null;</span>
         try {
-<span class="nc" id="L129">            String passSalt = pass.getSaltString();</span>
-<span class="nc" id="L130">            stmt = dbcon.getConnection().prepareStatement(&quot;INSERT INTO adminuser VALUES (?, ?, ?, ?, ?, ?)&quot;);</span>
-<span class="nc" id="L131">            stmt.setString(1, empno);</span>
-<span class="nc" id="L132">            stmt.setString(2, username);</span>
-<span class="nc" id="L133">            stmt.setString(3, empname);</span>
-<span class="nc" id="L134">            stmt.setString(4, pass.get_SHA_512_SecurePassword(password, passSalt));</span>
-<span class="nc" id="L135">            stmt.setString(5, passSalt);</span>
-<span class="nc" id="L136">            stmt.setString(6, pass.getSaltString());</span>
-<span class="nc" id="L137">            stmt.executeUpdate();</span>
+<span class="nc" id="L158">            String passSalt = pass.getSaltString();</span>
+<span class="nc" id="L159">            stmt = dbcon.getConnection().prepareStatement(&quot;INSERT INTO adminuser VALUES (?, ?, ?, ?, ?, ?)&quot;);</span>
+<span class="nc" id="L160">            stmt.setString(1, empno);</span>
+<span class="nc" id="L161">            stmt.setString(2, username);</span>
+<span class="nc" id="L162">            stmt.setString(3, empname);</span>
+<span class="nc" id="L163">            stmt.setString(4, pass.get_SHA_512_SecurePassword(password, passSalt));</span>
+<span class="nc" id="L164">            stmt.setString(5, passSalt);</span>
+<span class="nc" id="L165">            stmt.setString(6, pass.getSaltString());</span>
+<span class="nc" id="L166">            stmt.executeUpdate();</span>
         } finally {
-<span class="nc" id="L139">            try {</span>
-<span class="nc bnc" id="L140" title="All 4 branches missed.">                if (stmt != null) {</span>
-<span class="nc" id="L141">                    stmt.close();</span>
-<span class="nc" id="L142">                    return true;</span>
+<span class="nc" id="L168">            try {</span>
+<span class="nc bnc" id="L169" title="All 4 branches missed.">                if (stmt != null) {</span>
+<span class="nc" id="L170">                    stmt.close();</span>
+<span class="nc" id="L171">                    return true;</span>
                 }
-<span class="nc" id="L144">            } catch (Exception e) {</span>
-<span class="nc" id="L145">            }</span>
-<span class="nc" id="L146">        }</span>
-<span class="nc" id="L147">        return false;</span>
+<span class="nc" id="L173">            } catch (Exception e) {</span>
+<span class="nc" id="L174">            }</span>
+<span class="nc" id="L175">        }</span>
+<span class="nc" id="L176">        return false;</span>
     }
 
     /**
@@ -162,26 +191,26 @@ public class DataAccessObjectImpl implements DataAccessObject {
      * wrong
      */
     public boolean createUser(String username, String password, String email) throws SQLException, UnsupportedEncodingException {
-<span class="fc" id="L165">        PreparedStatement stmt = null;</span>
+<span class="fc" id="L194">        PreparedStatement stmt = null;</span>
         try {
-<span class="fc" id="L167">            String passSalt = pass.getSaltString();</span>
-<span class="fc" id="L168">            stmt = dbcon.getConnection().prepareStatement(&quot;INSERT INTO users VALUES (default, ?, ?, ?, ?, ?, null)&quot;);</span>
-<span class="fc" id="L169">            stmt.setString(1, username);</span>
-<span class="fc" id="L170">            stmt.setString(2, email);</span>
-<span class="fc" id="L171">            stmt.setString(3, pass.get_SHA_512_SecurePassword(password, passSalt));</span>
-<span class="fc" id="L172">            stmt.setString(4, passSalt);</span>
-<span class="fc" id="L173">            stmt.setString(5, pass.getSaltString());</span>
-<span class="nc" id="L174">            int i = stmt.executeUpdate();</span>
+<span class="fc" id="L196">            String passSalt = pass.getSaltString();</span>
+<span class="fc" id="L197">            stmt = dbcon.getConnection().prepareStatement(&quot;INSERT INTO users VALUES (default, ?, ?, ?, ?, ?, null)&quot;);</span>
+<span class="fc" id="L198">            stmt.setString(1, username);</span>
+<span class="fc" id="L199">            stmt.setString(2, email);</span>
+<span class="fc" id="L200">            stmt.setString(3, pass.get_SHA_512_SecurePassword(password, passSalt));</span>
+<span class="fc" id="L201">            stmt.setString(4, passSalt);</span>
+<span class="fc" id="L202">            stmt.setString(5, pass.getSaltString());</span>
+<span class="fc" id="L203">            int i = stmt.executeUpdate();</span>
         } finally {
-<span class="fc" id="L176">            try {</span>
-<span class="pc bpc" id="L177" title="3 of 4 branches missed.">                if (stmt != null) {</span>
-<span class="pc" id="L178">                    stmt.close();</span>
-<span class="pc" id="L179">                    return true;</span>
+<span class="nc" id="L205">            try {</span>
+<span class="pc bpc" id="L206" title="3 of 4 branches missed.">                if (stmt != null) {</span>
+<span class="pc" id="L207">                    stmt.close();</span>
+<span class="pc" id="L208">                    return true;</span>
                 }
-<span class="nc" id="L181">            } catch (Exception e) {</span>
-<span class="nc" id="L182">            }</span>
-<span class="nc" id="L183">        }</span>
-<span class="nc" id="L184">        return false;</span>
+<span class="nc" id="L210">            } catch (Exception e) {</span>
+<span class="nc" id="L211">            }</span>
+<span class="nc" id="L212">        }</span>
+<span class="nc" id="L213">        return false;</span>
     }
 
     /**
@@ -195,32 +224,56 @@ public class DataAccessObjectImpl implements DataAccessObject {
      * database is wrong.
      */
     public boolean updateCarport(String jsonString, String userString) throws SQLException { //NEEDS FIXING, NULL POINTER???
-<span class="fc" id="L198">        String sql = &quot;UPDATE users SET carport = ? WHERE userString = ? and uid = ?&quot;;</span>
-<span class="fc" id="L199">        PreparedStatement stmt = null;</span>
+<span class="fc" id="L227">        String sql = &quot;UPDATE users SET carport = ? WHERE userString = ? and uid = ?&quot;;</span>
+<span class="fc" id="L228">        PreparedStatement stmt = null;</span>
         int UID;
         try {
-<span class="fc" id="L202">            stmt = dbcon.getConnection().prepareStatement(sql);</span>
-<span class="fc" id="L203">            stmt.setString(1, jsonString);</span>
-<span class="fc" id="L204">            stmt.setString(2, userString);</span>
+<span class="fc" id="L231">            stmt = dbcon.getConnection().prepareStatement(sql);</span>
+<span class="fc" id="L232">            stmt.setString(1, jsonString);</span>
+<span class="fc" id="L233">            stmt.setString(2, userString);</span>
             try {
-<span class="fc" id="L206">                UID = getUIDFromUserString(userString);</span>
-<span class="nc" id="L207">            } catch (IllegalArgumentException e) {</span>
-<span class="nc" id="L208">                e.printStackTrace();</span>
-<span class="nc" id="L209">                return false;</span>
-<span class="fc" id="L210">            }</span>
-<span class="fc" id="L211">            stmt.setInt(3, UID);</span>
-<span class="fc" id="L212">            stmt.executeUpdate();</span>
+<span class="fc" id="L235">                UID = getUIDFromUserString(userString);</span>
+<span class="nc" id="L236">            } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L237">                e.printStackTrace();</span>
+<span class="nc" id="L238">                return false;</span>
+<span class="fc" id="L239">            }</span>
+<span class="fc" id="L240">            stmt.setInt(3, UID);</span>
+<span class="fc" id="L241">            stmt.executeUpdate();</span>
         } finally {
-<span class="nc" id="L214">            try {</span>
-<span class="pc bpc" id="L215" title="5 of 6 branches missed.">                if (stmt != null) {</span>
-<span class="pc" id="L216">                    stmt.close();</span>
-<span class="pc" id="L217">                    return true;</span>
+<span class="nc" id="L243">            try {</span>
+<span class="pc bpc" id="L244" title="5 of 6 branches missed.">                if (stmt != null) {</span>
+<span class="pc" id="L245">                    stmt.close();</span>
+<span class="pc" id="L246">                    return true;</span>
                 }
-<span class="nc" id="L219">            } catch (Exception e) {</span>
-<span class="nc" id="L220">                e.printStackTrace();</span>
-<span class="nc" id="L221">            }</span>
-<span class="nc" id="L222">        }</span>
-<span class="nc" id="L223">        return false;</span>
+<span class="nc" id="L248">            } catch (Exception e) {</span>
+<span class="nc" id="L249">                e.printStackTrace();</span>
+<span class="nc" id="L250">            }</span>
+<span class="nc" id="L251">        }</span>
+<span class="nc" id="L252">        return false;</span>
+    }
+
+    public boolean updateEMPonOrder(String empName, int ono) {
+<span class="nc" id="L256">        String sql = &quot;UPDATE orders SET empno = ? WHERE ono = ?&quot;;</span>
+<span class="nc" id="L257">        PreparedStatement stmt = null;</span>
+        int empNo;
+        try {
+<span class="nc" id="L260">            stmt = dbcon.getConnection().prepareStatement(sql);</span>
+<span class="nc" id="L261">            empNo = this.getEmpNoByUsername(empName);</span>
+<span class="nc" id="L262">            stmt.setInt(1, empNo);</span>
+<span class="nc" id="L263">            stmt.setInt(2, ono);</span>
+<span class="nc" id="L264">            stmt.executeUpdate();</span>
+<span class="nc" id="L265">        } catch (Exception e) {</span>
+<span class="nc" id="L266">            e.printStackTrace();</span>
+        } finally {
+<span class="nc" id="L268">            try {</span>
+<span class="nc bnc" id="L269" title="All 6 branches missed.">                if (stmt != null) {</span>
+<span class="nc" id="L270">                    stmt.close();</span>
+<span class="nc" id="L271">                    return true;</span>
+                }
+<span class="nc" id="L273">            } catch (Exception e) {</span>
+<span class="nc" id="L274">            }</span>
+<span class="nc" id="L275">        }</span>
+<span class="nc" id="L276">        return false;</span>
     }
 
     /**
@@ -230,83 +283,442 @@ public class DataAccessObjectImpl implements DataAccessObject {
      * @return the id.
      */
     public int getUIDFromUserString(String userString) {
-<span class="fc" id="L233">        String sql = &quot;SELECT UID FROM users WHERE userstring = ?&quot;;</span>
-<span class="fc" id="L234">        PreparedStatement stmt = null;</span>
-<span class="fc" id="L235">        int i = 0;</span>
+<span class="fc" id="L286">        String sql = &quot;SELECT UID FROM users WHERE userstring = ?&quot;;</span>
+<span class="fc" id="L287">        PreparedStatement stmt = null;</span>
+<span class="fc" id="L288">        int i = 0;</span>
         try {
-<span class="fc" id="L237">            stmt = dbcon.getConnection().prepareStatement(sql);</span>
-<span class="fc" id="L238">            stmt.setString(1, userString);</span>
-<span class="fc" id="L239">            ResultSet rs = stmt.executeQuery();</span>
-<span class="pc bpc" id="L240" title="1 of 2 branches missed.">            if (rs.next()) {</span>
-<span class="fc" id="L241">                i = rs.getInt(&quot;uid&quot;);</span>
+<span class="fc" id="L290">            stmt = dbcon.getConnection().prepareStatement(sql);</span>
+<span class="fc" id="L291">            stmt.setString(1, userString);</span>
+<span class="fc" id="L292">            ResultSet rs = stmt.executeQuery();</span>
+<span class="pc bpc" id="L293" title="1 of 2 branches missed.">            if (rs.next()) {</span>
+<span class="fc" id="L294">                i = rs.getInt(&quot;uid&quot;);</span>
             }
-<span class="nc" id="L243">        } catch (Exception e) {</span>
+<span class="nc" id="L296">        } catch (Exception e) {</span>
         } finally {
-<span class="nc" id="L245">            try {</span>
-<span class="pc bpc" id="L246" title="5 of 6 branches missed.">                if (stmt != null) {</span>
-<span class="pc" id="L247">                    stmt.close();</span>
+<span class="nc" id="L298">            try {</span>
+<span class="pc bpc" id="L299" title="5 of 6 branches missed.">                if (stmt != null) {</span>
+<span class="pc" id="L300">                    stmt.close();</span>
                 }
-<span class="nc" id="L249">            } catch (Exception e) {</span>
-<span class="pc" id="L250">            }</span>
-<span class="nc" id="L251">        }</span>
-<span class="fc" id="L252">        return i;</span>
+<span class="nc" id="L302">            } catch (Exception e) {</span>
+<span class="pc" id="L303">            }</span>
+<span class="nc" id="L304">        }</span>
+<span class="fc" id="L305">        return i;</span>
     }
 
     public int getInt(String var, String table, String term, String termName) {
-<span class="nc" id="L256">        String sql = &quot;select ? from ? where ?=?&quot;;</span>
+<span class="nc" id="L309">        String sql = &quot;select ? from ? where ?=?&quot;;</span>
         try {
-<span class="nc" id="L258">            PreparedStatement stmt = conn.prepareStatement(sql);</span>
-<span class="nc" id="L259">            stmt.setString(1, var);</span>
-<span class="nc" id="L260">            stmt.setString(2, table);</span>
-<span class="nc" id="L261">            stmt.setString(3, term);</span>
-<span class="nc" id="L262">            stmt.setString(4, termName);</span>
-<span class="nc" id="L263">            ResultSet rs = stmt.executeQuery();</span>
-<span class="nc bnc" id="L264" title="All 2 branches missed.">            if (rs.next()) {</span>
-<span class="nc" id="L265">                return rs.getInt(var);</span>
+<span class="nc" id="L311">            PreparedStatement stmt = conn.prepareStatement(sql);</span>
+<span class="nc" id="L312">            stmt.setString(1, var);</span>
+<span class="nc" id="L313">            stmt.setString(2, table);</span>
+<span class="nc" id="L314">            stmt.setString(3, term);</span>
+<span class="nc" id="L315">            stmt.setString(4, termName);</span>
+<span class="nc" id="L316">            ResultSet rs = stmt.executeQuery();</span>
+<span class="nc bnc" id="L317" title="All 2 branches missed.">            if (rs.next()) {</span>
+<span class="nc" id="L318">                return rs.getInt(var);</span>
             }
-<span class="nc" id="L267">        } catch (SQLException ex) {</span>
-<span class="nc" id="L268">            Logger.getLogger(DataAccessObjectImpl.class.getName()).log(Level.SEVERE, null, ex);</span>
-<span class="nc" id="L269">        }</span>
+<span class="nc" id="L320">        } catch (SQLException ex) {</span>
+<span class="nc" id="L321">            Logger.getLogger(DataAccessObjectImpl.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L322">        }</span>
 
-<span class="nc" id="L271">        return -1;</span>
+<span class="nc" id="L324">        return -1;</span>
     }
 
-    public double getDouble(String var, String table, String term, String termName) {
-<span class="nc" id="L275">        String sql = &quot;select ? from ? where ?=?&quot;;</span>
+    public double getDouble(String name) {
+<span class="nc" id="L328">        String sql = &quot;select price from material where name=?&quot;;</span>
+<span class="nc" id="L329">        PreparedStatement stmt = null;</span>
         try {
-<span class="nc" id="L277">            PreparedStatement stmt = conn.prepareStatement(sql);</span>
-<span class="nc" id="L278">            stmt.setString(1, var);</span>
-<span class="nc" id="L279">            stmt.setString(2, table);</span>
-<span class="nc" id="L280">            stmt.setString(3, term);</span>
-<span class="nc" id="L281">            stmt.setString(4, termName);</span>
-<span class="nc" id="L282">            ResultSet rs = stmt.executeQuery();</span>
-<span class="nc bnc" id="L283" title="All 2 branches missed.">            if (rs.next()) {</span>
-<span class="nc" id="L284">                return rs.getDouble(var);</span>
+<span class="nc" id="L331">            stmt = dbcon.getConnection().prepareStatement(sql);</span>
+<span class="nc" id="L332">            stmt.setString(1, name);</span>
+<span class="nc" id="L333">            ResultSet rs = stmt.executeQuery();</span>
+<span class="nc bnc" id="L334" title="All 2 branches missed.">            if (rs.next()) {</span>
+<span class="nc" id="L335">                return rs.getDouble(&quot;price&quot;);</span>
             }
-<span class="nc" id="L286">        } catch (SQLException ex) {</span>
-<span class="nc" id="L287">            Logger.getLogger(DataAccessObjectImpl.class.getName()).log(Level.SEVERE, null, ex);</span>
-<span class="nc" id="L288">        }</span>
-
-<span class="nc" id="L290">        return -1;</span>
+<span class="nc" id="L337">        } catch (Exception e) {</span>
+<span class="nc" id="L338">            e.printStackTrace(System.out);</span>
+        } finally {
+<span class="nc" id="L340">            try {</span>
+<span class="nc bnc" id="L341" title="All 8 branches missed.">                if (stmt != null) {</span>
+<span class="nc" id="L342">                    stmt.close();</span>
+                }
+<span class="nc" id="L344">            } catch (Exception e) {</span>
+<span class="nc" id="L345">            }</span>
+<span class="nc" id="L346">        }</span>
+<span class="nc" id="L347">        return 5;</span>
     }
 
     public String getString(String var, String table, String term, String termName) {
-<span class="nc" id="L294">        String sql = &quot;select ? from ? where ?=?&quot;;</span>
+<span class="nc" id="L351">        String sql = &quot;select ? from ? where ?=?&quot;;</span>
         try {
-<span class="nc" id="L296">            PreparedStatement stmt = conn.prepareStatement(sql);</span>
-<span class="nc" id="L297">            stmt.setString(1, var);</span>
-<span class="nc" id="L298">            stmt.setString(2, table);</span>
-<span class="nc" id="L299">            stmt.setString(3, term);</span>
-<span class="nc" id="L300">            stmt.setString(4, termName);</span>
-<span class="nc" id="L301">            ResultSet rs = stmt.executeQuery();</span>
-<span class="nc bnc" id="L302" title="All 2 branches missed.">            if (rs.next()) {</span>
-<span class="nc" id="L303">                return rs.getString(var);</span>
+<span class="nc" id="L353">            PreparedStatement stmt = conn.prepareStatement(sql);</span>
+<span class="nc" id="L354">            stmt.setString(1, var);</span>
+<span class="nc" id="L355">            stmt.setString(2, table);</span>
+<span class="nc" id="L356">            stmt.setString(3, term);</span>
+<span class="nc" id="L357">            stmt.setString(4, termName);</span>
+<span class="nc" id="L358">            ResultSet rs = stmt.executeQuery();</span>
+<span class="nc bnc" id="L359" title="All 2 branches missed.">            if (rs.next()) {</span>
+<span class="nc" id="L360">                return rs.getString(var);</span>
             }
-<span class="nc" id="L305">        } catch (SQLException ex) {</span>
-<span class="nc" id="L306">            Logger.getLogger(DataAccessObjectImpl.class.getName()).log(Level.SEVERE, null, ex);</span>
-<span class="nc" id="L307">        }</span>
+<span class="nc" id="L362">        } catch (SQLException ex) {</span>
+<span class="nc" id="L363">            Logger.getLogger(DataAccessObjectImpl.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L364">        }</span>
 
-<span class="nc" id="L309">        return null;</span>
+<span class="nc" id="L366">        return null;</span>
+    }
+
+    public boolean insertOrder(String json, String userString, double price) {
+<span class="nc" id="L370">        String sql = &quot;INSERT INTO orders (uid, ostatus, carport, price, empno) VALUES (?, ?, ?, ?, ?)&quot;;</span>
+<span class="nc" id="L371">        PreparedStatement stmt = null;</span>
+        try {
+<span class="nc" id="L373">            stmt = dbcon.getConnection().prepareStatement(sql);</span>
+<span class="nc" id="L374">            stmt.setInt(1, this.getUIDFromUserString(userString));</span>
+<span class="nc" id="L375">            stmt.setInt(2, 0);</span>
+<span class="nc" id="L376">            stmt.setString(3, json);</span>
+<span class="nc" id="L377">            stmt.setDouble(4, price);</span>
+<span class="nc" id="L378">            stmt.setInt(5, -1);</span>
+<span class="nc" id="L379">            stmt.executeUpdate();</span>
+<span class="nc" id="L380">        } catch (Exception e) {</span>
+<span class="nc" id="L381">            e.printStackTrace();</span>
+<span class="nc" id="L382">            return false;</span>
+        } finally {
+<span class="nc" id="L384">            try {</span>
+<span class="nc bnc" id="L385" title="All 6 branches missed.">                if (stmt != null) {</span>
+<span class="nc" id="L386">                    stmt.close();</span>
+<span class="nc" id="L387">                    return true;</span>
+                }
+<span class="nc" id="L389">            } catch (Exception e) {</span>
+<span class="nc" id="L390">                e.printStackTrace();</span>
+<span class="nc" id="L391">            }</span>
+<span class="nc" id="L392">        }</span>
+<span class="nc" id="L393">        return false;</span>
+    }
+
+    public ArrayList getOrders() {
+<span class="nc" id="L397">        ArrayList&lt;Order&gt; orderArray = new ArrayList();</span>
+<span class="nc" id="L398">        Order order = null;</span>
+<span class="nc" id="L399">        String sql = &quot;SELECT * FROM orders&quot;;</span>
+<span class="nc" id="L400">        PreparedStatement stmt = null;</span>
+        try {
+<span class="nc" id="L402">            stmt = dbcon.getConnection().prepareStatement(sql);</span>
+<span class="nc" id="L403">            ResultSet rs = stmt.executeQuery();</span>
+<span class="nc bnc" id="L404" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L405">                int onoRetrieved = rs.getInt(&quot;ono&quot;);</span>
+<span class="nc" id="L406">                int uidRetrieved = rs.getInt(&quot;uid&quot;);</span>
+<span class="nc" id="L407">                int oStatusRetrieved = rs.getInt(&quot;ostatus&quot;);</span>
+<span class="nc" id="L408">                String carportRetrieved = rs.getString(&quot;carport&quot;);</span>
+<span class="nc" id="L409">                double priceRetrieved = rs.getDouble(&quot;price&quot;);</span>
+<span class="nc" id="L410">                int empNo = rs.getInt(&quot;empno&quot;);</span>
+
+<span class="nc" id="L412">                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved, empNo);</span>
+<span class="nc" id="L413">                orderArray.add(order);</span>
+<span class="nc" id="L414">            }</span>
+<span class="nc" id="L415">        } catch (Exception e) {</span>
+        } finally {
+<span class="nc" id="L417">            try {</span>
+<span class="nc bnc" id="L418" title="All 6 branches missed.">                if (stmt != null) {</span>
+<span class="nc" id="L419">                    stmt.close();</span>
+<span class="nc" id="L420">                    return orderArray;</span>
+                }
+<span class="nc" id="L422">            } catch (Exception e) {</span>
+<span class="nc" id="L423">            }</span>
+<span class="nc" id="L424">        }</span>
+<span class="nc" id="L425">        return null;</span>
+    }
+
+    public ArrayList getNewOrders() {
+<span class="nc" id="L429">        ArrayList&lt;Order&gt; orderArray = new ArrayList();</span>
+<span class="nc" id="L430">        Order order = null;</span>
+<span class="nc" id="L431">        String sql = &quot;SELECT * FROM orders WHERE ostatus = 0&quot;;</span>
+<span class="nc" id="L432">        PreparedStatement stmt = null;</span>
+        try {
+<span class="nc" id="L434">            stmt = dbcon.getConnection().prepareStatement(sql);</span>
+<span class="nc" id="L435">            ResultSet rs = stmt.executeQuery();</span>
+<span class="nc bnc" id="L436" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L437">                int onoRetrieved = rs.getInt(&quot;ono&quot;);</span>
+<span class="nc" id="L438">                int uidRetrieved = rs.getInt(&quot;uid&quot;);</span>
+<span class="nc" id="L439">                int oStatusRetrieved = rs.getInt(&quot;ostatus&quot;);</span>
+<span class="nc" id="L440">                String carportRetrieved = rs.getString(&quot;carport&quot;);</span>
+<span class="nc" id="L441">                double priceRetrieved = rs.getDouble(&quot;price&quot;);</span>
+<span class="nc" id="L442">                int empNo = rs.getInt(&quot;empno&quot;);</span>
+
+<span class="nc" id="L444">                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved, empNo);</span>
+<span class="nc" id="L445">                orderArray.add(order);</span>
+<span class="nc" id="L446">            }</span>
+<span class="nc" id="L447">        } catch (Exception e) {</span>
+        } finally {
+<span class="nc" id="L449">            try {</span>
+<span class="nc bnc" id="L450" title="All 6 branches missed.">                if (stmt != null) {</span>
+<span class="nc" id="L451">                    stmt.close();</span>
+<span class="nc" id="L452">                    return orderArray;</span>
+                }
+<span class="nc" id="L454">            } catch (Exception e) {</span>
+<span class="nc" id="L455">            }</span>
+<span class="nc" id="L456">        }</span>
+<span class="nc" id="L457">        return null;</span>
+    }
+
+    public ArrayList getNotDoneOrders() {
+<span class="nc" id="L461">        ArrayList&lt;Order&gt; orderArray = new ArrayList();</span>
+<span class="nc" id="L462">        Order order = null;</span>
+<span class="nc" id="L463">        String sql = &quot;SELECT * FROM orders WHERE ostatus = 0 OR ostatus = 1&quot;;</span>
+<span class="nc" id="L464">        PreparedStatement stmt = null;</span>
+        try {
+<span class="nc" id="L466">            stmt = dbcon.getConnection().prepareStatement(sql);</span>
+<span class="nc" id="L467">            ResultSet rs = stmt.executeQuery();</span>
+<span class="nc bnc" id="L468" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L469">                int onoRetrieved = rs.getInt(&quot;ono&quot;);</span>
+<span class="nc" id="L470">                int uidRetrieved = rs.getInt(&quot;uid&quot;);</span>
+<span class="nc" id="L471">                int oStatusRetrieved = rs.getInt(&quot;ostatus&quot;);</span>
+<span class="nc" id="L472">                String carportRetrieved = rs.getString(&quot;carport&quot;);</span>
+<span class="nc" id="L473">                double priceRetrieved = rs.getDouble(&quot;price&quot;);</span>
+<span class="nc" id="L474">                int empNo = rs.getInt(&quot;empno&quot;);</span>
+
+<span class="nc" id="L476">                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved, empNo);</span>
+<span class="nc" id="L477">                orderArray.add(order);</span>
+<span class="nc" id="L478">            }</span>
+<span class="nc" id="L479">        } catch (Exception e) {</span>
+        } finally {
+<span class="nc" id="L481">            try {</span>
+<span class="nc bnc" id="L482" title="All 6 branches missed.">                if (stmt != null) {</span>
+<span class="nc" id="L483">                    stmt.close();</span>
+<span class="nc" id="L484">                    return orderArray;</span>
+                }
+<span class="nc" id="L486">            } catch (Exception e) {</span>
+<span class="nc" id="L487">            }</span>
+<span class="nc" id="L488">        }</span>
+<span class="nc" id="L489">        return null;</span>
+    }
+
+    public ArrayList getDoneOrders() {
+<span class="nc" id="L493">        ArrayList&lt;Order&gt; orderArray = new ArrayList();</span>
+<span class="nc" id="L494">        Order order = null;</span>
+<span class="nc" id="L495">        String sql = &quot;SELECT * FROM orders WHERE ostatus = 2&quot;;</span>
+<span class="nc" id="L496">        PreparedStatement stmt = null;</span>
+        try {
+<span class="nc" id="L498">            stmt = dbcon.getConnection().prepareStatement(sql);</span>
+<span class="nc" id="L499">            ResultSet rs = stmt.executeQuery();</span>
+<span class="nc bnc" id="L500" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L501">                int onoRetrieved = rs.getInt(&quot;ono&quot;);</span>
+<span class="nc" id="L502">                int uidRetrieved = rs.getInt(&quot;uid&quot;);</span>
+<span class="nc" id="L503">                int oStatusRetrieved = rs.getInt(&quot;ostatus&quot;);</span>
+<span class="nc" id="L504">                String carportRetrieved = rs.getString(&quot;carport&quot;);</span>
+<span class="nc" id="L505">                double priceRetrieved = rs.getDouble(&quot;price&quot;);</span>
+<span class="nc" id="L506">                int empNo = rs.getInt(&quot;empno&quot;);</span>
+
+<span class="nc" id="L508">                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved, empNo);</span>
+<span class="nc" id="L509">                orderArray.add(order);</span>
+<span class="nc" id="L510">            }</span>
+<span class="nc" id="L511">        } catch (Exception e) {</span>
+        } finally {
+<span class="nc" id="L513">            try {</span>
+<span class="nc bnc" id="L514" title="All 6 branches missed.">                if (stmt != null) {</span>
+<span class="nc" id="L515">                    stmt.close();</span>
+<span class="nc" id="L516">                    return orderArray;</span>
+                }
+<span class="nc" id="L518">            } catch (Exception e) {</span>
+<span class="nc" id="L519">            }</span>
+<span class="nc" id="L520">        }</span>
+<span class="nc" id="L521">        return null;</span>
+    }
+
+    public ArrayList getOrdersOnONO(int ono) {
+<span class="nc" id="L525">        ArrayList&lt;Order&gt; orderArray = new ArrayList();</span>
+<span class="nc" id="L526">        Order order = null;</span>
+<span class="nc" id="L527">        String sql = &quot;SELECT * FROM orders WHERE ono = ?&quot;;</span>
+<span class="nc" id="L528">        PreparedStatement stmt = null;</span>
+        try {
+<span class="nc" id="L530">            stmt = dbcon.getConnection().prepareStatement(sql);</span>
+<span class="nc" id="L531">            stmt.setInt(1, ono);</span>
+<span class="nc" id="L532">            ResultSet rs = stmt.executeQuery();</span>
+<span class="nc bnc" id="L533" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L534">                int onoRetrieved = rs.getInt(&quot;ono&quot;);</span>
+<span class="nc" id="L535">                int uidRetrieved = rs.getInt(&quot;uid&quot;);</span>
+<span class="nc" id="L536">                int oStatusRetrieved = rs.getInt(&quot;ostatus&quot;);</span>
+<span class="nc" id="L537">                String carportRetrieved = rs.getString(&quot;carport&quot;);</span>
+<span class="nc" id="L538">                double priceRetrieved = rs.getDouble(&quot;price&quot;);</span>
+<span class="nc" id="L539">                int empNo = rs.getInt(&quot;empno&quot;);</span>
+
+<span class="nc" id="L541">                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved, empNo);</span>
+<span class="nc" id="L542">                orderArray.add(order);</span>
+<span class="nc" id="L543">            }</span>
+<span class="nc" id="L544">        } catch (Exception e) {</span>
+        } finally {
+<span class="nc" id="L546">            try {</span>
+<span class="nc bnc" id="L547" title="All 6 branches missed.">                if (stmt != null) {</span>
+<span class="nc" id="L548">                    stmt.close();</span>
+<span class="nc" id="L549">                    return orderArray;</span>
+                }
+<span class="nc" id="L551">            } catch (Exception e) {</span>
+<span class="nc" id="L552">            }</span>
+<span class="nc" id="L553">        }</span>
+<span class="nc" id="L554">        return null;</span>
+    }
+
+    public String getCarport(String userString) {
+<span class="nc" id="L558">        String sql = &quot;SELECT carport FROM users WHERE userstring = ?&quot;;</span>
+<span class="nc" id="L559">        PreparedStatement stmt = null;</span>
+<span class="nc" id="L560">        String s = null;</span>
+        try {
+<span class="nc" id="L562">            stmt = dbcon.getConnection().prepareStatement(sql);</span>
+<span class="nc" id="L563">            stmt.setString(1, userString);</span>
+<span class="nc" id="L564">            ResultSet rs = stmt.executeQuery();</span>
+<span class="nc bnc" id="L565" title="All 2 branches missed.">            if (rs.next()) {</span>
+<span class="nc" id="L566">                s = rs.getString(&quot;carport&quot;);</span>
+            }
+<span class="nc" id="L568">        } catch (Exception e) {</span>
+        } finally {
+<span class="nc" id="L570">            try {</span>
+<span class="nc bnc" id="L571" title="All 6 branches missed.">                if (stmt != null) {</span>
+<span class="nc" id="L572">                    stmt.close();</span>
+                }
+<span class="nc" id="L574">            } catch (Exception e) {</span>
+<span class="nc" id="L575">            }</span>
+<span class="nc" id="L576">        }</span>
+<span class="nc" id="L577">        return s;</span>
+    }
+
+    public boolean updateOrderStatus(int ono, int oStatus) {
+<span class="nc" id="L581">        String sql = &quot;UPDATE orders SET ostatus = ? WHERE ono = ?&quot;;</span>
+<span class="nc" id="L582">        PreparedStatement stmt = null;</span>
+        try {
+<span class="nc" id="L584">            stmt = dbcon.getConnection().prepareStatement(sql);</span>
+<span class="nc" id="L585">            stmt.setInt(1, oStatus);</span>
+<span class="nc" id="L586">            stmt.setInt(2, ono);</span>
+<span class="nc" id="L587">            stmt.executeUpdate();</span>
+<span class="nc" id="L588">        } catch (Exception e) {</span>
+        } finally {
+<span class="nc" id="L590">            try {</span>
+<span class="nc bnc" id="L591" title="All 6 branches missed.">                if (stmt != null) {</span>
+<span class="nc" id="L592">                    stmt.close();</span>
+<span class="nc" id="L593">                    return true;</span>
+                }
+<span class="nc" id="L595">            } catch (Exception e) {</span>
+<span class="nc" id="L596">            }</span>
+<span class="nc" id="L597">        }</span>
+<span class="nc" id="L598">        return false;</span>
+    }
+
+    public ArrayList getClaimedOrders(int empno) {
+<span class="nc" id="L602">        ArrayList&lt;Order&gt; orderArray = new ArrayList();</span>
+<span class="nc" id="L603">        Order order = null;</span>
+<span class="nc" id="L604">        String sql = &quot;SELECT * FROM orders WHERE empno = ?&quot;;</span>
+<span class="nc" id="L605">        PreparedStatement stmt = null;</span>
+        try {
+<span class="nc" id="L607">            stmt = dbcon.getConnection().prepareStatement(sql);</span>
+<span class="nc" id="L608">            stmt.setInt(1, empno);</span>
+<span class="nc" id="L609">            ResultSet rs = stmt.executeQuery();</span>
+<span class="nc bnc" id="L610" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L611">                int onoRetrieved = rs.getInt(&quot;ono&quot;);</span>
+<span class="nc" id="L612">                int uidRetrieved = rs.getInt(&quot;uid&quot;);</span>
+<span class="nc" id="L613">                int oStatusRetrieved = rs.getInt(&quot;ostatus&quot;);</span>
+<span class="nc" id="L614">                String carportRetrieved = rs.getString(&quot;carport&quot;);</span>
+<span class="nc" id="L615">                double priceRetrieved = rs.getDouble(&quot;price&quot;);</span>
+<span class="nc" id="L616">                int empNo = rs.getInt(&quot;empno&quot;);</span>
+
+<span class="nc" id="L618">                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved, empNo);</span>
+<span class="nc" id="L619">                orderArray.add(order);</span>
+<span class="nc" id="L620">            }</span>
+<span class="nc" id="L621">        } catch (Exception e) {</span>
+        } finally {
+<span class="nc" id="L623">            try {</span>
+<span class="nc bnc" id="L624" title="All 6 branches missed.">                if (stmt != null) {</span>
+<span class="nc" id="L625">                    stmt.close();</span>
+<span class="nc" id="L626">                    return orderArray;</span>
+                }
+<span class="nc" id="L628">            } catch (Exception e) {</span>
+<span class="nc" id="L629">            }</span>
+<span class="nc" id="L630">        }</span>
+<span class="nc" id="L631">        return null;</span>
+    }
+
+    public ArrayList getNotClaimedOrders() {
+<span class="nc" id="L635">        ArrayList&lt;Order&gt; orderArray = new ArrayList();</span>
+<span class="nc" id="L636">        Order order = null;</span>
+<span class="nc" id="L637">        String sql = &quot;SELECT * FROM orders WHERE empno = -1&quot;;</span>
+<span class="nc" id="L638">        PreparedStatement stmt = null;</span>
+        try {
+<span class="nc" id="L640">            stmt = dbcon.getConnection().prepareStatement(sql);</span>
+<span class="nc" id="L641">            ResultSet rs = stmt.executeQuery();</span>
+<span class="nc bnc" id="L642" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L643">                int onoRetrieved = rs.getInt(&quot;ono&quot;);</span>
+<span class="nc" id="L644">                int uidRetrieved = rs.getInt(&quot;uid&quot;);</span>
+<span class="nc" id="L645">                int oStatusRetrieved = rs.getInt(&quot;ostatus&quot;);</span>
+<span class="nc" id="L646">                String carportRetrieved = rs.getString(&quot;carport&quot;);</span>
+<span class="nc" id="L647">                double priceRetrieved = rs.getDouble(&quot;price&quot;);</span>
+<span class="nc" id="L648">                int empNo = rs.getInt(&quot;empno&quot;);</span>
+
+<span class="nc" id="L650">                order = new Order(onoRetrieved, uidRetrieved, oStatusRetrieved, carportRetrieved, priceRetrieved, empNo);</span>
+<span class="nc" id="L651">                orderArray.add(order);</span>
+<span class="nc" id="L652">            }</span>
+<span class="nc" id="L653">        } catch (Exception e) {</span>
+        } finally {
+<span class="nc" id="L655">            try {</span>
+<span class="nc bnc" id="L656" title="All 6 branches missed.">                if (stmt != null) {</span>
+<span class="nc" id="L657">                    stmt.close();</span>
+<span class="nc" id="L658">                    return orderArray;</span>
+                }
+<span class="nc" id="L660">            } catch (Exception e) {</span>
+<span class="nc" id="L661">            }</span>
+<span class="nc" id="L662">        }</span>
+<span class="nc" id="L663">        return null;</span>
+    }
+
+    public ArrayList getAllMaterials() {
+<span class="nc" id="L667">        ArrayList&lt;Material&gt; materialArray = new ArrayList();</span>
+<span class="nc" id="L668">        Material material = null;</span>
+<span class="nc" id="L669">        String sql = &quot;SELECT * FROM material&quot;;</span>
+<span class="nc" id="L670">        PreparedStatement stmt = null;</span>
+        try {
+<span class="nc" id="L672">            stmt = dbcon.getConnection().prepareStatement(sql);</span>
+<span class="nc" id="L673">            ResultSet rs = stmt.executeQuery();</span>
+<span class="nc bnc" id="L674" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L675">                int mno = rs.getInt(&quot;mno&quot;);</span>
+<span class="nc" id="L676">                String type = rs.getString(&quot;type&quot;);</span>
+<span class="nc" id="L677">                int price = rs.getInt(&quot;price&quot;);</span>
+<span class="nc" id="L678">                String name = rs.getString(&quot;name&quot;);</span>
+<span class="nc" id="L679">                int qoh = rs.getInt(&quot;qoh&quot;);</span>
+<span class="nc" id="L680">                int size = rs.getInt(&quot;size&quot;);</span>
+<span class="nc" id="L681">                material = new Material(mno, type, price, name, qoh, size);</span>
+<span class="nc" id="L682">                materialArray.add(material);</span>
+<span class="nc" id="L683">            }</span>
+<span class="nc" id="L684">        } catch (Exception e) {</span>
+<span class="nc" id="L685">            e.printStackTrace();</span>
+        } finally {
+<span class="nc" id="L687">            try {</span>
+<span class="nc bnc" id="L688" title="All 6 branches missed.">                if(stmt != null){</span>
+<span class="nc" id="L689">                    stmt.close();</span>
+<span class="nc" id="L690">                    return materialArray;</span>
+                }
+<span class="nc" id="L692">            } catch (Exception e) {</span>
+<span class="nc" id="L693">            }</span>
+<span class="nc" id="L694">        }</span>
+<span class="nc" id="L695">        return null;</span>
+    }
+
+    public boolean updatePriceOnMaterial(int mno, int price) {
+<span class="nc" id="L699">        String sql = &quot;UPDATE material SET price = ? WHERE mno = ?&quot;;</span>
+<span class="nc" id="L700">        PreparedStatement stmt = null;</span>
+        try {
+<span class="nc" id="L702">            stmt = dbcon.getConnection().prepareStatement(sql);</span>
+<span class="nc" id="L703">            stmt.setInt(1, price);</span>
+<span class="nc" id="L704">            stmt.setInt(2, mno);</span>
+<span class="nc" id="L705">            stmt.executeUpdate();</span>
+<span class="nc" id="L706">        } catch (Exception e) {</span>
+        }finally{
+<span class="nc" id="L708">            try {</span>
+<span class="nc bnc" id="L709" title="All 6 branches missed.">                if(stmt != null){</span>
+<span class="nc" id="L710">                    stmt.close();</span>
+<span class="nc" id="L711">                    return true;</span>
+                }
+<span class="nc" id="L713">            } catch (Exception e) {</span>
+<span class="nc" id="L714">            }</span>
+<span class="nc" id="L715">        }</span>
+<span class="nc" id="L716">        return false;</span>
+    }
+
+    public boolean newMaterial(String type, int price, String name, int qoh, int size) {
+<span class="nc" id="L720">        String sql = &quot;INSERT INTO material(type, price, name, qoh, size) VALUES (?, ?, ?, ?, ?)&quot;;</span>
+<span class="nc" id="L721">        return false;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

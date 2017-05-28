@@ -5,20 +5,20 @@
  */
 package Servlet;
 
-import Backend.*;
-import Carport.*;
-import User.Logic.Login;
-import User.User;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import User.Logic.DatabaseFront;
+import Backend.DataProcessor;
+import Carport.Carport;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -40,38 +40,29 @@ import javax.servlet.http.HttpSession;
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, Exception {
 
-<span class="fc" id="L45">        Login login = null;</span>
-        try {
-<span class="fc" id="L47">            login = new Login();</span>
-<span class="nc" id="L48">        } catch (Exception ex) {</span>
-<span class="nc" id="L49">            Logger.getLogger(DataReciever.class.getName()).log(Level.SEVERE, null, ex);</span>
-<span class="fc" id="L50">        }</span>
-<span class="nc" id="L51">        HttpSession session = request.getSession();</span>
-<span class="nc" id="L52">        DataProcessor dp = new DataProcessor();</span>
-<span class="nc" id="L53">        String json = (String) request.getParameter(&quot;json&quot;);</span>
-<span class="nc" id="L54">        Carport c = dp.parseJson(json);</span>
-
-<span class="nc bnc" id="L56" title="All 2 branches missed.">        if (c != null) { //Hvis det lykkedes</span>
-<span class="nc" id="L57">            session.setAttribute(&quot;Carport&quot;, c);</span>
-<span class="nc bnc" id="L58" title="All 2 branches missed.">            if ((boolean) session.getAttribute(&quot;loggedIn&quot;) == true) {</span>
-                //String userstring = (String) session.getAttribute(&quot;userString&quot;);
-<span class="nc" id="L60">                User user = (User) session.getAttribute(&quot;user&quot;);</span>
-<span class="nc" id="L61">                String userstring = user.getUserString();</span>
-<span class="nc" id="L62">                dp.saveCarportToUser(userstring, c);</span>
+<span class="fc" id="L45">        DatabaseFront DBF = new DatabaseFront();</span>
+<span class="nc" id="L46">        HttpSession session = request.getSession();</span>
+<span class="nc" id="L47">        DataProcessor dp = new DataProcessor();</span>
+<span class="nc" id="L48">        String json = (String) request.getParameter(&quot;json&quot;);</span>
+<span class="nc" id="L49">        session.setAttribute(&quot;json&quot;, json);</span>
+        
+<span class="nc" id="L51">        Carport c = dp.parseJson(json);</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">        if (c != null) { //Validering af json string</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">            if ((boolean) session.getAttribute(&quot;loggedIn&quot;) == true) {</span>
+<span class="nc" id="L54">                String userString = (String) session.getAttribute(&quot;userString&quot;);</span>
+<span class="nc" id="L55">                dp.saveCarportToUser(userString, json);</span>
                 try {
-<span class="nc" id="L64">                    login.saveCarport(userstring, json);</span>
-<span class="nc" id="L65">                } catch (SQLException ex) {</span>
-<span class="nc" id="L66">                    ex.printStackTrace();</span>
-<span class="nc" id="L67">                }</span>
-<span class="nc" id="L68">                getServletContext().getRequestDispatcher(&quot;/index.jsp&quot;).forward(request, response);</span>
-<span class="nc" id="L69">            } else {</span>
-<span class="nc" id="L70">                request.getRequestDispatcher(&quot;/signup.jsp&quot;).forward(request, response); //TODO: i det servlet der handler signup, skal der være et tjek for carport - så den kan gemmes</span>
+<span class="nc" id="L57">                    DBF.saveCarport(userString, json);</span>
+<span class="nc" id="L58">                    session.setAttribute(&quot;carport&quot;, json);</span>
+<span class="nc" id="L59">                } catch (SQLException ex) {</span>
+<span class="nc" id="L60">                    ex.printStackTrace();</span>
+<span class="nc" id="L61">                }</span>
             }
         }
 
-<span class="nc" id="L74">    }</span>
+<span class="nc" id="L65">    }</span>
 
 // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;HttpServlet methods. Click on the + sign on the left to edit the code.&quot;&gt;
     /**
@@ -85,8 +76,12 @@ import javax.servlet.http.HttpSession;
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-<span class="nc" id="L88">        processRequest(request, response);</span>
-<span class="nc" id="L89">    }</span>
+        try {
+<span class="nc" id="L80">            processRequest(request, response);</span>
+<span class="fc" id="L81">        } catch (Exception ex) {</span>
+<span class="fc" id="L82">            Logger.getLogger(DataReciever.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L83">        }</span>
+<span class="fc" id="L84">    }</span>
 
     /**
      * Handles the HTTP &lt;code&gt;POST&lt;/code&gt; method.
@@ -99,9 +94,13 @@ import javax.servlet.http.HttpSession;
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-<span class="nc" id="L102">        processRequest(request, response);</span>
+        try {
+<span class="nc" id="L98">            processRequest(request, response);</span>
+<span class="fc" id="L99">        } catch (Exception ex) {</span>
+<span class="fc" id="L100">            Logger.getLogger(DataReciever.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L101">        }</span>
 
-<span class="nc" id="L104">    }</span>
+<span class="fc" id="L103">    }</span>
 
     /**
      * Returns a short description of the servlet.
@@ -110,7 +109,7 @@ import javax.servlet.http.HttpSession;
      */
     @Override
     public String getServletInfo() {
-<span class="fc" id="L113">        return &quot;Short description&quot;;</span>
+<span class="fc" id="L112">        return &quot;Short description&quot;;</span>
     }// &lt;/editor-fold&gt;
 
 }
