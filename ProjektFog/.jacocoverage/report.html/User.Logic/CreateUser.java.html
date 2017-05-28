@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="da"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>CreateUser.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;ProjektFog&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">User.Logic</a> &gt; <span class="el_source">CreateUser.java</span></div><h1>CreateUser.java</h1><pre class="source lang-java linenums">package User.Logic;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="da"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>CreateUser.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;ProjektFog&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">User.Logic</a> &gt; <span class="el_source">CreateUser.java</span></div><h1>CreateUser.java</h1><pre class="source lang-java linenums">
+package User.Logic;
 
 import User.User;
 import Database.DataAccessObjectImpl;
@@ -16,20 +17,20 @@ public class CreateUser {
 
     DataAccessObjectImpl DAO;
 
-<span class="fc" id="L19">    public CreateUser() throws Exception {</span>
-<span class="fc" id="L20">        this.DAO = new DataAccessObjectImpl();</span>
-<span class="fc" id="L21">    }</span>
+<span class="fc" id="L20">    public CreateUser() throws Exception {</span>
+<span class="fc" id="L21">        this.DAO = new DataAccessObjectImpl();</span>
+<span class="fc" id="L22">    }</span>
 
     public boolean insertUser(String username, String password, String email) throws SQLException, UnsupportedEncodingException {
-<span class="fc" id="L24">        return DAO.createUser(username, password, email);</span>
+<span class="fc" id="L25">        return DAO.createUser(username, password, email);</span>
     }
 
     public boolean checkIfAvaible(String username) throws UnsupportedEncodingException, SQLException {
-<span class="pc bpc" id="L28" title="1 of 2 branches missed.">        return DAO.getUserByUsername(username) == null;</span>
+<span class="pc bpc" id="L29" title="1 of 2 branches missed.">        return DAO.getUserByUsername(username) == null;</span>
     }
 
     public User returnUser(String username) throws SQLException {
-<span class="fc" id="L32">        return DAO.getUserByUsername(username);</span>
+<span class="fc" id="L33">        return DAO.getUserByUsername(username);</span>
     }
 
 }

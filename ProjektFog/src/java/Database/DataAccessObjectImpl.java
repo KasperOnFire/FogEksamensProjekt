@@ -47,6 +47,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
      * @throws SQLException if the sqlstatement is wrong or, the access to the
      * database is wrong.
      */
+    @Override
     public User getUserByUsername(String username) throws SQLException {
         User user = null;
         PreparedStatement stmt = null;
@@ -86,6 +87,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
      * @throws SQLException if the sqlstatement is wrong or, the access to the
      * database is wrong.
      */
+    @Override
     public AdminUser getAdminByUsername(String username) throws SQLException {
         AdminUser user = null;
         PreparedStatement stmt = null;
@@ -114,6 +116,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
         return user;
     }
 
+    @Override
     public int getEmpNoByUsername(String empName) throws SQLException {
         int empNo = -1;
         PreparedStatement stmt = null;
@@ -152,6 +155,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
      * @throws UnsupportedEncodingException if the hashing of password goes
      * wrong
      */
+    @Override
     public boolean createAdmin(String username, String password, String empno, String empname) throws SQLException, UnsupportedEncodingException {
         PreparedStatement stmt = null;
         try {
@@ -190,6 +194,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
      * @throws UnsupportedEncodingException if the hashing of password goes
      * wrong
      */
+    @Override
     public boolean createUser(String username, String password, String email) throws SQLException, UnsupportedEncodingException {
         PreparedStatement stmt = null;
         try {
@@ -223,6 +228,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
      * @throws SQLException if the sqlstatement is wrong or, the access to the
      * database is wrong.
      */
+    @Override
     public boolean updateCarport(String jsonString, String userString) throws SQLException { //NEEDS FIXING, NULL POINTER???
         String sql = "UPDATE users SET carport = ? WHERE userString = ? and uid = ?";
         PreparedStatement stmt = null;
@@ -252,6 +258,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
         return false;
     }
 
+    @Override
     public boolean updateEMPonOrder(String empName, int ono) {
         String sql = "UPDATE orders SET empno = ? WHERE ono = ?";
         PreparedStatement stmt = null;
@@ -282,6 +289,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
      * @param userString to get the userID of.
      * @return the id.
      */
+    @Override
     public int getUIDFromUserString(String userString) {
         String sql = "SELECT UID FROM users WHERE userstring = ?";
         PreparedStatement stmt = null;
@@ -305,6 +313,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
         return i;
     }
 
+    @Override
     public int getInt(String var, String table, String term, String termName) {
         String sql = "select ? from ? where ?=?";
         try {
@@ -324,6 +333,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
         return -1;
     }
 
+    @Override
     public double getDouble(String name) {
         String sql = "select price from material where name=?";
         PreparedStatement stmt = null;
@@ -347,6 +357,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
         return 5;
     }
 
+    @Override
     public String getString(String var, String table, String term, String termName) {
         String sql = "select ? from ? where ?=?";
         try {
@@ -366,6 +377,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
         return null;
     }
 
+    @Override
     public boolean insertOrder(String json, String userString, double price) {
         String sql = "INSERT INTO orders (uid, ostatus, carport, price, empno) VALUES (?, ?, ?, ?, ?)";
         PreparedStatement stmt = null;
@@ -393,6 +405,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
         return false;
     }
 
+    @Override
     public ArrayList getOrders() {
         ArrayList<Order> orderArray = new ArrayList();
         Order order = null;
@@ -425,6 +438,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
         return null;
     }
 
+    @Override
     public ArrayList getNewOrders() {
         ArrayList<Order> orderArray = new ArrayList();
         Order order = null;
@@ -457,6 +471,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
         return null;
     }
 
+    @Override
     public ArrayList getNotDoneOrders() {
         ArrayList<Order> orderArray = new ArrayList();
         Order order = null;
@@ -489,6 +504,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
         return null;
     }
 
+    @Override
     public ArrayList getDoneOrders() {
         ArrayList<Order> orderArray = new ArrayList();
         Order order = null;
@@ -521,6 +537,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
         return null;
     }
 
+    @Override
     public ArrayList getOrdersOnONO(int ono) {
         ArrayList<Order> orderArray = new ArrayList();
         Order order = null;
@@ -554,6 +571,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
         return null;
     }
 
+    @Override
     public String getCarport(String userString) {
         String sql = "SELECT carport FROM users WHERE userstring = ?";
         PreparedStatement stmt = null;
@@ -577,6 +595,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
         return s;
     }
 
+    @Override
     public boolean updateOrderStatus(int ono, int oStatus) {
         String sql = "UPDATE orders SET ostatus = ? WHERE ono = ?";
         PreparedStatement stmt = null;
@@ -598,6 +617,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
         return false;
     }
 
+    @Override
     public ArrayList getClaimedOrders(int empno) {
         ArrayList<Order> orderArray = new ArrayList();
         Order order = null;
@@ -631,6 +651,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
         return null;
     }
 
+    @Override
     public ArrayList getNotClaimedOrders() {
         ArrayList<Order> orderArray = new ArrayList();
         Order order = null;
@@ -663,6 +684,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
         return null;
     }
 
+    @Override
     public ArrayList getAllMaterials() {
         ArrayList<Material> materialArray = new ArrayList();
         Material material = null;
@@ -695,6 +717,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
         return null;
     }
 
+    @Override
     public boolean updatePriceOnMaterial(int mno, int price) {
         String sql = "UPDATE material SET price = ? WHERE mno = ?";
         PreparedStatement stmt = null;
@@ -716,8 +739,10 @@ public class DataAccessObjectImpl implements DataAccessObject {
         return false;
     }
 
+    @Override
     public boolean newMaterial(String type, int price, String name, int qoh, int size) {
         String sql = "INSERT INTO material(type, price, name, qoh, size) VALUES (?, ?, ?, ?, ?)";
         return false;
     }
+
 }

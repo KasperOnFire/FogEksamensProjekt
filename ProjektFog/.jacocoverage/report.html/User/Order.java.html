@@ -7,49 +7,44 @@
 public class Order {
 
     private int ono;
-    private int cno;
-    private double length;
-    private double width;
+    private int uid;
+    private int ostatus;
+    private String carport;
     private double price;
-    private String rooftype;
-    private int status;
+    private int EMPNo;
 
-<span class="nc" id="L17">    public Order(int ono, int cno, double length, double width, double price, String rooftype, int status) {</span>
-<span class="nc" id="L18">        this.ono = ono;</span>
-<span class="nc" id="L19">        this.cno = cno;</span>
-<span class="nc" id="L20">        this.length = length;</span>
-<span class="nc" id="L21">        this.width = width;</span>
-<span class="nc" id="L22">        this.price = price;</span>
-<span class="nc" id="L23">        this.rooftype = rooftype;</span>
-<span class="nc" id="L24">        this.status = status;</span>
-<span class="nc" id="L25">    }</span>
-
+<span class="nc" id="L16">    public Order(int ono, int uid, int ostatus, String carport, double price, int EMPNo) {</span>
+<span class="nc" id="L17">        this.ono = ono;</span>
+<span class="nc" id="L18">        this.uid = uid;</span>
+<span class="nc" id="L19">        this.ostatus = ostatus;</span>
+<span class="nc" id="L20">        this.carport = carport;</span>
+<span class="nc" id="L21">        this.price = price;</span>
+<span class="nc" id="L22">        this.EMPNo = EMPNo;</span>
+<span class="nc" id="L23">    }</span>
+    
     public int getOno() {
-<span class="nc" id="L28">        return ono;</span>
+<span class="nc" id="L26">        return ono;</span>
     }
 
-    public int getCno() {
-<span class="nc" id="L32">        return cno;</span>
+    public int getUid() {
+<span class="nc" id="L30">        return uid;</span>
     }
 
-    public double getLength() {
-<span class="nc" id="L36">        return length;</span>
+    public int getOstatus() {
+<span class="nc" id="L34">        return ostatus;</span>
     }
 
-    public double getWidth() {
-<span class="nc" id="L40">        return width;</span>
+    public String getCarport() {
+<span class="nc" id="L38">        return carport;</span>
     }
 
     public double getPrice() {
-<span class="nc" id="L44">        return price;</span>
+<span class="nc" id="L42">        return price;</span>
     }
 
-    public String getRooftype() {
-<span class="nc" id="L48">        return rooftype;</span>
+    public int getEMPNo() {
+<span class="nc" id="L46">        return EMPNo;</span>
     }
-
-    public int getStatus() {
-<span class="nc" id="L52">        return status;</span>
-    }
+    
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
