@@ -18,12 +18,12 @@ import static org.junit.Assert.*;
  *
  * @author Kasper
  */
-public class DataAccessObjectImplTest {
+public class DataAccessObjectTest {
 
-    DataAccessObjectImpl instance = null;
+    DataAccessObject instance = null;
     Random r = new Random();
 
-    public DataAccessObjectImplTest() {
+    public DataAccessObjectTest() {
     }
 
     @BeforeClass
