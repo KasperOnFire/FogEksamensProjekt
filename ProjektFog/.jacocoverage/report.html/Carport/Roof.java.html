@@ -12,14 +12,14 @@ package Carport;
  */
 public class Roof {
 
-<span class="fc" id="L15">    public Roof(boolean isGable, int sides, int front, int back) {</span>
-<span class="fc" id="L16">        this.isGable = isGable;</span>
-<span class="fc" id="L17">        this.sides = sides;</span>
-<span class="fc" id="L18">        this.front = front;</span>
-<span class="fc" id="L19">        this.back = back;</span>
-<span class="fc" id="L20">    }</span>
+<span class="nc" id="L15">    public Roof(boolean gable, int sides, int front, int back) {</span>
+<span class="nc" id="L16">        this.gable = gable;</span>
+<span class="nc" id="L17">        this.sides = sides;</span>
+<span class="nc" id="L18">        this.front = front;</span>
+<span class="nc" id="L19">        this.back = back;</span>
+<span class="nc" id="L20">    }</span>
 
-    private boolean isGable;
+    private boolean gable;
     private int sides;
     private int front;
     private int back;
@@ -47,5 +47,10 @@ public class Roof {
     public void setBack(int back) {
 <span class="nc" id="L48">        this.back = back;</span>
 <span class="nc" id="L49">    }</span>
+
+    public boolean isGable()
+    {
+<span class="nc" id="L53">        return gable;</span>
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
