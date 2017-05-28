@@ -72,9 +72,9 @@ public class DataAccessObjectImplTest {
      */
     @Test
     public void testUpdateCarport() throws Exception {
-        String jsonString = "{\"guiCarport\":{\"width\":500,\"depth\":500,\"height\":230},"
-                + "\"guiRoof\":{\"gableRoof\":false,\"overhang\":{\"sides\":20,\"front\":20,\"back\":20}},"
-                + "\"guiShed\":{\"shed\":false,\"depth\":300,\"doorPlacement\":0,\"side\":\"Foran\",\"rotateDoor\":false}}";
+        String jsonString = "{\"carport\":{\"width\":500,\"depth\":500,\"height\":230},"
+                + "\"roof\":{\"gableRoof\":false,\"overhang\":{\"sides\":20,\"front\":20,\"back\":20}},"
+                + "\"shed\":{\"shed\":false,\"depth\":300,\"doorPlacement\":0,\"side\":\"Foran\",\"rotateDoor\":false}}";
         String userString = "NWHSLHFLZMF0GZEBU9";
         boolean expResult = true;
         boolean result = instance.updateCarport(jsonString, userString);
