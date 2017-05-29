@@ -103,8 +103,6 @@ public interface DataAccessObject {
 
     boolean insertOrder(String json, String userString, double price);
 
-    boolean newMaterial(String type, int price, String name, int qoh, int size);
-
     /**
      *
      * Updates the carport a user has saved to their account

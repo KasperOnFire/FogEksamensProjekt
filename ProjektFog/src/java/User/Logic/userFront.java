@@ -51,9 +51,4 @@ public class userFront {
     public boolean updatePrice(int mno, int price) {
         return DBF.updatePrice(mno, price);
     }
-
-    public boolean newMaterial(String type, int price, String name, int qoh, int size) {
-        return DBF.newMaterial(type, price, name, qoh, size);
-    }
-
 }

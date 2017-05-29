@@ -5,12 +5,9 @@ import User.AdminUser;
 import User.Password;
 import User.User;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import User.*;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -24,7 +21,6 @@ import java.util.ArrayList;
 public class DataAccessObjectImpl implements DataAccessObject {
 
     private final DBConnector dbcon;
-    private final Connection conn = null;
     Password pass = new Password();
 
     /**
@@ -72,6 +68,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
                     stmt.close();
                 }
             } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         return user;
@@ -111,6 +108,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
                     stmt.close();
                 }
             } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         return user;
@@ -175,6 +173,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
                     return true;
                 }
             } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         return false;
@@ -213,6 +212,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
                     return true;
                 }
             } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         return false;
@@ -278,6 +278,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
                     return true;
                 }
             } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         return false;
@@ -302,12 +303,14 @@ public class DataAccessObjectImpl implements DataAccessObject {
                 i = rs.getInt("uid");
             }
         } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             try {
                 if (stmt != null) {
                     stmt.close();
                 }
             } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         return i;
@@ -362,6 +365,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
                 orderArray.add(order);
             }
         } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             try {
                 if (stmt != null) {
@@ -369,6 +373,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
                     return orderArray;
                 }
             } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         return null;
@@ -395,6 +400,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
                 orderArray.add(order);
             }
         } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             try {
                 if (stmt != null) {
@@ -402,6 +408,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
                     return orderArray;
                 }
             } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         return null;
@@ -428,6 +435,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
                 orderArray.add(order);
             }
         } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             try {
                 if (stmt != null) {
@@ -435,6 +443,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
                     return orderArray;
                 }
             } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         return null;
@@ -461,6 +470,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
                 orderArray.add(order);
             }
         } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             try {
                 if (stmt != null) {
@@ -468,6 +478,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
                     return orderArray;
                 }
             } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         return null;
@@ -495,6 +506,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
                 orderArray.add(order);
             }
         } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             try {
                 if (stmt != null) {
@@ -502,6 +514,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
                     return orderArray;
                 }
             } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         return null;
@@ -520,12 +533,14 @@ public class DataAccessObjectImpl implements DataAccessObject {
                 s = rs.getString("carport");
             }
         } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             try {
                 if (stmt != null) {
                     stmt.close();
                 }
             } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         return s;
@@ -541,6 +556,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
             stmt.setInt(2, ono);
             stmt.executeUpdate();
         } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             try {
                 if (stmt != null) {
@@ -548,6 +564,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
                     return true;
                 }
             } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         return false;
@@ -575,6 +592,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
                 orderArray.add(order);
             }
         } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             try {
                 if (stmt != null) {
@@ -582,6 +600,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
                     return orderArray;
                 }
             } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         return null;
@@ -608,6 +627,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
                 orderArray.add(order);
             }
         } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             try {
                 if (stmt != null) {
@@ -615,6 +635,7 @@ public class DataAccessObjectImpl implements DataAccessObject {
                     return orderArray;
                 }
             } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         return null;
@@ -643,11 +664,12 @@ public class DataAccessObjectImpl implements DataAccessObject {
             e.printStackTrace();
         } finally {
             try {
-                if(stmt != null){
+                if (stmt != null) {
                     stmt.close();
                     return materialArray;
                 }
             } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         return null;
@@ -663,22 +685,17 @@ public class DataAccessObjectImpl implements DataAccessObject {
             stmt.setInt(2, mno);
             stmt.executeUpdate();
         } catch (Exception e) {
-        }finally{
+            e.printStackTrace();
+        } finally {
             try {
-                if(stmt != null){
+                if (stmt != null) {
                     stmt.close();
                     return true;
                 }
             } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         return false;
     }
-
-    @Override
-    public boolean newMaterial(String type, int price, String name, int qoh, int size) {
-        String sql = "INSERT INTO material(type, price, name, qoh, size) VALUES (?, ?, ?, ?, ?)";
-        return false;
-    }
-
 }
