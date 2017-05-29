@@ -64,12 +64,8 @@ public interface DataAccessObject {
     ArrayList getAllMaterials();
 
     String getCarport(String userString);
-
-    double getDouble(String name);
-
+    
     int getEmpNoByUsername(String empName) throws SQLException;
-
-    int getInt(String var, String table, String term, String termName);
 
     ArrayList getClaimedOrders(int empno);
 
@@ -84,8 +80,6 @@ public interface DataAccessObject {
     ArrayList getOrders();
 
     ArrayList getOrdersOnONO(int ono);
-
-    String getString(String var, String table, String term, String termName);
 
     /**
      * get userID of a user.
