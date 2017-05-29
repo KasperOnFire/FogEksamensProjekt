@@ -88,10 +88,6 @@ public class userServlet extends HttpServlet {
             getServletContext().getRequestDispatcher("/material.jsp").forward(request, response);
         }
 
-        if (request.getParameter("newMaterial") != null) {
-            uF.newMaterial(request.getParameter("type"), Integer.parseInt(request.getParameter("price")), request.getParameter("name"), Integer.parseInt(request.getParameter("qoh")), Integer.parseInt(request.getParameter("size")));
-        }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
