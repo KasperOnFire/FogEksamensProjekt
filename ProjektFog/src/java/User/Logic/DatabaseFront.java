@@ -1,12 +1,13 @@
 package User.Logic;
 
+import Database.DataAccessObject;
 import Database.DataAccessObjectImpl;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class DatabaseFront {
 
-    DataAccessObjectImpl DAO;
+    DataAccessObject DAO;
 
     public DatabaseFront() throws Exception {
         this.DAO = new DataAccessObjectImpl();

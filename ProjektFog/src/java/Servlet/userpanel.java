@@ -2,9 +2,6 @@ package Servlet;
 
 import User.Logic.DatabaseFront;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,13 +14,13 @@ public class userpanel extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
 
         HttpSession session = request.getSession();
         DatabaseFront DBF = null;
         try {
             DBF = new DatabaseFront();
         } catch (Exception ex) {
+            ex.printStackTrace();
         }
         
         if(request.getParameter("addOrder") != null){

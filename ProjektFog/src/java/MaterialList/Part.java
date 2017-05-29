@@ -1,37 +1,32 @@
 package MaterialList;
 
-class Part
-{
+class Part {
+
     private int amount;
     private int size;
     private double price;
 
-    public Part(int amount, double price)
-    {
+    public Part(int amount, double price) {
         this.amount = amount;
         this.price = price;
     }
-    
-    public Part(int amount, double price, int size)
-    {
+
+    public Part(int amount, double price, int size) {
         this.amount = amount;
         this.price = price;
         this.size = size;
     }
 
-    public int getSize()
-    {
+    public int getSize() {
         return size;
     }
 
-    public double getPrice()
-    {
+    public double getPrice() {
         return price;
     }
-    
-    public int getAmount()
-    {
+
+    public int getAmount() {
         return amount;
     }
-    
+
 }

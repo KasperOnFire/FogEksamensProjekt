@@ -5,6 +5,7 @@
  */
 package MaterialList;
 
+import Database.DataAccessObject;
 import Database.DataAccessObjectImpl;
 import java.util.ArrayList;
 
@@ -12,21 +13,15 @@ import java.util.ArrayList;
  *
  * @author Kristian
  */
-public class DatabaseBack
-{
-    DataAccessObjectImpl DAO;
+public class DatabaseBack {
+
+    DataAccessObject DAO;
 
     public DatabaseBack() throws Exception {
         this.DAO = new DataAccessObjectImpl();
     }
-    
-    public double getDouble(String name)
-    {
-        return DAO.getDouble(name);
-    }
-    
-    public ArrayList getAll()
-    {
+
+    public ArrayList getAll() {
         return DAO.getAllMaterials();
     }
 }

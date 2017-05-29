@@ -30,7 +30,6 @@ public class MaterialList {
     }
 
     public Map<String, Part> calcMaterialList(Carport c) throws Exception {
-        //matList = new HashMap();
         int length;
         ArrayList<Material> materials = new ArrayList();
         DatabaseBack DBB = new DatabaseBack();
@@ -42,8 +41,8 @@ public class MaterialList {
         }
 
         int width = c.getBase().getWidth() + c.getRoof().getSides() + c.getRoof().getSides();
-        length = length/100;
-        width = width/100;
+        length = length / 100;
+        width = width / 100;
 
         matList.putAll(matRoof.calcRoof(length, width, c.getRoof(), materials));
 

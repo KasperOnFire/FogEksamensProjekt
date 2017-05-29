@@ -1,5 +1,6 @@
 package User.Logic;
 
+import Database.DataAccessObject;
 import Database.DataAccessObjectImpl;
 import User.AdminUser;
 import User.Password;
@@ -7,7 +8,6 @@ import User.User;
 
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class LoginFront {
 
@@ -18,7 +18,7 @@ public class LoginFront {
      *
      * @author Kasper
      */
-    DataAccessObjectImpl DAO;
+    DataAccessObject DAO;
     Password pass = new Password();
 
     public LoginFront() throws Exception {

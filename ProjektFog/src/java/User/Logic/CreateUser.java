@@ -1,6 +1,7 @@
 
 package User.Logic;
 
+import Database.DataAccessObject;
 import User.User;
 import Database.DataAccessObjectImpl;
 import java.io.UnsupportedEncodingException;
@@ -15,7 +16,7 @@ import java.sql.SQLException;
  */
 public class CreateUser {
 
-    DataAccessObjectImpl DAO;
+    DataAccessObject DAO;
 
     public CreateUser() throws Exception {
         this.DAO = new DataAccessObjectImpl();

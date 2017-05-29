@@ -41,5 +41,5 @@ public class Material {
     public int getSize() {
         return size;
     }
-    
+
 }

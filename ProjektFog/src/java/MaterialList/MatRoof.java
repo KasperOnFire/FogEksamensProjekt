@@ -1,10 +1,8 @@
 package MaterialList;
 
 import Carport.Roof;
-import Database.DataAccessObject;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 public class MatRoof {
