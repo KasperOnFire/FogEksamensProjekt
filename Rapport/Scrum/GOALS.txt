@@ -1,16 +1,16 @@
 vision
 Vi vil forbedre Fogs bestillingssystem for at skabe 
-- højere kundetilfredshed
-- Højere effektivitet for Fogs medarbejdere
-- 
+- hÃ¸jere kundetilfredshed
+- HÃ¸jere effektivitet for Fogs medarbejdere
+- Mere visuelt
 
 goals
-- sænke behandlingstiden pr kunde/ordre med 25%?
-- øge kundetilfredsheden med 30% ved næste måling
-- sænke tiden fra at kunden sender en ordre/ide ind til de får et estimeret tilbud med ??%
+- sÃ¦nke behandlingstiden pr kunde/ordre med 25%?
+- Ã¸ge kundetilfredsheden med 30% ved nÃ¦ste mÃ¥ling
+- sÃ¦nke tiden fra at kunden sender en ordre/ide ind til de fÃ¥r et estimeret tilbud med ??%
 
 
 features
 
-- udvikle et webbaseret tilbudssystem hvor kunden selv kan indtaste specifikke mål og få et estimeret tilbud med det samme.
+- udvikle et webbaseret tilbudssystem hvor kunden selv kan indtaste specifikke mÃ¥l og fÃ¥ et estimeret tilbud med det samme.
 - 
