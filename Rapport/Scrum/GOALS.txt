@@ -13,4 +13,5 @@ goals
 features
 
 - udvikle et webbaseret tilbudssystem hvor kunden selv kan indtaste specifikke mål og få et estimeret tilbud med det samme.
-- 
+- 2D tegning direkter i browseren
+- Måske 3D design system
